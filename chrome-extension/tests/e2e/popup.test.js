@@ -128,6 +128,7 @@ test.describe('popup — i18n data attributes', () => {
     'qualityLow', 'qualityLowDesc', 'qualityMedium', 'qualityMediumDesc',
     'qualityHigh', 'qualityHighDesc', 'btnCompress',
     'statBefore', 'statAfter', 'statSaved', 'btnDownload',
+    'donateLink',
   ];
 
   for (const key of expectedI18nKeys) {
@@ -181,6 +182,22 @@ test.describe('popup — result and download button', () => {
     await expect(page.locator('#result-before')).toHaveCount(1);
     await expect(page.locator('#result-after')).toHaveCount(1);
     await expect(page.locator('#result-ratio')).toHaveCount(1);
+  });
+});
+
+test.describe('popup — donate row', () => {
+  test.beforeEach(async ({ page }) => {
+    await gotoPopup(page);
+  });
+
+  test('donate link exists with ko-fi href', async ({ page }) => {
+    const href = await page.locator('.donate-link').getAttribute('href');
+    expect(href).toContain('ko-fi.com');
+  });
+
+  test('donate link opens in new tab', async ({ page }) => {
+    const target = await page.locator('.donate-link').getAttribute('target');
+    expect(target).toBe('_blank');
   });
 });
 

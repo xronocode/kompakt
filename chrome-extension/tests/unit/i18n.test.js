@@ -18,6 +18,7 @@ const REQUIRED_KEYS = [
   'btnDownload',
   'upsellBody', 'upsellLink',
   'errFileTooLarge', 'errNoPages', 'errPasswordProtected',
+  'donateLink',
 ];
 
 const PLACEHOLDER_KEYS = {

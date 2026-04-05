@@ -1,32 +1,90 @@
 {
-  "appName":        { "message": "pdf-kompakt" },
-  "appDescription": { "message": "Comprima PDFs no navegador. Grátis, privado, funciona offline — seus arquivos nunca saem do seu dispositivo." },
-  "badge":          { "message": "navegador" },
-  "dropTitle":      { "message": "Solte o PDF aqui" },
-  "dropHint":       { "message": "ou clique para selecionar · até ~50 MB" },
-  "labelCompression": { "message": "compressão" },
-  "qualityLow":     { "message": "baixa" },
-  "qualityLowDesc": { "message": "72 dpi · máx" },
-  "qualityMedium":  { "message": "média" },
-  "qualityMediumDesc": { "message": "150 dpi · ★" },
-  "qualityHigh":    { "message": "alta" },
-  "qualityHighDesc": { "message": "300 dpi" },
-  "btnCompress":    { "message": "Comprimir PDF" },
-  "preparing":      { "message": "Preparando…" },
-  "progressPage":   {
+  "appName": {
+    "message": "pdf-kompakt"
+  },
+  "appDescription": {
+    "message": "Comprima PDFs no navegador. Grátis, privado, funciona offline — seus arquivos nunca saem do seu dispositivo."
+  },
+  "badge": {
+    "message": "navegador"
+  },
+  "dropTitle": {
+    "message": "Solte o PDF aqui"
+  },
+  "dropHint": {
+    "message": "ou clique para selecionar · até ~50 MB"
+  },
+  "labelCompression": {
+    "message": "compressão"
+  },
+  "qualityLow": {
+    "message": "baixa"
+  },
+  "qualityLowDesc": {
+    "message": "72 dpi · máx"
+  },
+  "qualityMedium": {
+    "message": "média"
+  },
+  "qualityMediumDesc": {
+    "message": "150 dpi · ★"
+  },
+  "qualityHigh": {
+    "message": "alta"
+  },
+  "qualityHighDesc": {
+    "message": "300 dpi"
+  },
+  "btnCompress": {
+    "message": "Comprimir PDF"
+  },
+  "preparing": {
+    "message": "Preparando…"
+  },
+  "progressPage": {
     "message": "Página $PAGE$ de $TOTAL$…",
-    "placeholders": { "page": { "content": "$1" }, "total": { "content": "$2" } }
+    "placeholders": {
+      "page": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
   },
-  "statBefore":     { "message": "antes" },
-  "statAfter":      { "message": "depois" },
-  "statSaved":      { "message": "economia" },
-  "btnDownload":    { "message": "Baixar PDF comprimido" },
-  "upsellBody":     {
+  "statBefore": {
+    "message": "antes"
+  },
+  "statAfter": {
+    "message": "depois"
+  },
+  "statSaved": {
+    "message": "economia"
+  },
+  "btnDownload": {
+    "message": "Baixar PDF comprimido"
+  },
+  "upsellBody": {
     "message": "O navegador economizou $RATIO$%. O app desktop (Ghostscript) consegue 50–90% no mesmo arquivo.",
-    "placeholders": { "ratio": { "content": "$1" } }
+    "placeholders": {
+      "ratio": {
+        "content": "$1"
+      }
+    }
   },
-  "upsellLink":     { "message": "Baixar app desktop grátis →" },
-  "errFileTooLarge":    { "message": "Arquivo muito grande. Use um PDF com menos de 50 MB." },
-  "errNoPages":         { "message": "Este PDF não tem páginas." },
-  "errPasswordProtected": { "message": "Este PDF está protegido por senha. Remova a senha primeiro." }
+  "upsellLink": {
+    "message": "Baixar app desktop grátis →"
+  },
+  "errFileTooLarge": {
+    "message": "Arquivo muito grande. Use um PDF com menos de 50 MB."
+  },
+  "errNoPages": {
+    "message": "Este PDF não tem páginas."
+  },
+  "errPasswordProtected": {
+    "message": "Este PDF está protegido por senha. Remova a senha primeiro."
+  },
+  "donateLink": {
+    "message": "☕ Apoie pdf-kompakt no Ko-fi"
+  }
 }

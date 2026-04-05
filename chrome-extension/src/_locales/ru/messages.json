@@ -1,32 +1,90 @@
 {
-  "appName":        { "message": "pdf-kompakt" },
-  "appDescription": { "message": "Сжимайте PDF прямо в браузере. Бесплатно, без загрузки на сервер, работает офлайн — файлы не покидают ваше устройство." },
-  "badge":          { "message": "браузер" },
-  "dropTitle":      { "message": "Перетащите PDF сюда" },
-  "dropHint":       { "message": "или нажмите для выбора файла · до ~50 МБ" },
-  "labelCompression": { "message": "сжатие" },
-  "qualityLow":     { "message": "низкое" },
-  "qualityLowDesc": { "message": "72 dpi · макс" },
-  "qualityMedium":  { "message": "среднее" },
-  "qualityMediumDesc": { "message": "150 dpi · ★" },
-  "qualityHigh":    { "message": "высокое" },
-  "qualityHighDesc": { "message": "300 dpi" },
-  "btnCompress":    { "message": "Сжать PDF" },
-  "preparing":      { "message": "Подготовка…" },
-  "progressPage":   {
+  "appName": {
+    "message": "pdf-kompakt"
+  },
+  "appDescription": {
+    "message": "Сжимайте PDF прямо в браузере. Бесплатно, без загрузки на сервер, работает офлайн — файлы не покидают ваше устройство."
+  },
+  "badge": {
+    "message": "браузер"
+  },
+  "dropTitle": {
+    "message": "Перетащите PDF сюда"
+  },
+  "dropHint": {
+    "message": "или нажмите для выбора файла · до ~50 МБ"
+  },
+  "labelCompression": {
+    "message": "сжатие"
+  },
+  "qualityLow": {
+    "message": "низкое"
+  },
+  "qualityLowDesc": {
+    "message": "72 dpi · макс"
+  },
+  "qualityMedium": {
+    "message": "среднее"
+  },
+  "qualityMediumDesc": {
+    "message": "150 dpi · ★"
+  },
+  "qualityHigh": {
+    "message": "высокое"
+  },
+  "qualityHighDesc": {
+    "message": "300 dpi"
+  },
+  "btnCompress": {
+    "message": "Сжать PDF"
+  },
+  "preparing": {
+    "message": "Подготовка…"
+  },
+  "progressPage": {
     "message": "Страница $PAGE$ из $TOTAL$…",
-    "placeholders": { "page": { "content": "$1" }, "total": { "content": "$2" } }
+    "placeholders": {
+      "page": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
   },
-  "statBefore":     { "message": "до" },
-  "statAfter":      { "message": "после" },
-  "statSaved":      { "message": "сжатие" },
-  "btnDownload":    { "message": "Скачать сжатый PDF" },
-  "upsellBody":     {
+  "statBefore": {
+    "message": "до"
+  },
+  "statAfter": {
+    "message": "после"
+  },
+  "statSaved": {
+    "message": "сжатие"
+  },
+  "btnDownload": {
+    "message": "Скачать сжатый PDF"
+  },
+  "upsellBody": {
     "message": "Браузер сжал на $RATIO$%. Десктопное приложение (Ghostscript) даёт 50–90% на том же файле.",
-    "placeholders": { "ratio": { "content": "$1" } }
+    "placeholders": {
+      "ratio": {
+        "content": "$1"
+      }
+    }
   },
-  "upsellLink":     { "message": "Скачать десктопное приложение бесплатно →" },
-  "errFileTooLarge":    { "message": "Файл слишком большой. Используйте PDF меньше 50 МБ." },
-  "errNoPages":         { "message": "В этом PDF нет страниц." },
-  "errPasswordProtected": { "message": "Этот PDF защищён паролем. Сначала удалите пароль." }
+  "upsellLink": {
+    "message": "Скачать десктопное приложение бесплатно →"
+  },
+  "errFileTooLarge": {
+    "message": "Файл слишком большой. Используйте PDF меньше 50 МБ."
+  },
+  "errNoPages": {
+    "message": "В этом PDF нет страниц."
+  },
+  "errPasswordProtected": {
+    "message": "Этот PDF защищён паролем. Сначала удалите пароль."
+  },
+  "donateLink": {
+    "message": "☕ Поддержать pdf-kompakt на Ko-fi"
+  }
 }
