@@ -1,0 +1,316 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+[hidden] { display: none !important; }
+
+:root {
+  --bg:       #0d1117;
+  --bg2:      #161b22;
+  --bg3:      #21262d;
+  --border:   #30363d;
+  --border2:  #3d444d;
+  --text:     #e6edf3;
+  --muted:    #7d8590;
+  --cyan:     #39d0d8;
+  --cyan-dim: rgba(57,208,216,0.10);
+  --green:    #3fb950;
+  --yellow:   #d29922;
+  --radius:   8px;
+  --font:     'SF Mono', ui-monospace, 'Cascadia Mono', 'Fira Mono', monospace;
+}
+
+body {
+  width: 340px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.app {
+  padding: 14px 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: var(--cyan);
+}
+
+.badge {
+  font-size: 10px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 1px 7px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+}
+
+/* ── Drop zone ───────────────────────────────────────────────────────────── */
+
+.drop-zone {
+  border: 1.5px dashed var(--border2);
+  border-radius: var(--radius);
+  padding: 22px 16px 18px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  user-select: none;
+}
+
+.drop-zone:hover,
+.drop-zone.drag-over {
+  border-color: var(--cyan);
+  background: var(--cyan-dim);
+}
+
+.drop-zone.has-file {
+  border-style: solid;
+  border-color: var(--cyan);
+  background: var(--cyan-dim);
+}
+
+.drop-svg { margin-bottom: 2px; opacity: 0.85; }
+.drop-zone.has-file .drop-svg { opacity: 1; }
+
+.drop-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.drop-hint {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ── Section label ───────────────────────────────────────────────────────── */
+
+.section-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: -4px;
+}
+
+/* ── Quality ─────────────────────────────────────────────────────────────── */
+
+.quality-row { display: flex; gap: 6px; }
+
+.quality-btn {
+  flex: 1;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--muted);
+  padding: 8px 4px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  transition: border-color 0.12s, color 0.12s, background 0.12s;
+  font-family: var(--font);
+}
+
+.quality-btn:hover {
+  border-color: var(--border2);
+  color: var(--text);
+}
+
+.quality-btn.active {
+  border-color: var(--cyan);
+  background: var(--cyan-dim);
+  color: var(--cyan);
+}
+
+.q-key  { font-size: 12px; font-weight: 700; }
+.q-desc { font-size: 10px; color: var(--muted); }
+.quality-btn.active .q-desc { color: var(--cyan); opacity: 0.75; }
+
+/* ── Compress button ─────────────────────────────────────────────────────── */
+
+.compress-btn {
+  background: var(--cyan);
+  color: #000;
+  border: none;
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.12s, filter 0.12s;
+  letter-spacing: 0.4px;
+  width: 100%;
+}
+
+.compress-btn:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.compress-btn:not(:disabled):hover {
+  filter: brightness(1.1);
+}
+
+.compress-btn:not(:disabled):active {
+  filter: brightness(0.9);
+}
+
+/* ── Progress ────────────────────────────────────────────────────────────── */
+
+.progress-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.progress-bar-track {
+  height: 3px;
+  background: var(--bg3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--cyan);
+  border-radius: 2px;
+  transition: width 0.25s ease;
+}
+
+.progress-text {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ── Result ──────────────────────────────────────────────────────────────── */
+
+.result {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.result-stats {
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  gap: 4px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+}
+
+.stat-ratio { flex: 1.2; }
+
+.stat-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.stat-arrow {
+  color: var(--muted);
+  font-size: 14px;
+  padding: 0 4px;
+  margin-top: 14px;
+}
+
+.ratio.good { color: var(--green); }
+.ratio.bad  { color: var(--yellow); }
+
+.download-btn {
+  display: block;
+  width: 100%;
+  background: var(--bg3);
+  border: none;
+  border-top: 1px solid var(--border);
+  color: var(--text);
+  padding: 9px 12px;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  text-align: center;
+}
+
+.download-btn:hover {
+  background: var(--cyan-dim);
+  color: var(--cyan);
+}
+
+/* ── Upsell ──────────────────────────────────────────────────────────────── */
+
+.upsell {
+  border: 1px solid rgba(210,153,34,0.4);
+  border-radius: var(--radius);
+  background: rgba(210,153,34,0.06);
+  padding: 11px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.upsell-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.upsell-spark { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+
+.upsell-text {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.upsell-text strong { color: var(--text); }
+
+.upsell-link {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cyan);
+  text-decoration: none;
+  letter-spacing: 0.2px;
+}
+
+.upsell-link:hover { text-decoration: underline; }

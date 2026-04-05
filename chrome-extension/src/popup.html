@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>pdf-kompakt</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <header class="header">
+    <div class="logo">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <rect x="2" y="1" width="10" height="13" rx="1.5" fill="#21262d" stroke="#39d0d8" stroke-width="1.2"/>
+        <path d="M9 1.5V5h3.5" stroke="#39d0d8" stroke-width="1" stroke-linecap="round"/>
+        <line x1="4.5" y1="7.5" x2="9.5" y2="7.5" stroke="#39d0d8" stroke-width="1" stroke-linecap="round"/>
+        <line x1="4.5" y1="9.5" x2="9.5" y2="9.5" stroke="#39d0d8" stroke-width="1" stroke-linecap="round"/>
+        <line x1="4.5" y1="11.5" x2="7.5" y2="11.5" stroke="#39d0d8" stroke-width="1" stroke-linecap="round"/>
+      </svg>
+      <span>pdf-kompakt</span>
+    </div>
+    <span class="badge">browser</span>
+  </header>
+
+  <!-- Drop zone -->
+  <div class="drop-zone" id="drop-zone">
+    <svg class="drop-svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
+      <rect x="5" y="2" width="22" height="29" rx="3" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+      <path d="M21 2.5V10H28.5" stroke="#30363d" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M18 20v-8M18 20l-3-3M18 20l3-3" stroke="#39d0d8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="11" y1="24" x2="25" y2="24" stroke="#30363d" stroke-width="1.2" stroke-linecap="round"/>
+    </svg>
+    <div class="drop-label">Drop PDF here</div>
+    <div class="drop-hint">or click to browse · up to ~50 MB</div>
+    <input type="file" id="file-input" accept=".pdf,application/pdf" hidden>
+  </div>
+
+  <!-- Quality selector -->
+  <div class="section-label">compression</div>
+  <div class="quality-row">
+    <button class="quality-btn" data-quality="low">
+      <span class="q-key">low</span>
+      <span class="q-desc">72 dpi · max</span>
+    </button>
+    <button class="quality-btn active" data-quality="medium">
+      <span class="q-key">medium</span>
+      <span class="q-desc">150 dpi · ★</span>
+    </button>
+    <button class="quality-btn" data-quality="high">
+      <span class="q-key">high</span>
+      <span class="q-desc">300 dpi</span>
+    </button>
+  </div>
+
+  <!-- Compress button -->
+  <button class="compress-btn" id="compress-btn" disabled>
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="vertical-align:-2px;margin-right:5px">
+      <path d="M6.5 1v8M6.5 9l-3-3M6.5 9l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="1.5" y1="12" x2="11.5" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    Compress PDF
+  </button>
+
+  <!-- Progress -->
+  <div class="progress-wrap" id="progress" hidden>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progress-bar"></div>
+    </div>
+    <div class="progress-text" id="progress-text">Preparing…</div>
+  </div>
+
+  <!-- Result -->
+  <div class="result" id="result" hidden>
+    <div class="result-stats">
+      <div class="stat">
+        <span class="stat-label">before</span>
+        <span class="stat-value" id="result-before">—</span>
+      </div>
+      <div class="stat-arrow">→</div>
+      <div class="stat">
+        <span class="stat-label">after</span>
+        <span class="stat-value" id="result-after">—</span>
+      </div>
+      <div class="stat stat-ratio">
+        <span class="stat-label">saved</span>
+        <span class="stat-value ratio" id="result-ratio">—</span>
+      </div>
+    </div>
+    <button class="download-btn" id="download-btn">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="vertical-align:-1px;margin-right:4px">
+        <path d="M6 1v7M6 8l-2.5-2.5M6 8l2.5-2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="1" y1="11" x2="11" y2="11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Download compressed PDF
+    </button>
+  </div>
+
+  <!-- Upsell -->
+  <div class="upsell" id="upsell" hidden>
+    <div class="upsell-row">
+      <span class="upsell-spark">⚡</span>
+      <div class="upsell-text">
+        Browser saved <strong id="upsell-ratio">~20</strong>%. Desktop app
+        (Ghostscript) gets&nbsp;<strong>50–90%</strong> on the same file.
+      </div>
+    </div>
+    <a class="upsell-link" href="https://github.com/xronocode/kompakt/releases/latest" target="_blank">
+      Download free desktop app →
+    </a>
+  </div>
+
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>
