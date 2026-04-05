@@ -1,26 +1,64 @@
 # pdf-kompakt
 
-> Compress PDFs interactively — right from your terminal.
-
-Pick a file with arrow keys, choose quality, done. No GUI, no cloud, no fuss.
+> Compress PDFs in your browser — or from the terminal. Free, private, offline.
 
 ---
 
-## Features
+## Two ways to use it
 
-- **Interactive TUI** — arrow-key menu with fuzzy search, scroll, sort
-- **3 quality levels** — low (72 dpi), medium (150 dpi), high (300 dpi)
-- **Dual backend** — Ghostscript (50–90% savings) with pypdf fallback (5–30%)
-- **Non-interactive mode** — pipe-friendly, CI-ready
-- **Cross-platform** — macOS, Linux, Windows
+| | [Browser Extension](#-chrome-extension) | [Desktop CLI](#-desktop-app) |
+|---|---|---|
+| Install | Chrome Web Store or sideload | Binary / Homebrew / Python |
+| Compression | 5–40% (canvas re-render) | **50–90%** (Ghostscript) |
+| Privacy | 100% local — files never leave device | 100% local |
+| OS | Any (Chrome/Chromium) | macOS · Linux · Windows |
 
 ---
 
-## Install
+## 🌐 Chrome Extension
+
+Compress PDFs directly in your browser — no upload, no account, works offline.
+
+### Install from Chrome Web Store
+
+*(submission in progress — use sideload in the meantime)*
+
+### Sideload (manual install)
+
+1. Download **[pdf-kompakt-chrome-extension.zip](https://github.com/xronocode/kompakt/releases/latest/download/pdf-kompakt-chrome-extension.zip)** from Releases
+2. Unzip it
+3. Open Chrome → `chrome://extensions` → enable **Developer mode**
+4. Click **Load unpacked** → select the unzipped folder
+
+### Features
+
+- Drag & drop or click to pick a PDF (up to 50 MB)
+- 3 quality levels: low (72 dpi) · medium (150 dpi) · high (300 dpi)
+- Shows before / after size and % saved
+- Prompts to try the desktop app for heavier compression
+
+### Languages
+
+The extension is fully localised in **8 languages** — Chrome picks the right one automatically based on your browser language:
+
+| Language | Locale |
+|----------|--------|
+| English | `en` |
+| German | `de` |
+| Spanish | `es` |
+| French | `fr` |
+| Japanese | `ja` |
+| Portuguese (Brazil) | `pt_BR` |
+| Russian | `ru` |
+| Chinese (Simplified) | `zh_CN` |
+
+---
+
+## 💻 Desktop App
 
 ### Binary (no Python required)
 
-Download the prebuilt binary for your platform from [Releases](https://github.com/xronocode/kompakt/releases/latest):
+Download the prebuilt binary for your platform from [Releases](https://github.com/xronocode/kompakt/releases/latest) (no Python required):
 
 | Platform | File |
 |----------|------|
@@ -129,3 +167,7 @@ Both are optional — the tool detects what's available and offers to install mi
 ## License
 
 MIT
+
+---
+
+*Browser extension saves 5–40%. For 50–90% compression on the same file, use the desktop app with Ghostscript.*
