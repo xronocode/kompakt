@@ -1,0 +1,29 @@
+{
+  "appName":        { "message": "pdf-kompakt" },
+  "appDescription": { "message": "PDFs direkt im Browser komprimieren. Kostenlos, privat, offline — Dateien verlassen nie Ihr Gerät." },
+  "badge":          { "message": "Browser" },
+  "dropTitle":      { "message": "PDF hier ablegen" },
+  "dropHint":       { "message": "oder klicken zum Auswählen · bis zu ~50 MB" },
+  "labelCompression": { "message": "Komprimierung" },
+  "qualityLow":     { "message": "niedrig" },
+  "qualityLowDesc": { "message": "72 dpi · max" },
+  "qualityMedium":  { "message": "mittel" },
+  "qualityMediumDesc": { "message": "150 dpi · ★" },
+  "qualityHigh":    { "message": "hoch" },
+  "qualityHighDesc": { "message": "300 dpi" },
+  "btnCompress":    { "message": "PDF komprimieren" },
+  "preparing":      { "message": "Vorbereitung…" },
+  "progressPage":   {
+    "message": "Seite $PAGE$ von $TOTAL$…",
+    "placeholders": { "page": { "content": "$1" }, "total": { "content": "$2" } }
+  },
+  "statBefore":     { "message": "vorher" },
+  "statAfter":      { "message": "nachher" },
+  "statSaved":      { "message": "gespart" },
+  "btnDownload":    { "message": "Komprimiertes PDF herunterladen" },
+  "upsellBody":     {
+    "message": "Browser hat $RATIO$% gespart. Die Desktop-App (Ghostscript) erreicht 50–90% bei derselben Datei.",
+    "placeholders": { "ratio": { "content": "$1" } }
+  },
+  "upsellLink":     { "message": "Kostenlose Desktop-App herunterladen →" }
+}

@@ -1,0 +1,29 @@
+{
+  "appName":        { "message": "pdf-kompakt" },
+  "appDescription": { "message": "ブラウザでPDFを圧縮。無料・プライベート・オフライン対応 — ファイルはデバイスから外に出ません。" },
+  "badge":          { "message": "ブラウザ" },
+  "dropTitle":      { "message": "PDFをここにドロップ" },
+  "dropHint":       { "message": "またはクリックして選択 · 最大約50 MB" },
+  "labelCompression": { "message": "圧縮品質" },
+  "qualityLow":     { "message": "低" },
+  "qualityLowDesc": { "message": "72 dpi · 最大圧縮" },
+  "qualityMedium":  { "message": "中" },
+  "qualityMediumDesc": { "message": "150 dpi · ★" },
+  "qualityHigh":    { "message": "高" },
+  "qualityHighDesc": { "message": "300 dpi" },
+  "btnCompress":    { "message": "PDFを圧縮" },
+  "preparing":      { "message": "準備中…" },
+  "progressPage":   {
+    "message": "$TOTAL$ページ中 $PAGE$ページ目を処理中…",
+    "placeholders": { "page": { "content": "$1" }, "total": { "content": "$2" } }
+  },
+  "statBefore":     { "message": "圧縮前" },
+  "statAfter":      { "message": "圧縮後" },
+  "statSaved":      { "message": "削減" },
+  "btnDownload":    { "message": "圧縮PDFをダウンロード" },
+  "upsellBody":     {
+    "message": "ブラウザで $RATIO$% 圧縮しました。デスクトップアプリ（Ghostscript）なら同じファイルを50〜90%圧縮できます。",
+    "placeholders": { "ratio": { "content": "$1" } }
+  },
+  "upsellLink":     { "message": "無料デスクトップアプリをダウンロード →" }
+}
