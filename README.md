@@ -1,6 +1,16 @@
-# pdf-kompakt
+<p align="center">
+  <img src=".github/assets/promo-large.png" alt="pdf-kompakt — Compress PDFs in your browser or from the terminal" width="100%">
+</p>
 
-> Compress PDFs in your browser — or from the terminal. Free, private, offline.
+<p align="center">
+  <a href="https://kompakt.xronocode.com">🌐 Website</a> &nbsp;·&nbsp;
+  <a href="https://github.com/xronocode/kompakt/releases/latest">⬇️ Download</a> &nbsp;·&nbsp;
+  <a href="https://ko-fi.com/xronocode">☕ Ko-fi</a>
+</p>
+
+<p align="center">
+  <strong>Free · Private · Offline · Open Source</strong>
+</p>
 
 ---
 
@@ -17,7 +27,11 @@
 
 ## 🌐 Chrome Extension
 
+<img src=".github/assets/ext-drop.png" alt="pdf-kompakt Chrome extension — drop zone" width="100%">
+
 Compress PDFs directly in your browser — no upload, no account, works offline.
+
+<img src=".github/assets/ext-result.png" alt="pdf-kompakt Chrome extension — result with 87% savings" width="100%">
 
 ### Install from Chrome Web Store
 
@@ -56,9 +70,11 @@ The extension is fully localised in **8 languages** — Chrome picks the right o
 
 ## 💻 Desktop App
 
+<img src=".github/assets/cli-demo.png" alt="pdf-kompakt CLI — interactive terminal wizard" width="100%">
+
 ### Binary (no Python required)
 
-Download the prebuilt binary for your platform from [Releases](https://github.com/xronocode/kompakt/releases/latest) (no Python required):
+Download the prebuilt binary for your platform from [Releases](https://github.com/xronocode/kompakt/releases/latest):
 
 | Platform | File |
 |----------|------|
