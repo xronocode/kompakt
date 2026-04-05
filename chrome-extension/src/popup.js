@@ -166,9 +166,6 @@ function showResult(compressed) {
 
   resultEl.hidden = false;
 
-  // Upsell: browser engine tops out around 30–40%; Ghostscript does 50–90%
-  if (ratio < 45) {
-    document.getElementById('upsell-ratio').textContent = Math.max(0, ratio).toFixed(0);
-    upsellEl.hidden = false;
-  }
+  document.getElementById('upsell-ratio').textContent = Math.max(0, ratio).toFixed(0);
+  upsellEl.hidden = false;
 }
