@@ -25,5 +25,8 @@
     "message": "ブラウザで $RATIO$% 圧縮しました。デスクトップアプリ（Ghostscript）なら同じファイルを50〜90%圧縮できます。",
     "placeholders": { "ratio": { "content": "$1" } }
   },
-  "upsellLink":     { "message": "無料デスクトップアプリをダウンロード →" }
+  "upsellLink":     { "message": "無料デスクトップアプリをダウンロード →" },
+  "errFileTooLarge":    { "message": "ファイルが大きすぎます。50MB未満のPDFを使用してください。" },
+  "errNoPages":         { "message": "このPDFにはページがありません。" },
+  "errPasswordProtected": { "message": "このPDFはパスワードで保護されています。先にパスワードを解除してください。" }
 }

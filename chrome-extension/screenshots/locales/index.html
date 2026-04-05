@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Per-locale screenshots</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0d1117; color: #e6edf3; font-family: ui-monospace, monospace; padding: 32px; }
+h1 { font-size: 18px; color: #39d0d8; margin-bottom: 24px; }
+.locale-section { margin-bottom: 48px; }
+.locale-title { font-size: 13px; color: #7d8590; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.shots { display: flex; gap: 16px; flex-wrap: wrap; }
+.shot { display: flex; flex-direction: column; gap: 6px; }
+.shot img { width: 640px; height: 400px; border: 1px solid #30363d; border-radius: 6px; }
+.shot-label { font-size: 11px; color: #7d8590; text-align: center; }
+</style>
+</head>
+<body>
+<h1>Screenshots — all 8 locales</h1>
+<script>
+const locales = ['en','de','zh_CN','es','pt_BR','fr','ru','ja'];
+locales.forEach(locale => {
+  const sec = document.createElement('div');
+  sec.className = 'locale-section';
+  sec.innerHTML = `
+    <div class="locale-title">${locale}</div>
+    <div class="shots">
+      <div class="shot"><img src="${locale}/shot1.png"><div class="shot-label">shot1 — initial</div></div>
+      <div class="shot"><img src="${locale}/shot2.png"><div class="shot-label">shot2 — result</div></div>
+    </div>`;
+  document.body.appendChild(sec);
+});
+</script>
+</body>
+</html>

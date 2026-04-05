@@ -2,15 +2,22 @@
   "name": "pdf-kompakt-extension",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "build": "node build.js",
-    "watch": "node build.js --watch"
+    "build": "node build.cjs",
+    "watch": "node build.cjs --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:all": "vitest run && playwright test"
   },
   "dependencies": {
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^4.4.168"
   },
   "devDependencies": {
-    "esbuild": "^0.24.0"
+    "esbuild": "^0.24.0",
+    "vitest": "^2.0.0",
+    "@playwright/test": "^1.47.0"
   }
 }

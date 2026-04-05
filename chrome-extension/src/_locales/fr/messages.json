@@ -25,5 +25,8 @@
     "message": "Le navigateur a économisé $RATIO$%. L'app desktop (Ghostscript) atteint 50–90% sur le même fichier.",
     "placeholders": { "ratio": { "content": "$1" } }
   },
-  "upsellLink":     { "message": "Télécharger l'app desktop gratuite →" }
+  "upsellLink":     { "message": "Télécharger l'app desktop gratuite →" },
+  "errFileTooLarge":    { "message": "Fichier trop volumineux. Utilisez un PDF de moins de 50 Mo." },
+  "errNoPages":         { "message": "Ce PDF ne contient aucune page." },
+  "errPasswordProtected": { "message": "Ce PDF est protégé par un mot de passe. Supprimez-le d'abord." }
 }

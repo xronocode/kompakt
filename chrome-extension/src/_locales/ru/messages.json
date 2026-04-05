@@ -25,5 +25,8 @@
     "message": "Браузер сжал на $RATIO$%. Десктопное приложение (Ghostscript) даёт 50–90% на том же файле.",
     "placeholders": { "ratio": { "content": "$1" } }
   },
-  "upsellLink":     { "message": "Скачать десктопное приложение бесплатно →" }
+  "upsellLink":     { "message": "Скачать десктопное приложение бесплатно →" },
+  "errFileTooLarge":    { "message": "Файл слишком большой. Используйте PDF меньше 50 МБ." },
+  "errNoPages":         { "message": "В этом PDF нет страниц." },
+  "errPasswordProtected": { "message": "Этот PDF защищён паролем. Сначала удалите пароль." }
 }

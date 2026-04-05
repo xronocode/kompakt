@@ -25,5 +25,8 @@
     "message": "Browser saved $RATIO$%. Desktop app (Ghostscript) gets 50–90% on the same file.",
     "placeholders": { "ratio": { "content": "$1" } }
   },
-  "upsellLink":     { "message": "Download free desktop app →" }
+  "upsellLink":     { "message": "Download free desktop app →" },
+  "errFileTooLarge":    { "message": "File is too large. Please use a PDF under 50 MB." },
+  "errNoPages":         { "message": "This PDF has no pages." },
+  "errPasswordProtected": { "message": "This PDF is password-protected. Remove the password first." }
 }

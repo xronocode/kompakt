@@ -82,7 +82,7 @@ compressBtn.addEventListener('click', compress);
 
 function setFile(file) {
   if (file.size > MAX_FILE_BYTES) {
-    alert('File is too large. Please use a PDF under 50 MB.');
+    alert(t('errFileTooLarge'));
     return;
   }
   currentFile = file;
@@ -133,7 +133,7 @@ async function compress() {
     const pdfDoc   = await pdfjsLib.getDocument({ data: inputBuf }).promise;
     const numPages = pdfDoc.numPages;
 
-    if (numPages === 0) throw new Error('PDF has no pages.');
+    if (numPages === 0) throw new Error(t('errNoPages'));
 
     const outDoc = await PDFDocument.create();
     const canvas = document.createElement('canvas');
@@ -163,7 +163,7 @@ async function compress() {
 
   } catch (err) {
     const msg = err?.name === 'PasswordException'
-      ? 'This PDF is password-protected. Remove the password first.'
+      ? t('errPasswordProtected')
       : '✗ ' + err.message;
     progressText.textContent = msg;
     console.error(err);

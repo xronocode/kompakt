@@ -25,5 +25,8 @@
     "message": "El navegador ahorró $RATIO$%. La app de escritorio (Ghostscript) logra 50–90% en el mismo archivo.",
     "placeholders": { "ratio": { "content": "$1" } }
   },
-  "upsellLink":     { "message": "Descargar app de escritorio gratis →" }
+  "upsellLink":     { "message": "Descargar app de escritorio gratis →" },
+  "errFileTooLarge":    { "message": "El archivo es demasiado grande. Usa un PDF de menos de 50 MB." },
+  "errNoPages":         { "message": "Este PDF no tiene páginas." },
+  "errPasswordProtected": { "message": "Este PDF está protegido con contraseña. Elimina la contraseña primero." }
 }
