@@ -27,6 +27,16 @@ for (const size of iconSizes) {
   if (fs.existsSync(src)) fs.copyFileSync(src, `${outdir}/icons/icon${size}.png`);
 }
 
+// Copy _locales
+function copyDir(src, dst) {
+  fs.mkdirSync(dst, { recursive: true });
+  for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
+    const s = path.join(src, entry.name), d = path.join(dst, entry.name);
+    entry.isDirectory() ? copyDir(s, d) : fs.copyFileSync(s, d);
+  }
+}
+if (fs.existsSync('src/_locales')) copyDir('src/_locales', `${outdir}/_locales`);
+
 const ctx = esbuild.buildSync({
   entryPoints: ['src/popup.js'],
   bundle: true,

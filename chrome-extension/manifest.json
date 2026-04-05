@@ -1,7 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "pdf-kompakt",
-  "description": "Compress PDFs in your browser — free. For 50–90% savings, try the desktop app.",
+  "name": "__MSG_appName__",
+  "description": "__MSG_appDescription__",
+  "default_locale": "en",
   "version": "0.1.0",
   "action": {
     "default_popup": "popup.html",

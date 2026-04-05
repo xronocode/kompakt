@@ -1,0 +1,29 @@
+{
+  "appName":        { "message": "pdf-kompakt" },
+  "appDescription": { "message": "Compress PDFs in your browser. Free, private, works offline — your files never leave your device." },
+  "badge":          { "message": "browser" },
+  "dropTitle":      { "message": "Drop PDF here" },
+  "dropHint":       { "message": "or click to browse · up to ~50 MB" },
+  "labelCompression": { "message": "compression" },
+  "qualityLow":     { "message": "low" },
+  "qualityLowDesc": { "message": "72 dpi · max" },
+  "qualityMedium":  { "message": "medium" },
+  "qualityMediumDesc": { "message": "150 dpi · ★" },
+  "qualityHigh":    { "message": "high" },
+  "qualityHighDesc": { "message": "300 dpi" },
+  "btnCompress":    { "message": "Compress PDF" },
+  "preparing":      { "message": "Preparing…" },
+  "progressPage":   {
+    "message": "Page $PAGE$ of $TOTAL$…",
+    "placeholders": { "page": { "content": "$1" }, "total": { "content": "$2" } }
+  },
+  "statBefore":     { "message": "before" },
+  "statAfter":      { "message": "after" },
+  "statSaved":      { "message": "saved" },
+  "btnDownload":    { "message": "Download compressed PDF" },
+  "upsellBody":     {
+    "message": "Browser saved $RATIO$%. Desktop app (Ghostscript) gets 50–90% on the same file.",
+    "placeholders": { "ratio": { "content": "$1" } }
+  },
+  "upsellLink":     { "message": "Download free desktop app →" }
+}

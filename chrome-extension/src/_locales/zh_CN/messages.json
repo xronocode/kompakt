@@ -1,0 +1,29 @@
+{
+  "appName":        { "message": "pdf-kompakt" },
+  "appDescription": { "message": "在浏览器中压缩PDF文件。免费、私密、可离线使用——文件从不离开您的设备。" },
+  "badge":          { "message": "浏览器" },
+  "dropTitle":      { "message": "将PDF拖放到此处" },
+  "dropHint":       { "message": "或点击选择文件 · 最大约50 MB" },
+  "labelCompression": { "message": "压缩质量" },
+  "qualityLow":     { "message": "低" },
+  "qualityLowDesc": { "message": "72 dpi · 最大压缩" },
+  "qualityMedium":  { "message": "中" },
+  "qualityMediumDesc": { "message": "150 dpi · ★" },
+  "qualityHigh":    { "message": "高" },
+  "qualityHighDesc": { "message": "300 dpi" },
+  "btnCompress":    { "message": "压缩PDF" },
+  "preparing":      { "message": "准备中…" },
+  "progressPage":   {
+    "message": "正在处理第 $PAGE$ 页，共 $TOTAL$ 页…",
+    "placeholders": { "page": { "content": "$1" }, "total": { "content": "$2" } }
+  },
+  "statBefore":     { "message": "压缩前" },
+  "statAfter":      { "message": "压缩后" },
+  "statSaved":      { "message": "节省" },
+  "btnDownload":    { "message": "下载压缩后的PDF" },
+  "upsellBody":     {
+    "message": "浏览器压缩节省了 $RATIO$%。桌面版（使用Ghostscript）可将同一文件压缩50–90%。",
+    "placeholders": { "ratio": { "content": "$1" } }
+  },
+  "upsellLink":     { "message": "免费下载桌面版 →" }
+}
