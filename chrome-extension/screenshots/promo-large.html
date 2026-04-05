@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  width: 1400px; height: 560px; overflow: hidden;
+  background: #070b10;
+  font-family: 'SF Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  position: relative;
+  display: flex; align-items: center;
+}
+
+/* grid */
+body::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(57,208,216,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57,208,216,0.025) 1px, transparent 1px);
+  background-size: 56px 56px;
+  pointer-events: none;
+}
+
+/* left glow */
+.glow-l {
+  position: absolute;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(57,208,216,0.10) 0%, transparent 65%);
+  top: 50%; left: 200px; transform: translate(-50%,-50%);
+}
+/* right glow */
+.glow-r {
+  position: absolute;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(63,185,80,0.07) 0%, transparent 65%);
+  top: 50%; right: 100px; transform: translate(50%,-50%);
+}
+
+/* divider */
+.divider {
+  position: absolute;
+  left: 50%; top: 60px; bottom: 60px;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(57,208,216,0.15) 30%, rgba(57,208,216,0.15) 70%, transparent);
+}
+
+/* LEFT SECTION */
+.left {
+  position: relative; z-index: 2;
+  padding-left: 100px;
+  flex: 0 0 620px;
+  display: flex; flex-direction: column; gap: 28px;
+}
+.logo-row { display:flex; align-items:center; gap:12px; }
+.logo-text { font-size:22px; font-weight:800; color:#39d0d8; letter-spacing:-.5px; }
+.chrome-badge {
+  font-size:11px; background:#161b22; border:1px solid #30363d;
+  color:#7d8590; padding:2px 10px; border-radius:20px;
+}
+
+.headline {
+  font-size: 52px; font-weight: 800; color: #e6edf3;
+  line-height: 1.1; letter-spacing: -1px;
+}
+.headline span { color: #39d0d8; }
+.headline em { color: #3fb950; font-style: normal; }
+
+.sub {
+  font-size: 15px; color: #7d8590; line-height: 1.7; max-width: 400px;
+}
+
+.features {
+  display: flex; flex-direction: column; gap: 10px;
+}
+.feat {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px; color: #e6edf3;
+}
+.feat-icon {
+  width: 28px; height: 28px; flex-shrink: 0;
+  background: rgba(57,208,216,0.1); border: 1px solid rgba(57,208,216,0.25);
+  border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+
+.tag-row { display:flex; gap:8px; flex-wrap:wrap; }
+.tag {
+  font-size:11px; padding:4px 12px; border-radius:20px;
+  border:1px solid rgba(57,208,216,.3); color:#39d0d8;
+  background: rgba(57,208,216,.06);
+}
+
+/* RIGHT SECTION */
+.right {
+  position: relative; z-index: 2;
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  gap: 24px;
+}
+
+.popup-before, .popup-after {
+  background: #0d1117; border: 1px solid #30363d; border-radius: 12px;
+  box-shadow: 0 24px 72px rgba(0,0,0,.7);
+  overflow: hidden;
+}
+.popup-before { width: 220px; opacity: 0.7; transform: translateX(10px) scale(0.96); }
+.popup-after  { width: 240px; }
+
+.p-bar {
+  background: #0d1117; border-bottom: 1px solid #21262d;
+  padding: 8px 12px; display: flex; align-items: center; gap: 6px;
+}
+.dots { display: flex; gap: 5px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot-r{background:#ff5f57}.dot-y{background:#ffbd2e}.dot-g{background:#28c840}
+.url { flex:1; background:#161b22; border:1px solid #30363d; border-radius:4px;
+  padding:2px 8px; font-size:9px; color:#7d8590; text-align:center; }
+
+.p-body { padding: 11px; display: flex; flex-direction: column; gap: 8px; }
+.p-head { display:flex; align-items:center; justify-content:space-between; }
+.p-name { font-size:11px; font-weight:700; color:#39d0d8; display:flex; align-items:center; gap:5px; }
+.p-badge-sm { font-size:9px; background:#21262d; border:1px solid #30363d; color:#7d8590; padding:1px 7px; border-radius:10px; }
+
+/* "before" popup — just drop zone */
+.p-drop-idle {
+  border:1.5px dashed #30363d; border-radius:6px; padding:18px 10px; text-align:center;
+}
+.p-drop-idle-icon { font-size:24px; margin-bottom:4px; }
+.p-drop-idle-t { font-size:9px; font-weight:600; color:#e6edf3; }
+.p-drop-idle-h { font-size:8px; color:#7d8590; margin-top:2px; }
+
+/* "after" popup — result */
+.p-file { border:1px solid #39d0d8; background:rgba(57,208,216,.07); border-radius:6px; padding:8px 10px; }
+.p-file-name { font-size:9px; font-weight:600; color:#39d0d8; }
+.p-file-size { font-size:8px; color:#7d8590; margin-top:1px; }
+
+.p-qual { display:flex; gap:4px; }
+.p-q { flex:1; background:#161b22; border:1px solid #30363d; border-radius:5px; padding:6px 3px; text-align:center; }
+.p-q.active { border-color:#39d0d8; background:rgba(57,208,216,.1); }
+.p-q-key { font-size:8px; font-weight:700; color:#39d0d8; }
+.p-q-desc { font-size:7px; color:#7d8590; margin-top:1px; }
+.p-q.active .p-q-desc { color:#39d0d8; opacity:.7; }
+.p-q-key-dim { color:#7d8590; }
+
+.p-btn { background:#39d0d8; color:#000; border-radius:5px; padding:7px; font-size:9px; font-weight:700; text-align:center; }
+
+.p-result { background:#161b22; border:1px solid #30363d; border-radius:6px; overflow:hidden; }
+.p-stats { display:flex; align-items:center; padding:8px 10px; gap:3px; }
+.p-stat { flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; }
+.p-stat-l { font-size:7px; color:#7d8590; text-transform:uppercase; letter-spacing:.4px; }
+.p-stat-v { font-size:12px; font-weight:700; color:#e6edf3; }
+.p-stat-g { font-size:12px; font-weight:700; color:#3fb950; }
+.p-arrow { font-size:10px; color:#7d8590; margin-top:7px; padding:0 2px; }
+.p-dl { padding:7px 10px; border-top:1px solid #30363d; font-size:8px; font-weight:600; color:#e6edf3; text-align:center; }
+
+.p-upsell { border:1px solid rgba(210,153,34,.35); background:rgba(210,153,34,.06); border-radius:6px; padding:8px 10px; }
+.p-upsell-t { font-size:8px; color:#7d8590; line-height:1.5; }
+.p-upsell-t strong { color:#e6edf3; }
+.p-upsell-l { font-size:8px; font-weight:700; color:#39d0d8; margin-top:4px; display:block; }
+
+/* arrow between popups */
+.arrow-between {
+  font-size: 28px; color: #39d0d8; opacity: .5; flex-shrink: 0;
+  align-self: center;
+}
+</style>
+</head>
+<body>
+
+<div class="glow-l"></div>
+<div class="glow-r"></div>
+<div class="divider"></div>
+
+<!-- LEFT -->
+<div class="left">
+  <div class="logo-row">
+    <svg width="36" height="36" viewBox="0 0 32 32" fill="none">
+      <rect x="4" y="2" width="20" height="26" rx="3" fill="#161b22" stroke="#39d0d8" stroke-width="1.5"/>
+      <path d="M18 2.5V9h6.5" stroke="#39d0d8" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="8" y1="14" x2="20" y2="14" stroke="#39d0d8" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="8" y1="18" x2="20" y2="18" stroke="#39d0d8" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="8" y1="22" x2="15" y2="22" stroke="#39d0d8" stroke-width="1.2" stroke-linecap="round"/>
+    </svg>
+    <span class="logo-text">pdf-kompakt</span>
+    <span class="chrome-badge">Chrome Extension</span>
+  </div>
+
+  <div class="headline">
+    Compress PDFs<br>
+    in your <span>browser</span>.<br>
+    <em>Free. Private.</em>
+  </div>
+
+  <div class="features">
+    <div class="feat"><div class="feat-icon">🔒</div>Files never leave your device — 100% local</div>
+    <div class="feat"><div class="feat-icon">⚡</div>Drag, drop, compressed in seconds</div>
+    <div class="feat"><div class="feat-icon">🌐</div>8 languages · works fully offline</div>
+    <div class="feat"><div class="feat-icon">🎯</div>Low / Medium / High quality — you choose</div>
+  </div>
+
+  <div class="tag-row">
+    <span class="tag">No upload</span>
+    <span class="tag">No account</span>
+    <span class="tag">No limits</span>
+    <span class="tag">Open source</span>
+  </div>
+</div>
+
+<!-- RIGHT -->
+<div class="right">
+
+  <!-- before -->
+  <div class="popup-before">
+    <div class="p-bar">
+      <div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+      <div class="url">chrome-extension://pdf-kompakt</div>
+    </div>
+    <div class="p-body">
+      <div class="p-head">
+        <div class="p-name">pdf-kompakt</div>
+        <span class="p-badge-sm">browser</span>
+      </div>
+      <div class="p-drop-idle">
+        <div class="p-drop-idle-icon">📄</div>
+        <div class="p-drop-idle-t">Drop PDF here</div>
+        <div class="p-drop-idle-h">or click to browse · up to ~50 MB</div>
+      </div>
+      <div style="font-size:7px;color:#7d8590;text-transform:uppercase;letter-spacing:.5px;">compression</div>
+      <div class="p-qual">
+        <div class="p-q"><div class="p-q-key p-q-key-dim">low</div><div class="p-q-desc">72 dpi</div></div>
+        <div class="p-q active"><div class="p-q-key">medium</div><div class="p-q-desc">150 dpi ★</div></div>
+        <div class="p-q"><div class="p-q-key p-q-key-dim">high</div><div class="p-q-desc">300 dpi</div></div>
+      </div>
+      <div class="p-btn" style="opacity:.4">⬇ Compress PDF</div>
+    </div>
+  </div>
+
+  <div class="arrow-between">→</div>
+
+  <!-- after -->
+  <div class="popup-after">
+    <div class="p-bar">
+      <div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+      <div class="url">chrome-extension://pdf-kompakt</div>
+    </div>
+    <div class="p-body">
+      <div class="p-head">
+        <div class="p-name">pdf-kompakt</div>
+        <span class="p-badge-sm">browser</span>
+      </div>
+      <div class="p-file">
+        <div class="p-file-name">📄 report_2024.pdf</div>
+        <div class="p-file-size">11.2 MB</div>
+      </div>
+      <div class="p-qual">
+        <div class="p-q"><div class="p-q-key p-q-key-dim">low</div><div class="p-q-desc">72 dpi</div></div>
+        <div class="p-q active"><div class="p-q-key">medium</div><div class="p-q-desc">150 dpi ★</div></div>
+        <div class="p-q"><div class="p-q-key p-q-key-dim">high</div><div class="p-q-desc">300 dpi</div></div>
+      </div>
+      <div class="p-btn">⬇ Compress PDF</div>
+      <div class="p-result">
+        <div class="p-stats">
+          <div class="p-stat"><div class="p-stat-l">before</div><div class="p-stat-v">11.2 MB</div></div>
+          <div class="p-arrow">→</div>
+          <div class="p-stat"><div class="p-stat-l">after</div><div class="p-stat-v">8.7 MB</div></div>
+          <div class="p-stat"><div class="p-stat-l">saved</div><div class="p-stat-g">-22%</div></div>
+        </div>
+        <div class="p-dl">⬇ Download compressed PDF</div>
+      </div>
+      <div class="p-upsell">
+        <div class="p-upsell-t">Browser saved <strong>22%</strong>. Desktop app (Ghostscript) gets <strong>50–90%</strong> on the same file.</div>
+        <span class="p-upsell-l">Download free desktop app →</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
