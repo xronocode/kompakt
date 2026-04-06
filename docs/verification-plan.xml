@@ -50,11 +50,29 @@
         <scenario-1 kind="success">Compression produces a valid PDF file</scenario-1>
         <scenario-2 kind="fallback">Missing Ghostscript falls back to pypdf gracefully</scenario-2>
         <scenario-3 kind="error">No PDF in directory produces clear error message</scenario-3>
-        <scenario-4 kind="quality">Quality levels (low/medium/high) are validated</scenario-4>
+        <scenario-4 kind="error">Empty file is rejected with clear error</scenario-4>
+        <scenario-5 kind="quality">Quality levels (low/medium/high) are validated</scenario-5>
+        <scenario-6 kind="error">Output same as input when compression yields no savings</scenario-6>
       </scenarios>
       <wave-follow-up>Run compression against real-world PDF samples of varying sizes</wave-follow-up>
       <phase-follow-up>Binary artifact test: download prebuilt binary, verify it compresses a test PDF</phase-follow-up>
     </V-M-CORE>
+
+    <V-M-TESTS MODULE="M-TESTS" PRIORITY="medium">
+      <test-files>
+        <file>test_pdf_compress.py</file>
+      </test-files>
+      <module-checks>
+        <check-1>pytest test_pdf_compress.py -v</check-1>
+      </module-checks>
+      <scenarios>
+        <scenario-1 kind="success">All dependency detection tests pass</scenario-1>
+        <scenario-2 kind="success">Compression fallback tests cover both engines</scenario-2>
+        <scenario-3 kind="success">Quality level validation rejects invalid input</scenario-3>
+      </scenarios>
+      <wave-follow-up>Add edge case tests (empty files, corrupted PDFs, large files)</wave-follow-up>
+      <phase-follow-up>Full regression with pytest coverage report</phase-follow-up>
+    </V-M-TESTS>
 
     <V-M-BUILD MODULE="M-BUILD" PRIORITY="medium">
       <test-files>

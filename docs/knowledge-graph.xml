@@ -10,13 +10,19 @@
       <depends>none (pypdf and Ghostscript are optional runtime dependencies)</depends>
       <verification-ref>V-M-CORE</verification-ref>
       <annotations>
-        <fn-detect_dependencies PURPOSE="Scan system for Ghostscript and pypdf availability" />
-        <fn-get_quality_level PURPOSE="Interactive quality selection (low/medium/high) with live hints" />
-        <fn-fuzzy_file_search PURPOSE="Search PDFs in current directory with fuzzy matching, sort by name/date/size" />
-        <fn-compress_ghostscript PURPOSE="Compress PDF via Ghostscript with specified DPI level" />
-        <fn-compress_pypdf PURPOSE="Fallback compression via pypdf for lighter savings" />
-        <fn-run_compression PURPOSE="Orchestrate compression: detect engine, compress, report stats" />
-        <export-compress_main PURPOSE="CLI entry point with argparse and interactive wizard" />
+        <fn-get_deps PURPOSE="Scan system for Ghostscript and pypdf availability" />
+        <fn-find_gs PURPOSE="Locate Ghostscript binary in PATH" />
+        <fn-check_pypdf PURPOSE="Check if pypdf module is importable" />
+        <fn-find_pdfs PURPOSE="List PDFs in directory with fuzzy search" />
+        <fn-fuzzy_match PURPOSE="Fuzzy match query against filename" />
+        <fn-interactive_wizard PURPOSE="Interactive 3-step compression wizard" />
+        <fn-arrow_menu PURPOSE="Arrow-key menu selection with live hints" />
+        <fn-compress_with_gs PURPOSE="Compress PDF via Ghostscript with specified DPI" />
+        <fn-compress_with_pypdf PURPOSE="Fallback compression via pypdf" />
+        <fn-run_compress PURPOSE="Orchestrate: detect engine, compress, report stats" />
+        <fn-show_methods PURPOSE="Display available compression engines and install hints" />
+        <fn-show_help_and_exit PURPOSE="Display help and exit" />
+        <export-__main__ PURPOSE="CLI entry point via if __name__ == '__main__' block" />
       </annotations>
     </M-CORE>
 

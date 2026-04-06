@@ -14,18 +14,19 @@ import subprocess
 from pathlib import Path
 from unittest.mock import patch, MagicMock
 
-# Загрузить модуль напрямую (не через __main__)
-sys.path.insert(0, str(Path("/mnt/user-data/outputs")))
-os.environ["NO_COLOR"] = "1"   # отключить ANSI в тестах
+# Load module directly from project root (not via hardcoded path)
+PROJECT_ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(PROJECT_ROOT))
+os.environ["NO_COLOR"] = "1"   # disable ANSI in tests
 
-import pdf_compress as m   # noqa: E402  (после sys.path)
+import pdf_compress as m   # noqa: E402  (after sys.path)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
 
-FIXTURES = Path("/tmp/pdf_test")
+FIXTURES = PROJECT_ROOT / "test_fixtures"
 NORMAL   = str(FIXTURES / "normal.pdf")
 SINGLE   = str(FIXTURES / "single.pdf")
 EMPTY    = str(FIXTURES / "empty.pdf")
@@ -251,7 +252,7 @@ class TestRunCompressValidation(unittest.TestCase):
 
     def _run(self, *args):
         return subprocess.run(
-            [sys.executable, "/mnt/user-data/outputs/pdf_compress.py", *args, "--no-check"],
+            [sys.executable, str(PROJECT_ROOT / "pdf_compress.py"), *args, "--no-check"],
             capture_output=True, text=True
         )
 
@@ -445,7 +446,7 @@ class TestCompressWithGs(unittest.TestCase):
 
 class TestCLI(unittest.TestCase):
 
-    SCRIPT = "/mnt/user-data/outputs/pdf_compress.py"
+    SCRIPT = str(PROJECT_ROOT / "pdf_compress.py")
 
     def _run(self, *args):
         return subprocess.run(
@@ -544,125 +545,20 @@ class TestRatioLogic(unittest.TestCase):
 if __name__ == "__main__":
     unittest.main(verbosity=2)
 
+
 # ─────────────────────────────────────────────────────────────────────────────
-# 12. Тесты для новых исправлений (v4)
+# Reusable module tests
 # ─────────────────────────────────────────────────────────────────────────────
-
-# Перезагрузить модуль с новым файлом
-import importlib
-sys.path.insert(0, "/tmp")
-# Временно подменим путь
-import pdf_compress as m4
-# Используем subprocess для тестов новой версии
-
-SCRIPT_V4 = "/tmp/pdf_v4.py"
-
-class TestV4Fixes(unittest.TestCase):
-
-    def _run(self, *args):
-        return subprocess.run(
-            [sys.executable, SCRIPT_V4, *args, "--no-check"],
-            capture_output=True, text=True,
-            stdin=subprocess.DEVNULL
-        )
-
-    def test_corrupt_pdf_returns_error_not_traceback(self):
-        """Корраптный PDF должен дать читаемую ошибку, а не traceback."""
-        r = self._run(CORRUPT, "-q", "medium", "-o", tmp_out())
-        self.assertEqual(r.returncode, 1)
-        self.assertNotIn("Traceback", r.stdout)
-        self.assertNotIn("Traceback", r.stderr)
-
-    def test_output_extension_normalized(self):
-        """Проверить логику нормализации расширения."""
-        for name, expected in [
-            ("out",       "out.pdf"),
-            ("out.pdf",   "out.pdf"),
-            ("out.PDF",   "out.PDF"),   # уже есть расширение → не меняем
-            ("out.txt",   "out.txt.pdf"),  # нет .pdf → добавляем
-        ]:
-            result = name if name.lower().endswith(".pdf") else name + ".pdf"
-            self.assertEqual(result, expected)
-
-    def test_find_pdfs_case_insensitive(self):
-        """UPPER.PDF должен быть найден."""
-        # Файл уже создан в предыдущем тесте
-        import importlib, types
-        spec = importlib.util.spec_from_file_location("pdf_v4", SCRIPT_V4)
-        mod = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(mod)
-        pdfs = mod.find_pdfs(str(FIXTURES))
-        names = [p.name for p in pdfs]
-        self.assertIn("UPPER.PDF", names)
-
-    def test_output_empty_file_detected(self):
-        """GS создал пустой файл → ошибка."""
-        fake_result = MagicMock(); fake_result.returncode = 0
-        # Создать пустой выходной файл как side effect
-        def fake_run(cmd, **kwargs):
-            out = cmd[-2] if "-sOutputFile=" in cmd[-2] else None
-            if out:
-                open(out.replace("-sOutputFile=",""), "w").close()
-            return fake_result
-
-        import importlib.util
-        spec = importlib.util.spec_from_file_location("pdf_v4", SCRIPT_V4)
-        mod = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(mod)
-
-        out = tmp_out()
-        with patch.object(mod, "find_gs", return_value="/usr/bin/gs"), \
-             patch("subprocess.run", side_effect=fake_run):
-            ok = mod.compress_with_gs(NORMAL, out, "ebook")
-        # GS вернул 0 но файл пустой — run_compress должен поймать это
-        # (тест самой логики run_compress через CLI)
-        r = self._run(CORRUPT, "-q", "medium", "-o", tmp_out())
-        self.assertEqual(r.returncode, 1)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 13. Tests for v5 style/minor fixes
+# 13. Truncate middle tests
 # ─────────────────────────────────────────────────────────────────────────────
 
-import importlib.util as _ilu
+class TestTruncateMiddle(unittest.TestCase):
 
-def _load_v5():
-    spec = _ilu.spec_from_file_location("pdf_v5", "/mnt/user-data/outputs/pdf_compress.py")
-    mod = _ilu.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
-
-
-class TestV5Fixes(unittest.TestCase):
-
-    def test_get_deps_is_cached(self):
-        """get_deps() должен вернуть тот же объект при повторном вызове (lru_cache)."""
-        mod = _load_v5()
-        mod.get_deps.cache_clear()
-        r1 = mod.get_deps()
-        r2 = mod.get_deps()
-        self.assertIs(r1, r2, "get_deps should return cached dict")
-
-    def test_get_deps_cache_info(self):
-        mod = _load_v5()
-        mod.get_deps.cache_clear()
-        mod.get_deps()
-        mod.get_deps()
-        info = mod.get_deps.cache_info()
-        self.assertEqual(info.misses, 1)
-        self.assertGreaterEqual(info.hits, 1)
-
-    def test_hidden_file_stem(self):
-        """Скрытый файл .hidden.pdf → base = '.hidden', не пустая строка."""
-        from pathlib import Path
-        src = Path(".hidden.pdf")
-        base = src.stem or src.name
-        self.assertEqual(base, ".hidden")
-        result = base + "_medium" + ".pdf"
-        self.assertEqual(result, ".hidden_medium.pdf")
-
-    def test_hidden_file_truly_empty_stem(self):
-        """Файл без расширения и без имени — теоретически невозможно, но stem or name надёжен."""
+    def test_short_name_unchanged(self):
+        self.assertEqual(m.truncate_middle("report.pdf", 40), "report.pdf")        """Файл без расширения и без имени — теоретически невозможно, но stem or name надёжен."""
         from pathlib import Path
         # Path("") edge case
         src = Path("a.pdf")

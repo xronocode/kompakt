@@ -26,12 +26,14 @@
         </errors>
       </contract>
       <interface>
-        <fn-detect_dependencies PURPOSE="Scan for Ghostscript and pypdf availability" />
-        <fn-fuzzy_file_search PURPOSE="Search and sort PDFs in current directory" />
-        <fn-get_quality_level PURPOSE="Interactive quality selection with hints" />
-        <fn-compress_ghostscript PURPOSE="Ghostscript-based compression" />
-        <fn-compress_pypdf PURPOSE="pypdf fallback compression" />
-        <export-compress_main PURPOSE="CLI entry point (argparse + wizard)" />
+        <fn-get_deps PURPOSE="Scan for Ghostscript and pypdf availability" />
+        <fn-find_gs PURPOSE="Locate Ghostscript binary in PATH" />
+        <fn-find_pdfs PURPOSE="Search and sort PDFs in current directory" />
+        <fn-interactive_wizard PURPOSE="Interactive quality selection with hints" />
+        <fn-compress_with_gs PURPOSE="Ghostscript-based compression" />
+        <fn-compress_with_pypdf PURPOSE="pypdf fallback compression" />
+        <fn-run_compress PURPOSE="Orchestrate compression flow" />
+        <export-__main__ PURPOSE="CLI entry point (argparse + wizard)" />
       </interface>
       <depends>none</depends>
       <target>
@@ -74,6 +76,34 @@
       </observability>
       <verification-ref>V-M-BUILD</verification-ref>
     </M-BUILD>
+
+    <M-TESTS NAME="test_pdf_compress" TYPE="UTILITY" LAYER="1" ORDER="3" STATUS="implemented">
+      <contract>
+        <purpose>Unit and integration tests for compression modules</purpose>
+        <inputs>
+          <param name="test_pdfs" type="list" />
+        </inputs>
+        <outputs>
+          <param name="test_results" type="pytest" />
+        </outputs>
+        <errors>
+          <error code="TEST_FAILED" />
+        </errors>
+      </contract>
+      <interface>
+        <fn-test_dependency_detection PURPOSE="Verify Ghostscript and pypdf detection logic" />
+        <fn-test_compression_fallbacks PURPOSE="Test dual-engine fallback behavior" />
+        <fn-test_quality_levels PURPOSE="Test quality level validation" />
+      </interface>
+      <depends>M-CORE</depends>
+      <target>
+        <source>test_pdf_compress.py</source>
+      </target>
+      <observability>
+        <log-prefix>[TEST]</log-prefix>
+      </observability>
+      <verification-ref>V-M-TESTS</verification-ref>
+    </M-TESTS>
   </Modules>
 
   <DataFlow>
@@ -106,7 +136,7 @@
     <Phase-1 name="Stabilize Core" status="done">
       <goal>CLI wizard works end-to-end with both engines</goal>
       <step-1 module="M-CORE" status="done" verification="V-M-CORE">Compression wizard with fuzzy search, quality selection, dual-engine</step-1>
-      <step-2 module="M-TESTS" status="done" verification="V-M-CORE">Tests for dependency detection and compression fallbacks</step-2>
+      <step-2 module="M-TESTS" status="done" verification="V-M-TESTS">Tests for dependency detection and compression fallbacks</step-2>
     </Phase-1>
     <Phase-2 name="Binary Distribution" status="done">
       <goal>Prebuilt binaries available for macOS, Linux, Windows</goal>
