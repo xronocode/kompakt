@@ -272,6 +272,15 @@ section .subtitle{color:var(--fg2);font-size:17px;margin-bottom:40px;max-width:6
 .form-row{display:flex;gap:16px}
 @media(max-width:560px){.form-row{flex-direction:column}}
 
+@media(max-width:640px){
+  .stats{gap:12px;padding:24px 16px}
+  .stat{flex:1;background:var(--bg2);border:1px solid #222;border-radius:12px;padding:16px 12px}
+  .stat .num{font-size:28px}
+  .stat .num.green{color:transparent;background:linear-gradient(135deg,var(--green),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .stat .num.green+.label,.stat:last-child .num+.label{margin-top:4px}
+  .stat:last-child .num{color:transparent;background:linear-gradient(135deg,#39d0d8,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+}
+
 /* Mobile optimizations */
 @media(max-width:640px){
   /* Smart CTAs: hide desktop-only elements */
