@@ -104,20 +104,21 @@ body{
 .ratio.bad{color:var(--yellow)}
 .result-actions{display:flex;border-top:1px solid var(--border)}
 .save-btn{
-  flex:1;background:var(--bg3);border:none;
-  color:var(--text);padding:14px;font-family:inherit;font-size:15px;font-weight:600;
-  cursor:pointer;transition:background .12s,color .12s;text-align:center;
-  min-height:48px;
+  flex:2;background:var(--bg3);border:none;
+  color:var(--text);padding:14px;font-family:inherit;font-size:14px;font-weight:600;
+  cursor:pointer;transition:background .12s,color .12s;
+  min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px;
 }
 .save-btn:hover{background:var(--cyan-dim);color:var(--cyan)}
-.share-btn{
-  background:var(--bg3);border:none;border-left:1px solid var(--border);
-  color:var(--muted);padding:14px 18px;cursor:pointer;
-  transition:background .12s,color .12s;display:flex;align-items:center;
-  min-height:48px;min-width:52px;justify-content:center;
+.save-btn svg{width:18px;height:18px;fill:currentColor;flex-shrink:0}
+.open-btn{
+  flex:1;background:var(--bg3);border:none;border-left:1px solid var(--border);
+  color:var(--muted);padding:14px;font-family:inherit;font-size:13px;font-weight:600;
+  cursor:pointer;transition:background .12s,color .12s;
+  min-height:48px;display:flex;align-items:center;justify-content:center;gap:6px;
 }
-.share-btn:hover{background:var(--cyan-dim);color:var(--cyan)}
-.share-btn svg{width:18px;height:18px;fill:currentColor}
+.open-btn:hover{background:var(--cyan-dim);color:var(--cyan)}
+.open-btn svg{width:16px;height:16px;fill:currentColor;flex-shrink:0}
 
 /* UPSELL */
 .upsell{
@@ -188,8 +189,8 @@ body{
   <!-- Drop zone -->
   <div class="drop-zone" id="drop-zone">
     <div class="drop-icon">📄</div>
-    <div class="drop-label" data-i18n="dropTitle">Drop PDF here</div>
-    <div class="drop-hint" data-i18n="dropHint">or tap to choose file · up to ~1 GB</div>
+    <div class="drop-label" data-i18n="dropTitle" data-i18n-mobile="dropTitleMobile">Drop PDF here</div>
+    <div class="drop-hint" data-i18n="dropHint" data-i18n-mobile="dropHintMobile">or tap to choose file · up to ~1 GB</div>
     <input type="file" id="file-input" accept=".pdf,application/pdf" hidden>
   </div>
 
@@ -241,9 +242,13 @@ body{
       </div>
     </div>
     <div class="result-actions">
-      <button class="save-btn" id="save-btn" data-i18n="btnSave">Save compressed PDF</button>
-      <button class="share-btn" id="share-btn" title="Share" hidden>
-        <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+      <button class="save-btn" id="save-btn">
+        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        <span data-i18n="btnSave">Save</span>
+      </button>
+      <button class="open-btn" id="open-btn">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 2l5 5h-5V4zm-3 12v-2h4v2h-4zm6-4H8v-2h8v2z"/></svg>
+        <span data-i18n="btnOpen">Open</span>
       </button>
     </div>
   </div>
@@ -296,7 +301,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs
 
 const i18n = {
   en: {
-    dropTitle:"Drop PDF here",dropHint:"or tap to choose file · up to ~1 GB",
+    dropTitle:"Drop PDF here",dropTitleMobile:"Tap to choose PDF",dropHint:"or tap to choose file · up to ~1 GB",dropHintMobile:"from Files, iCloud, or other apps · up to ~1 GB",
     labelCompression:"compression",
     qualityLow:"low",qualityLowDesc:"72 dpi · max",
     qualityMedium:"medium",qualityMediumDesc:"150 dpi · ★",
@@ -304,7 +309,7 @@ const i18n = {
     btnCompress:"Compress PDF",preparing:"Preparing…",
     progressPage:"Page $1 of $2…",
     statBefore:"before",statAfter:"after",statSaved:"saved",
-    btnSave:"Save compressed PDF",
+    btnSave:"Save",btnOpen:"Open",
     upsellBody:"Browser saved <strong>$1</strong>%. Desktop app (Ghostscript) gets 50–90% on the same file.",
     upsellLink:"Download free desktop app →",
     errFileTooLarge:"File is too large. Please use a PDF under 1 GB.",
@@ -315,7 +320,7 @@ const i18n = {
     donateText:"Support the project",footerHome:"\u2190 Back to pdf-kompakt"
   },
   ru: {
-    dropTitle:"Перетащите PDF сюда",dropHint:"или нажмите для выбора файла · до ~1 ГБ",
+    dropTitle:"\u041f\u0435\u0440\u0435\u0442\u0430\u0449\u0438\u0442\u0435 PDF \u0441\u044e\u0434\u0430",dropTitleMobile:"\u041d\u0430\u0436\u043c\u0438\u0442\u0435 \u0434\u043b\u044f \u0432\u044b\u0431\u043e\u0440\u0430 PDF",dropHint:"\u0438\u043b\u0438 \u043d\u0430\u0436\u043c\u0438\u0442\u0435 \u0434\u043b\u044f \u0432\u044b\u0431\u043e\u0440\u0430 \u0444\u0430\u0439\u043b\u0430 \u00b7 \u0434\u043e ~1 \u0413\u0411",dropHintMobile:"\u0438\u0437 \u0424\u0430\u0439\u043b\u043e\u0432, iCloud \u0438\u043b\u0438 \u0434\u0440\u0443\u0433\u0438\u0445 \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0439 \u00b7 \u0434\u043e ~1 \u0413\u0411",
     labelCompression:"сжатие",
     qualityLow:"низкое",qualityLowDesc:"72 dpi · макс",
     qualityMedium:"среднее",qualityMediumDesc:"150 dpi · ★",
@@ -323,7 +328,7 @@ const i18n = {
     btnCompress:"Сжать PDF",preparing:"Подготовка…",
     progressPage:"Страница $1 из $2…",
     statBefore:"до",statAfter:"после",statSaved:"сжатие",
-    btnSave:"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u0441\u0436\u0430\u0442\u044b\u0439 PDF",
+    btnSave:"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c",btnOpen:"\u041e\u0442\u043a\u0440\u044b\u0442\u044c",
     upsellBody:"Браузер сжал на <strong>$1</strong>%. Десктопное приложение (Ghostscript) даёт 50–90% на том же файле.",
     upsellLink:"Скачать десктопное приложение бесплатно →",
     errFileTooLarge:"Файл слишком большой. Используйте PDF меньше 1 ГБ.",
@@ -334,7 +339,7 @@ const i18n = {
     donateText:"\u041f\u043e\u0434\u0434\u0435\u0440\u0436\u0430\u0442\u044c \u043f\u0440\u043e\u0435\u043a\u0442",footerHome:"\u2190 \u041d\u0430 \u0433\u043b\u0430\u0432\u043d\u0443\u044e"
   },
   de: {
-    dropTitle:"PDF hier ablegen",dropHint:"oder tippen zum Ausw\u00e4hlen · bis zu ~1 GB",
+    dropTitle:"PDF hier ablegen",dropTitleMobile:"Tippen um PDF zu w\u00e4hlen",dropHint:"oder tippen zum Ausw\u00e4hlen \u00b7 bis zu ~1 GB",dropHintMobile:"aus Dateien, iCloud oder anderen Apps \u00b7 bis zu ~1 GB",
     labelCompression:"Komprimierung",
     qualityLow:"niedrig",qualityLowDesc:"72 dpi · max",
     qualityMedium:"mittel",qualityMediumDesc:"150 dpi · ★",
@@ -342,7 +347,7 @@ const i18n = {
     btnCompress:"PDF komprimieren",preparing:"Vorbereitung…",
     progressPage:"Seite $1 von $2…",
     statBefore:"vorher",statAfter:"nachher",statSaved:"gespart",
-    btnSave:"Komprimiertes PDF speichern",
+    btnSave:"Speichern",btnOpen:"\u00d6ffnen",
     upsellBody:"Browser hat <strong>$1</strong>% gespart. Die Desktop-App (Ghostscript) erreicht 50–90% bei derselben Datei.",
     upsellLink:"Kostenlose Desktop-App herunterladen →",
     errFileTooLarge:"Datei ist zu groß. Bitte verwenden Sie eine PDF unter 1 GB.",
@@ -353,7 +358,7 @@ const i18n = {
     donateText:"Projekt unterst\u00fctzen",footerHome:"\u2190 Zur\u00fcck zu pdf-kompakt"
   },
   es: {
-    dropTitle:"Suelta el PDF aquí",dropHint:"o toca para elegir archivo · hasta ~1 GB",
+    dropTitle:"Suelta el PDF aqu\u00ed",dropTitleMobile:"Toca para elegir PDF",dropHint:"o toca para elegir archivo \u00b7 hasta ~1 GB",dropHintMobile:"desde Archivos, iCloud u otras apps \u00b7 hasta ~1 GB",
     labelCompression:"compresión",
     qualityLow:"baja",qualityLowDesc:"72 dpi · máx",
     qualityMedium:"media",qualityMediumDesc:"150 dpi · ★",
@@ -361,7 +366,7 @@ const i18n = {
     btnCompress:"Comprimir PDF",preparing:"Preparando…",
     progressPage:"Página $1 de $2…",
     statBefore:"antes",statAfter:"después",statSaved:"ahorro",
-    btnSave:"Guardar PDF comprimido",
+    btnSave:"Guardar",btnOpen:"Abrir",
     upsellBody:"El navegador ahorró <strong>$1</strong>%. La app de escritorio (Ghostscript) logra 50–90% en el mismo archivo.",
     upsellLink:"Descargar app de escritorio gratis →",
     errFileTooLarge:"El archivo es demasiado grande. Usa un PDF de menos de 1 GB.",
@@ -372,7 +377,7 @@ const i18n = {
     donateText:"Apoyar el proyecto",footerHome:"\u2190 Volver a pdf-kompakt"
   },
   fr: {
-    dropTitle:"Déposez un PDF ici",dropHint:"ou touchez pour choisir · jusqu'\u00e0 ~1 Go",
+    dropTitle:"D\u00e9posez un PDF ici",dropTitleMobile:"Touchez pour choisir un PDF",dropHint:"ou touchez pour choisir \u00b7 jusqu'\u00e0 ~1 Go",dropHintMobile:"depuis Fichiers, iCloud ou autres apps \u00b7 jusqu'\u00e0 ~1 Go",
     labelCompression:"compression",
     qualityLow:"faible",qualityLowDesc:"72 dpi · max",
     qualityMedium:"moyen",qualityMediumDesc:"150 dpi · ★",
@@ -380,7 +385,7 @@ const i18n = {
     btnCompress:"Compresser le PDF",preparing:"Préparation…",
     progressPage:"Page $1 sur $2…",
     statBefore:"avant",statAfter:"après",statSaved:"économie",
-    btnSave:"Enregistrer le PDF compress\u00e9",
+    btnSave:"Enregistrer",btnOpen:"Ouvrir",
     upsellBody:"Le navigateur a économisé <strong>$1</strong>%. L'app desktop (Ghostscript) atteint 50–90% sur le même fichier.",
     upsellLink:"Télécharger l'app desktop gratuite →",
     errFileTooLarge:"Fichier trop volumineux. Utilisez un PDF de moins de 1 Go.",
@@ -391,7 +396,7 @@ const i18n = {
     donateText:"Soutenir le projet",footerHome:"\u2190 Retour \u00e0 pdf-kompakt"
   },
   ja: {
-    dropTitle:"PDFをここにドロップ",dropHint:"\u307e\u305f\u306f\u30bf\u30c3\u30d7\u3057\u3066\u9078\u629e · \u6700\u5927\u7d041 GB",
+    dropTitle:"PDF\u3092\u3053\u3053\u306b\u30c9\u30ed\u30c3\u30d7",dropTitleMobile:"\u30bf\u30c3\u30d7\u3057\u3066PDF\u3092\u9078\u629e",dropHint:"\u307e\u305f\u306f\u30bf\u30c3\u30d7\u3057\u3066\u9078\u629e \u00b7 \u6700\u5927\u7d041 GB",dropHintMobile:"\u30d5\u30a1\u30a4\u30eb\u3001iCloud\u306a\u3069\u304b\u3089 \u00b7 \u6700\u5927\u7d041 GB",
     labelCompression:"圧縮品質",
     qualityLow:"低",qualityLowDesc:"72 dpi · 最大圧縮",
     qualityMedium:"中",qualityMediumDesc:"150 dpi · ★",
@@ -399,7 +404,7 @@ const i18n = {
     btnCompress:"PDFを圧縮",preparing:"準備中…",
     progressPage:"$2ページ中 $1ページ目を処理中…",
     statBefore:"圧縮前",statAfter:"圧縮後",statSaved:"削減",
-    btnSave:"\u5727\u7e2ePDF\u3092\u4fdd\u5b58",
+    btnSave:"\u4fdd\u5b58",btnOpen:"\u958b\u304f",
     upsellBody:"ブラウザで <strong>$1</strong>% 圧縮しました。デスクトップアプリ（Ghostscript）なら同じファイルを50〜90%圧縮できます。",
     upsellLink:"無料デスクトップアプリをダウンロード →",
     errFileTooLarge:"ファイルが大きすぎます。1GB\u672a\u6e80のPDFを使用してください。",
@@ -410,7 +415,7 @@ const i18n = {
     donateText:"\u30d7\u30ed\u30b8\u30a7\u30af\u30c8\u3092\u652f\u63f4",footerHome:"\u2190 pdf-kompakt\u306b\u623b\u308b"
   },
   pt: {
-    dropTitle:"Solte o PDF aqui",dropHint:"ou toque para selecionar · at\u00e9 ~1 GB",
+    dropTitle:"Solte o PDF aqui",dropTitleMobile:"Toque para escolher PDF",dropHint:"ou toque para selecionar \u00b7 at\u00e9 ~1 GB",dropHintMobile:"de Arquivos, iCloud ou outros apps \u00b7 at\u00e9 ~1 GB",
     labelCompression:"compressão",
     qualityLow:"baixa",qualityLowDesc:"72 dpi · máx",
     qualityMedium:"média",qualityMediumDesc:"150 dpi · ★",
@@ -418,7 +423,7 @@ const i18n = {
     btnCompress:"Comprimir PDF",preparing:"Preparando…",
     progressPage:"Página $1 de $2…",
     statBefore:"antes",statAfter:"depois",statSaved:"economia",
-    btnSave:"Salvar PDF comprimido",
+    btnSave:"Salvar",btnOpen:"Abrir",
     upsellBody:"O navegador economizou <strong>$1</strong>%. O app desktop (Ghostscript) consegue 50–90% no mesmo arquivo.",
     upsellLink:"Baixar app desktop grátis →",
     errFileTooLarge:"Arquivo muito grande. Use um PDF com menos de 1 GB.",
@@ -429,7 +434,7 @@ const i18n = {
     donateText:"Apoiar o projeto",footerHome:"\u2190 Voltar ao pdf-kompakt"
   },
   zh: {
-    dropTitle:"将PDF拖放到此处",dropHint:"\u6216\u70b9\u51fb\u9009\u62e9\u6587\u4ef6 · \u6700\u5927\u7ea61 GB",
+    dropTitle:"\u5c06PDF\u62d6\u653e\u5230\u6b64\u5904",dropTitleMobile:"\u70b9\u51fb\u9009\u62e9PDF",dropHint:"\u6216\u70b9\u51fb\u9009\u62e9\u6587\u4ef6 \u00b7 \u6700\u5927\u7ea61 GB",dropHintMobile:"\u4ece\u6587\u4ef6\u3001iCloud\u6216\u5176\u4ed6\u5e94\u7528 \u00b7 \u6700\u5927\u7ea61 GB",
     labelCompression:"压缩质量",
     qualityLow:"低",qualityLowDesc:"72 dpi · 最大压缩",
     qualityMedium:"中",qualityMediumDesc:"150 dpi · ★",
@@ -437,7 +442,7 @@ const i18n = {
     btnCompress:"压缩PDF",preparing:"准备中…",
     progressPage:"正在处理第 $1 页，共 $2 页…",
     statBefore:"压缩前",statAfter:"压缩后",statSaved:"节省",
-    btnSave:"\u4fdd\u5b58\u538b\u7f29\u540e\u7684PDF",
+    btnSave:"\u4fdd\u5b58",btnOpen:"\u6253\u5f00",
     upsellBody:"浏览器压缩节省了 <strong>$1</strong>%。桌面版（使用Ghostscript）可将同一文件压缩50–90%。",
     upsellLink:"免费下载桌面版 →",
     errFileTooLarge:"文件过大，请使用1 GB\u4ee5\u5185的PDF文件。",
@@ -470,10 +475,14 @@ function t(key, ...subs) {
   return subs.reduce((s, v, i) => s.replace('$' + (i + 1), v), msg);
 }
 
+const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
 function applyI18n() {
   document.querySelectorAll('[data-i18n]').forEach(el => {
-    const msg = t(el.dataset.i18n);
-    if (msg && msg !== el.dataset.i18n) el.textContent = msg;
+    const mobileKey = el.dataset.i18nMobile;
+    const key = (isMobile && mobileKey && t(mobileKey) !== mobileKey) ? mobileKey : el.dataset.i18n;
+    const msg = t(key);
+    if (msg && msg !== key) el.textContent = msg;
   });
   document.querySelectorAll('[data-i18n-html]').forEach(el => {
     const msg = t(el.dataset.i18nHtml || el.dataset['i18nHtml']);
@@ -484,6 +493,11 @@ function applyI18n() {
 function setLang(lang) {
   currentLang = lang;
   applyI18n();
+  // Re-render dynamic upsell content if visible
+  if (lastRatio !== null && !document.getElementById('upsell').hidden) {
+    document.getElementById('upsell-body').innerHTML = t('upsellBody', lastRatio);
+    document.getElementById('upsell-link').textContent = t('upsellLink');
+  }
   document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang === 'pt' ? 'pt-BR' : lang;
   localStorage.setItem('kompakt-lang', lang);
 }
@@ -505,6 +519,7 @@ let currentFile     = null;
 let selectedQuality = 'medium';
 let isCompressing   = false;
 let lastBlobUrl     = null;
+let lastRatio       = null;
 
 // ── DOM refs ──────────────────────────────────────────────────────────────────
 
@@ -563,15 +578,14 @@ compressBtn.addEventListener('click', compress);
 newFileBtn.addEventListener('click', () => {
   currentFile = null;
   fileInput.value = '';
-  dropZone.querySelector('.drop-label').textContent = t('dropTitle');
-  dropZone.querySelector('.drop-hint').textContent = t('dropHint');
+  dropZone.querySelector('.drop-label').textContent = t(isMobile ? 'dropTitleMobile' : 'dropTitle');
+  dropZone.querySelector('.drop-hint').textContent = t(isMobile ? 'dropHintMobile' : 'dropHint');
   dropZone.classList.remove('has-file');
   compressBtn.disabled = true;
   resultEl.hidden = true;
   upsellEl.hidden = true;
   newFileBtn.hidden = true;
   document.getElementById('donate-block').hidden = true;
-  document.getElementById('share-btn').hidden = true;
   if (lastBlobUrl) { URL.revokeObjectURL(lastBlobUrl); lastBlobUrl = null; }
 });
 
@@ -713,31 +727,24 @@ function showResult(compressed) {
   lastBlobUrl = URL.createObjectURL(compressedBlob);
   const outName = currentFile.name.replace(/\.pdf$/i, '') + '_kompakt.pdf';
 
-  // Save button
+  // Save button (download to device)
   document.getElementById('save-btn').onclick = () => {
     const a = document.createElement('a');
     a.href = lastBlobUrl; a.download = outName; a.click();
   };
 
-  // Share button — show only if Web Share API is available (mobile)
-  const shareBtn = document.getElementById('share-btn');
-  if (navigator.canShare) {
-    const file = new File([compressedBlob], outName, { type: 'application/pdf' });
-    if (navigator.canShare({ files: [file] })) {
-      shareBtn.hidden = false;
-      shareBtn.onclick = () => {
-        navigator.share({ files: [file], title: outName }).catch(() => {});
-      };
-    }
-  }
+  // Open button (view in new tab)
+  document.getElementById('open-btn').onclick = () => {
+    window.open(lastBlobUrl, '_blank');
+  };
 
   resultEl.hidden = false;
 
   // Show donate
   document.getElementById('donate-block').hidden = false;
 
-  const ratioStr = Math.max(0, ratio).toFixed(0);
-  document.getElementById('upsell-body').innerHTML = t('upsellBody', ratioStr);
+  lastRatio = Math.max(0, ratio).toFixed(0);
+  document.getElementById('upsell-body').innerHTML = t('upsellBody', lastRatio);
   document.getElementById('upsell-link').textContent = t('upsellLink');
   upsellEl.hidden = false;
 
