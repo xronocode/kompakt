@@ -1,9 +1,9 @@
 {
   "appName": {
-    "message": "pdf-kompakt"
+    "message": "pdf-kompakt – Compresseur PDF"
   },
   "appDescription": {
-    "message": "Compressez des PDF dans votre navigateur. Gratuit, privé, fonctionne hors ligne — vos fichiers ne quittent jamais votre appareil."
+    "message": "Compresseur PDF pour Chrome. Réduisez la taille des PDF gratuitement — sans upload, hors ligne. Vos fichiers ne quittent jamais votre appareil."
   },
   "badge": {
     "message": "navigateur"

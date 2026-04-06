@@ -1,9 +1,9 @@
 {
   "appName": {
-    "message": "pdf-kompakt"
+    "message": "pdf-kompakt – PDF圧縮"
   },
   "appDescription": {
-    "message": "ブラウザでPDFを圧縮。無料・プライベート・オフライン対応 — ファイルはデバイスから外に出ません。"
+    "message": "ChromeでPDFを圧縮・縮小する無料ツール。アップロード不要・オフライン対応・アカウント不要。ファイルは端末の外に出ません。"
   },
   "badge": {
     "message": "ブラウザ"

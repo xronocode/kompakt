@@ -1,9 +1,9 @@
 {
   "appName": {
-    "message": "pdf-kompakt"
+    "message": "pdf-kompakt – PDF压缩工具"
   },
   "appDescription": {
-    "message": "在浏览器中压缩PDF文件。免费、私密、可离线使用——文件从不离开您的设备。"
+    "message": "Chrome浏览器PDF压缩工具。免费缩小PDF文件大小——无需上传，无需账号，可离线使用。文件始终留在您的设备上。"
   },
   "badge": {
     "message": "浏览器"

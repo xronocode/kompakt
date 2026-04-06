@@ -1,9 +1,9 @@
 {
   "appName": {
-    "message": "pdf-kompakt"
+    "message": "pdf-kompakt – PDF Compressor"
   },
   "appDescription": {
-    "message": "Compress PDFs in your browser. Free, private, works offline — your files never leave your device."
+    "message": "Free PDF compressor for Chrome. Reduce PDF file size locally — no upload, no account, works offline. Files never leave your device."
   },
   "badge": {
     "message": "browser"

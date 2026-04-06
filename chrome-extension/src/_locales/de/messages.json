@@ -1,9 +1,9 @@
 {
   "appName": {
-    "message": "pdf-kompakt"
+    "message": "pdf-kompakt – PDF Kompressor"
   },
   "appDescription": {
-    "message": "PDFs direkt im Browser komprimieren. Kostenlos, privat, offline — Dateien verlassen nie Ihr Gerät."
+    "message": "PDF-Kompressor für Chrome. PDFs verkleinern & komprimieren — kostenlos, ohne Upload, offline. Dateien verlassen nie Ihr Gerät."
   },
   "badge": {
     "message": "Browser"
