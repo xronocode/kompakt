@@ -662,7 +662,6 @@ async function compress() {
 
         canvas.width  = viewport.width;
         canvas.height = viewport.height;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         await page.render({ canvasContext: ctx, viewport }).promise;
 
@@ -677,13 +676,15 @@ async function compress() {
         page.cleanup();
       }
 
-      // Between batches: clear canvas and yield to browser for GC
+      // Between batches: release canvas bitmap and yield for GC
       canvas.width = 1; canvas.height = 1;
-      ctx.clearRect(0, 0, 1, 1);
       await new Promise(r => setTimeout(r, 0));
     }
 
-    showResult(await outDoc.save());
+    const result = await outDoc.save();
+    pdfDoc.destroy(); // release pdf.js parsed data, fonts, worker resources
+    canvas.width = 0; canvas.height = 0; // release last bitmap buffer
+    showResult(result);
 
   } catch (err) {
     const msg = err?.name === 'PasswordException'
