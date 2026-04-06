@@ -94,16 +94,24 @@ body{
 .rename-label{transition:color .12s}
 .rename-toggle:hover .rename-label{color:var(--text)}
 
-/* COMPRESS BUTTON */
-.compress-btn{
-  background:var(--cyan);color:#000;border:none;border-radius:var(--radius);
+/* MAIN BUTTON (dynamic: Open PDF → Compress → Open another) */
+.main-btn{
+  border:none;border-radius:var(--radius);
   padding:16px;font-family:inherit;font-size:16px;font-weight:700;
-  cursor:pointer;transition:opacity .12s,filter .12s;width:100%;
-  min-height:52px;
+  cursor:pointer;width:100%;min-height:52px;
+  transition:filter .12s,box-shadow .12s;
 }
-.compress-btn:disabled{opacity:.25;cursor:default}
-.compress-btn:not(:disabled):hover{filter:brightness(1.1)}
-.compress-btn:not(:disabled):active{filter:brightness(.9)}
+.main-btn:hover{filter:brightness(1.1)}
+.main-btn:active{filter:brightness(.9)}
+.main-btn[data-state=pick]{background:var(--bg3);color:var(--text);border:1.5px solid var(--border2)}
+.main-btn[data-state=pick]:hover{border-color:var(--cyan);color:var(--cyan)}
+.main-btn[data-state=compress]{
+  background:linear-gradient(135deg,#39d0d8,#818cf8);color:#000;
+  box-shadow:0 0 20px rgba(57,208,216,.25);
+}
+.main-btn[data-state=compress]:hover{box-shadow:0 0 30px rgba(129,140,248,.4)}
+.main-btn[data-state=done]{background:var(--bg3);color:var(--text);border:1.5px solid var(--border2)}
+.main-btn[data-state=done]:hover{border-color:var(--cyan);color:var(--cyan)}
 
 /* PROGRESS */
 .progress-wrap{display:flex;flex-direction:column;gap:8px}
@@ -131,8 +139,8 @@ body{
 .action-btn+.action-btn{border-left:1px solid var(--border)}
 .action-btn:hover{background:var(--cyan-dim);color:var(--cyan)}
 .action-btn svg{width:16px;height:16px;fill:currentColor;flex-shrink:0}
-.action-primary{flex:2;color:var(--text);font-size:14px}
-.action-primary svg{width:18px;height:18px}
+.action-send{flex:2;color:var(--text);font-size:14px}
+.action-send svg{width:18px;height:18px}
 
 /* UPSELL */
 .upsell{
@@ -185,14 +193,7 @@ body{
 .footer-link{color:var(--muted);font-size:13px;text-decoration:none;font-weight:600}
 .footer-link:hover{color:var(--cyan);text-decoration:underline}
 
-/* NEW FILE BUTTON */
-.new-file-btn{
-  background:var(--bg3);color:var(--muted);border:1px solid var(--border);
-  border-radius:var(--radius);padding:12px;font-family:inherit;font-size:14px;
-  font-weight:600;cursor:pointer;width:100%;text-align:center;
-  transition:border-color .12s,color .12s;min-height:44px;
-}
-.new-file-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+/* (new-file-btn removed — main-btn handles all states) */
 </style>
 </head>
 <body>
@@ -247,9 +248,9 @@ body{
     <span class="rename-label" data-i18n="renameLabel">Rename file (_kompakt)</span>
   </label>
 
-  <!-- Compress button -->
-  <button class="compress-btn" id="compress-btn" disabled data-i18n="btnCompress">
-    Compress PDF
+  <!-- Main button (dynamic) -->
+  <button class="main-btn" id="main-btn" data-state="pick" data-i18n="btnOpenPdf">
+    Open PDF
   </button>
 
   <!-- Progress -->
@@ -282,13 +283,9 @@ body{
         <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 2l5 5h-5V4zm-3 12v-2h4v2h-4zm6-4H8v-2h8v2z"/></svg>
         <span data-i18n="btnOpen">Open</span>
       </button>
-      <button class="action-btn" id="share-btn" hidden>
+      <button class="action-btn action-send" id="share-btn">
         <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
         <span data-i18n="btnShare">Share</span>
-      </button>
-      <button class="action-btn action-primary" id="save-btn">
-        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-        <span data-i18n="btnSave">Save</span>
       </button>
     </div>
   </div>
@@ -320,10 +317,6 @@ body{
     </a>
   </div>
 
-  <!-- New file -->
-  <button class="new-file-btn" id="new-file-btn" hidden data-i18n="btnNewFile">
-    Compress another PDF
-  </button>
 
   <!-- Privacy -->
   <div class="privacy-note" data-i18n-html="privacyNote">
@@ -352,7 +345,7 @@ const i18n = {
     qualityLow:"low",qualityLowDesc:"72 dpi · max",
     qualityMedium:"medium",qualityMediumDesc:"150 dpi · ★",
     qualityHigh:"high",qualityHighDesc:"300 dpi",
-    btnCompress:"Compress PDF",preparing:"Preparing…",
+    btnOpenPdf:"Open PDF",btnCompress:"Compress PDF",btnOpenAnother:"Open another PDF",preparing:"Preparing…",
     progressPage:"Page $1 of $2…",
     statBefore:"before",statAfter:"after",statSaved:"saved",
     btnSave:"Save",btnShare:"Share",btnOpen:"Open",renameLabel:"Rename file (_kompakt)",biggerShort:"already optimized",
@@ -372,7 +365,7 @@ const i18n = {
     qualityLow:"низкое",qualityLowDesc:"72 dpi · макс",
     qualityMedium:"среднее",qualityMediumDesc:"150 dpi · ★",
     qualityHigh:"высокое",qualityHighDesc:"300 dpi",
-    btnCompress:"Сжать PDF",preparing:"Подготовка…",
+    btnOpenPdf:"\u041e\u0442\u043a\u0440\u044b\u0442\u044c PDF",btnCompress:"\u0421\u0436\u0430\u0442\u044c PDF",btnOpenAnother:"\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0435\u0449\u0451 PDF",preparing:"\u041f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u043a\u0430\u2026",
     progressPage:"Страница $1 из $2…",
     statBefore:"до",statAfter:"после",statSaved:"сжатие",
     btnSave:"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c",btnShare:"\u041e\u0442\u043f\u0440\u0430\u0432\u0438\u0442\u044c",btnOpen:"\u041e\u0442\u043a\u0440\u044b\u0442\u044c",renameLabel:"\u041f\u0435\u0440\u0435\u0438\u043c\u0435\u043d\u043e\u0432\u0430\u0442\u044c \u0444\u0430\u0439\u043b (_kompakt)",biggerShort:"\u0443\u0436\u0435 \u043e\u043f\u0442\u0438\u043c\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u043d",
@@ -392,7 +385,7 @@ const i18n = {
     qualityLow:"niedrig",qualityLowDesc:"72 dpi · max",
     qualityMedium:"mittel",qualityMediumDesc:"150 dpi · ★",
     qualityHigh:"hoch",qualityHighDesc:"300 dpi",
-    btnCompress:"PDF komprimieren",preparing:"Vorbereitung…",
+    btnOpenPdf:"PDF \u00f6ffnen",btnCompress:"PDF komprimieren",btnOpenAnother:"Weitere PDF \u00f6ffnen",preparing:"Vorbereitung\u2026",
     progressPage:"Seite $1 von $2…",
     statBefore:"vorher",statAfter:"nachher",statSaved:"gespart",
     btnSave:"Speichern",btnShare:"Teilen",btnOpen:"\u00d6ffnen",renameLabel:"Datei umbenennen (_kompakt)",biggerShort:"bereits optimiert",
@@ -412,9 +405,9 @@ const i18n = {
     qualityLow:"baja",qualityLowDesc:"72 dpi · máx",
     qualityMedium:"media",qualityMediumDesc:"150 dpi · ★",
     qualityHigh:"alta",qualityHighDesc:"300 dpi",
-    btnCompress:"Comprimir PDF",preparing:"Preparando…",
-    progressPage:"Página $1 de $2…",
-    statBefore:"antes",statAfter:"después",statSaved:"ahorro",
+    btnOpenPdf:"Abrir PDF",btnCompress:"Comprimir PDF",btnOpenAnother:"Abrir otro PDF",preparing:"Preparando\u2026",
+    progressPage:"P\u00e1gina $1 de $2\u2026",
+    statBefore:"antes",statAfter:"despu\u00e9s",statSaved:"ahorro",
     btnSave:"Guardar",btnShare:"Compartir",btnOpen:"Abrir",renameLabel:"Renombrar archivo (_kompakt)",biggerShort:"ya optimizado",
     biggerWarn:"<strong>Este PDF ya est\u00e1 optimizado.</strong> Los archivos con mucho texto/vectores no se benefician de la compresi\u00f3n en el navegador. Usa la <a href='https://github.com/xronocode/kompakt/releases/latest'>app de escritorio</a> (Ghostscript) para 50\u201390% de compresi\u00f3n.",
     upsellBody:"El navegador ahorró <strong>$1</strong>%. La app de escritorio (Ghostscript) logra 50–90% en el mismo archivo.",
@@ -432,7 +425,7 @@ const i18n = {
     qualityLow:"faible",qualityLowDesc:"72 dpi · max",
     qualityMedium:"moyen",qualityMediumDesc:"150 dpi · ★",
     qualityHigh:"élevé",qualityHighDesc:"300 dpi",
-    btnCompress:"Compresser le PDF",preparing:"Préparation…",
+    btnOpenPdf:"Ouvrir un PDF",btnCompress:"Compresser le PDF",btnOpenAnother:"Ouvrir un autre PDF",preparing:"Pr\u00e9paration\u2026",
     progressPage:"Page $1 sur $2…",
     statBefore:"avant",statAfter:"après",statSaved:"économie",
     btnSave:"Enregistrer",btnShare:"Partager",btnOpen:"Ouvrir",renameLabel:"Renommer le fichier (_kompakt)",biggerShort:"déjà optimisé",
@@ -452,7 +445,7 @@ const i18n = {
     qualityLow:"低",qualityLowDesc:"72 dpi · 最大圧縮",
     qualityMedium:"中",qualityMediumDesc:"150 dpi · ★",
     qualityHigh:"高",qualityHighDesc:"300 dpi",
-    btnCompress:"PDFを圧縮",preparing:"準備中…",
+    btnOpenPdf:"PDF\u3092\u958b\u304f",btnCompress:"PDF\u3092\u5727\u7e2e",btnOpenAnother:"\u5225\u306ePDF\u3092\u958b\u304f",preparing:"\u6e96\u5099\u4e2d\u2026",
     progressPage:"$2ページ中 $1ページ目を処理中…",
     statBefore:"圧縮前",statAfter:"圧縮後",statSaved:"削減",
     btnSave:"\u4fdd\u5b58",btnShare:"\u5171\u6709",btnOpen:"\u958b\u304f",renameLabel:"\u30d5\u30a1\u30a4\u30eb\u540d\u3092\u5909\u66f4 (_kompakt)",biggerShort:"\u6700\u9069\u5316\u6e08\u307f",
@@ -472,8 +465,8 @@ const i18n = {
     qualityLow:"baixa",qualityLowDesc:"72 dpi · máx",
     qualityMedium:"média",qualityMediumDesc:"150 dpi · ★",
     qualityHigh:"alta",qualityHighDesc:"300 dpi",
-    btnCompress:"Comprimir PDF",preparing:"Preparando…",
-    progressPage:"Página $1 de $2…",
+    btnOpenPdf:"Abrir PDF",btnCompress:"Comprimir PDF",btnOpenAnother:"Abrir outro PDF",preparing:"Preparando\u2026",
+    progressPage:"P\u00e1gina $1 de $2\u2026",
     statBefore:"antes",statAfter:"depois",statSaved:"economia",
     btnSave:"Salvar",btnShare:"Compartilhar",btnOpen:"Abrir",renameLabel:"Renomear arquivo (_kompakt)",biggerShort:"já otimizado",
     biggerWarn:"<strong>Este PDF j\u00e1 est\u00e1 otimizado.</strong> Arquivos com muito texto/vetores n\u00e3o se beneficiam da compress\u00e3o no navegador. Use o <a href='https://github.com/xronocode/kompakt/releases/latest'>app desktop</a> (Ghostscript) para 50\u201390% de compress\u00e3o.",
@@ -492,7 +485,7 @@ const i18n = {
     qualityLow:"低",qualityLowDesc:"72 dpi · 最大压缩",
     qualityMedium:"中",qualityMediumDesc:"150 dpi · ★",
     qualityHigh:"高",qualityHighDesc:"300 dpi",
-    btnCompress:"压缩PDF",preparing:"准备中…",
+    btnOpenPdf:"\u6253\u5f00PDF",btnCompress:"\u538b\u7f29PDF",btnOpenAnother:"\u6253\u5f00\u53e6\u4e00\u4e2aPDF",preparing:"\u51c6\u5907\u4e2d\u2026",
     progressPage:"正在处理第 $1 页，共 $2 页…",
     statBefore:"压缩前",statAfter:"压缩后",statSaved:"节省",
     btnSave:"\u4fdd\u5b58",btnShare:"\u5206\u4eab",btnOpen:"\u6253\u5f00",renameLabel:"\u91cd\u547d\u540d\u6587\u4ef6 (_kompakt)",biggerShort:"\u5df2\u4f18\u5316",
@@ -547,7 +540,8 @@ function applyI18n() {
 function setLang(lang) {
   currentLang = lang;
   applyI18n();
-  // Re-render dynamic upsell content if visible
+  // Re-render dynamic content
+  setMainBtn(mainBtn.dataset.state);
   if (lastRatio !== null && !document.getElementById('upsell').hidden) {
     document.getElementById('upsell-body').innerHTML = t('upsellBody', lastRatio);
     document.getElementById('upsell-link').textContent = t('upsellLink');
@@ -580,13 +574,12 @@ let lastRatio       = null;
 const dropZone     = document.getElementById('drop-zone');
 const fileInput    = document.getElementById('file-input');
 const qualityBtns  = document.querySelectorAll('.quality-btn');
-const compressBtn  = document.getElementById('compress-btn');
+const mainBtn      = document.getElementById('main-btn');
 const progressWrap = document.getElementById('progress');
 const progressBar  = document.getElementById('progress-bar');
 const progressText = document.getElementById('progress-text');
 const resultEl     = document.getElementById('result');
 const upsellEl     = document.getElementById('upsell');
-const newFileBtn   = document.getElementById('new-file-btn');
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 
@@ -630,26 +623,38 @@ qualityBtns.forEach(btn => btn.addEventListener('click', () => {
   selectedQuality = btn.dataset.quality;
 }));
 
-// ── Compress ──────────────────────────────────────────────────────────────────
+// ── Main button state machine ─────────────────────────────────────────────────
 
-compressBtn.addEventListener('click', compress);
+function setMainBtn(state) {
+  mainBtn.dataset.state = state;
+  const keys = { pick: 'btnOpenPdf', compress: 'btnCompress', done: 'btnOpenAnother' };
+  mainBtn.textContent = t(keys[state]);
+}
 
-// ── New file ──────────────────────────────────────────────────────────────────
-
-newFileBtn.addEventListener('click', () => {
+function resetToPickState() {
   currentFile = null;
   fileInput.value = '';
   dropZone.classList.remove('has-file', 'has-result');
   applyI18n();
-  compressBtn.disabled = true;
   resultEl.hidden = true;
   upsellEl.hidden = true;
-  newFileBtn.hidden = true;
   document.getElementById('donate-block').hidden = true;
   document.getElementById('bigger-warn').hidden = true;
   document.getElementById('result-actions').hidden = false;
-  document.getElementById('share-btn').hidden = true;
   if (lastBlobUrl) { URL.revokeObjectURL(lastBlobUrl); lastBlobUrl = null; }
+  setMainBtn('pick');
+}
+
+mainBtn.addEventListener('click', () => {
+  const state = mainBtn.dataset.state;
+  if (state === 'pick') {
+    fileInput.click();
+  } else if (state === 'compress') {
+    compress();
+  } else if (state === 'done') {
+    resetToPickState();
+    fileInput.click();
+  }
 });
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -664,10 +669,9 @@ function setFile(file) {
   dropZone.querySelector('.drop-label').textContent = name;
   dropZone.querySelector('.drop-hint').textContent  = fmtBytes(file.size);
   dropZone.classList.add('has-file');
-  compressBtn.disabled = false;
+  setMainBtn('compress');
   resultEl.hidden  = true;
   upsellEl.hidden  = true;
-  newFileBtn.hidden = true;
 }
 
 function fmtBytes(n) {
@@ -683,10 +687,11 @@ function setProgress(page, total) {
 }
 
 function setLocked(locked) {
-  isCompressing        = locked;
-  compressBtn.disabled = locked;
+  isCompressing = locked;
+  mainBtn.style.pointerEvents = locked ? 'none' : '';
+  mainBtn.style.opacity = locked ? '.4' : '';
   dropZone.style.pointerEvents = locked ? 'none' : '';
-  fileInput.disabled   = locked;
+  fileInput.disabled = locked;
 }
 
 // ── Core compression ──────────────────────────────────────────────────────────
@@ -811,21 +816,23 @@ function showResult(compressed) {
       ? currentFile.name.replace(/\.pdf$/i, '') + '_kompakt.pdf'
       : currentFile.name;
 
-    document.getElementById('save-btn').onclick = () => {
-      const a = document.createElement('a');
-      a.href = lastBlobUrl; a.download = outName; a.click();
-    };
     document.getElementById('open-btn').onclick = () => {
       window.open(lastBlobUrl, '_blank');
     };
 
-    // Share button — show only if Web Share API supports file sharing
+    // Share button — uses Web Share API if available, falls back to save/download
     const shareBtn = document.getElementById('share-btn');
     const shareFile = new File([compressedBlob], outName, { type: 'application/pdf' });
     if (navigator.canShare && navigator.canShare({ files: [shareFile] })) {
-      shareBtn.hidden = false;
       shareBtn.onclick = () => {
         navigator.share({ files: [shareFile], title: outName }).catch(() => {});
+      };
+    } else {
+      // Fallback: download file (Save As)
+      shareBtn.querySelector('span').textContent = t('btnSave');
+      shareBtn.onclick = () => {
+        const a = document.createElement('a');
+        a.href = lastBlobUrl; a.download = outName; a.click();
       };
     }
   }
@@ -845,7 +852,7 @@ function showResult(compressed) {
   document.getElementById('upsell-link').textContent = t('upsellLink');
   upsellEl.hidden = false;
 
-  newFileBtn.hidden = false;
+  setMainBtn('done');
 }
 </script>
 </body>
