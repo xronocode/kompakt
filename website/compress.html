@@ -44,6 +44,10 @@ body{
 .app{max-width:600px;width:100%;margin:0 auto;padding:24px 20px 40px;display:flex;flex-direction:column;gap:16px;flex:1}
 
 /* DROP ZONE */
+@keyframes dropPulse{
+  0%,100%{border-color:var(--border2);box-shadow:0 0 0 0 transparent}
+  50%{border-color:var(--cyan);box-shadow:0 0 12px rgba(57,208,216,.15)}
+}
 .drop-zone{
   border:2px dashed var(--border2);border-radius:var(--radius);
   padding:40px 20px 36px;text-align:center;cursor:pointer;
@@ -51,9 +55,10 @@ body{
   display:flex;flex-direction:column;align-items:center;gap:8px;
   user-select:none;-webkit-user-select:none;
   min-height:160px;justify-content:center;
+  animation:dropPulse 2.5s ease-in-out infinite;
 }
-.drop-zone:hover,.drop-zone.drag-over{border-color:var(--cyan);background:var(--cyan-dim)}
-.drop-zone.has-file{border-style:solid;border-color:var(--cyan);background:var(--cyan-dim)}
+.drop-zone:hover,.drop-zone.drag-over{border-color:var(--cyan);background:var(--cyan-dim);animation:none}
+.drop-zone.has-file{border-style:solid;border-color:var(--cyan);background:var(--cyan-dim);animation:none}
 .drop-icon{font-size:36px;opacity:.7;margin-bottom:4px}
 .drop-zone.has-file .drop-icon{opacity:1}
 .drop-label{font-size:16px;font-weight:600}
