@@ -128,10 +128,24 @@ body{
 .privacy-note{text-align:center;font-size:12px;color:var(--muted);padding:8px 0;line-height:1.6}
 .privacy-note strong{color:var(--text);font-weight:600}
 
+/* DONATE */
+.donate-btn{
+  display:inline-flex;align-items:center;gap:8px;padding:10px 24px;
+  border-radius:24px;font-size:14px;font-weight:700;color:#fff;text-decoration:none;
+  background:linear-gradient(135deg,#ff5e5b,#ff9966,#ffcc33,#ff5e5b);background-size:300% 300%;
+  animation:donateGlow 3s ease infinite;transition:transform .15s,box-shadow .15s;
+  position:relative;overflow:hidden;
+}
+.donate-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(255,94,91,.5);text-decoration:none}
+.donate-btn::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.25) 50%,transparent 100%);transform:translateX(-100%);animation:donateShine 3s ease-in-out infinite}
+.donate-btn img{width:22px;height:22px}
+@keyframes donateGlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes donateShine{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+
 /* FOOTER */
-.footer{border-top:1px solid var(--border);padding:20px;text-align:center;margin-top:auto}
-.footer a{color:var(--muted);font-size:13px;text-decoration:none;font-weight:600}
-.footer a:hover{color:#ff5e5b;text-decoration:underline}
+.footer{border-top:1px solid var(--border);padding:20px;text-align:center;margin-top:auto;display:flex;flex-direction:column;align-items:center;gap:16px}
+.footer-link{color:var(--muted);font-size:13px;text-decoration:none;font-weight:600}
+.footer-link:hover{color:var(--cyan);text-decoration:underline}
 
 /* NEW FILE BUTTON */
 .new-file-btn{
@@ -247,7 +261,11 @@ body{
 </div>
 
 <div class="footer">
-  <a href="https://ko-fi.com/xronocode" target="_blank">☕ Support pdf-kompakt on Ko-fi</a>
+  <a class="donate-btn" href="https://ko-fi.com/xronocode" target="_blank" rel="noopener">
+    <img src="https://storage.ko-fi.com/cdn/cup-border.png" alt="" aria-hidden="true">
+    <span data-i18n="donateText">Support the project</span>
+  </a>
+  <a class="footer-link" href="/" data-i18n="footerHome">← Back to pdf-kompakt</a>
 </div>
 
 <!-- pdf.js + pdf-lib from CDN -->
@@ -278,7 +296,8 @@ const i18n = {
     errNoPages:"This PDF has no pages.",
     errPasswordProtected:"This PDF is password-protected. Remove the password first.",
     btnNewFile:"Compress another PDF",
-    privacyNote:"<strong>100% private.</strong> Files are compressed in your browser. Nothing is uploaded — works offline."
+    privacyNote:"<strong>100% private.</strong> Files are compressed in your browser. Nothing is uploaded — works offline.",
+    donateText:"Support the project",footerHome:"\u2190 Back to pdf-kompakt"
   },
   ru: {
     dropTitle:"Перетащите PDF сюда",dropHint:"или нажмите для выбора файла · до ~50 МБ",
@@ -296,7 +315,8 @@ const i18n = {
     errNoPages:"В этом PDF нет страниц.",
     errPasswordProtected:"Этот PDF защищён паролем. Сначала удалите пароль.",
     btnNewFile:"Сжать другой PDF",
-    privacyNote:"<strong>100% приватно.</strong> Файлы сжимаются в браузере. Ничего не загружается — работает офлайн."
+    privacyNote:"<strong>100% приватно.</strong> Файлы сжимаются в браузере. Ничего не загружается — работает офлайн.",
+    donateText:"\u041f\u043e\u0434\u0434\u0435\u0440\u0436\u0430\u0442\u044c \u043f\u0440\u043e\u0435\u043a\u0442",footerHome:"\u2190 \u041d\u0430 \u0433\u043b\u0430\u0432\u043d\u0443\u044e"
   },
   de: {
     dropTitle:"PDF hier ablegen",dropHint:"oder tippen zum Auswählen · bis zu ~50 MB",
@@ -314,7 +334,8 @@ const i18n = {
     errNoPages:"Dieses PDF enthält keine Seiten.",
     errPasswordProtected:"Dieses PDF ist passwortgeschützt. Bitte entfernen Sie zuerst das Passwort.",
     btnNewFile:"Weiteres PDF komprimieren",
-    privacyNote:"<strong>100% privat.</strong> Dateien werden im Browser komprimiert. Nichts wird hochgeladen — funktioniert offline."
+    privacyNote:"<strong>100% privat.</strong> Dateien werden im Browser komprimiert. Nichts wird hochgeladen — funktioniert offline.",
+    donateText:"Projekt unterst\u00fctzen",footerHome:"\u2190 Zur\u00fcck zu pdf-kompakt"
   },
   es: {
     dropTitle:"Suelta el PDF aquí",dropHint:"o toca para elegir archivo · hasta ~50 MB",
@@ -332,7 +353,8 @@ const i18n = {
     errNoPages:"Este PDF no tiene páginas.",
     errPasswordProtected:"Este PDF está protegido con contraseña. Elimina la contraseña primero.",
     btnNewFile:"Comprimir otro PDF",
-    privacyNote:"<strong>100% privado.</strong> Los archivos se comprimen en tu navegador. No se sube nada — funciona sin conexión."
+    privacyNote:"<strong>100% privado.</strong> Los archivos se comprimen en tu navegador. No se sube nada — funciona sin conexi\u00f3n.",
+    donateText:"Apoyar el proyecto",footerHome:"\u2190 Volver a pdf-kompakt"
   },
   fr: {
     dropTitle:"Déposez un PDF ici",dropHint:"ou touchez pour choisir · jusqu'à ~50 Mo",
@@ -350,7 +372,8 @@ const i18n = {
     errNoPages:"Ce PDF ne contient aucune page.",
     errPasswordProtected:"Ce PDF est protégé par un mot de passe. Supprimez-le d'abord.",
     btnNewFile:"Compresser un autre PDF",
-    privacyNote:"<strong>100% privé.</strong> Les fichiers sont compressés dans votre navigateur. Rien n'est envoyé — fonctionne hors ligne."
+    privacyNote:"<strong>100% priv\u00e9.</strong> Les fichiers sont compress\u00e9s dans votre navigateur. Rien n\u2019est envoy\u00e9 \u2014 fonctionne hors ligne.",
+    donateText:"Soutenir le projet",footerHome:"\u2190 Retour \u00e0 pdf-kompakt"
   },
   ja: {
     dropTitle:"PDFをここにドロップ",dropHint:"またはタップして選択 · 最大約50 MB",
@@ -368,7 +391,8 @@ const i18n = {
     errNoPages:"このPDFにはページがありません。",
     errPasswordProtected:"このPDFはパスワードで保護されています。先にパスワードを解除してください。",
     btnNewFile:"別のPDFを圧縮",
-    privacyNote:"<strong>100%プライベート。</strong>ファイルはブラウザ内で圧縮されます。アップロードなし — オフライン対応。"
+    privacyNote:"<strong>100%\u30d7\u30e9\u30a4\u30d9\u30fc\u30c8\u3002</strong>\u30d5\u30a1\u30a4\u30eb\u306f\u30d6\u30e9\u30a6\u30b6\u5185\u3067\u5727\u7e2e\u3055\u308c\u307e\u3059\u3002\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9\u306a\u3057 \u2014 \u30aa\u30d5\u30e9\u30a4\u30f3\u5bfe\u5fdc\u3002",
+    donateText:"\u30d7\u30ed\u30b8\u30a7\u30af\u30c8\u3092\u652f\u63f4",footerHome:"\u2190 pdf-kompakt\u306b\u623b\u308b"
   },
   pt: {
     dropTitle:"Solte o PDF aqui",dropHint:"ou toque para selecionar · até ~50 MB",
@@ -386,7 +410,8 @@ const i18n = {
     errNoPages:"Este PDF não tem páginas.",
     errPasswordProtected:"Este PDF está protegido por senha. Remova a senha primeiro.",
     btnNewFile:"Comprimir outro PDF",
-    privacyNote:"<strong>100% privado.</strong> Arquivos são comprimidos no navegador. Nada é enviado — funciona offline."
+    privacyNote:"<strong>100% privado.</strong> Arquivos s\u00e3o comprimidos no navegador. Nada \u00e9 enviado \u2014 funciona offline.",
+    donateText:"Apoiar o projeto",footerHome:"\u2190 Voltar ao pdf-kompakt"
   },
   zh: {
     dropTitle:"将PDF拖放到此处",dropHint:"或点击选择文件 · 最大约50 MB",
@@ -404,7 +429,8 @@ const i18n = {
     errNoPages:"此PDF文件没有任何页面。",
     errPasswordProtected:"此PDF文件受密码保护，请先移除密码。",
     btnNewFile:"压缩另一个PDF",
-    privacyNote:"<strong>100%隐私安全。</strong>文件在浏览器中压缩，不会上传任何内容——可离线使用。"
+    privacyNote:"<strong>100%\u9690\u79c1\u5b89\u5168\u3002</strong>\u6587\u4ef6\u5728\u6d4f\u89c8\u5668\u4e2d\u538b\u7f29\uff0c\u4e0d\u4f1a\u4e0a\u4f20\u4efb\u4f55\u5185\u5bb9\u2014\u2014\u53ef\u79bb\u7ebf\u4f7f\u7528\u3002",
+    donateText:"\u652f\u6301\u9879\u76ee",footerHome:"\u2190 \u8fd4\u56depdf-kompakt"
   }
 };
 
