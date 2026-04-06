@@ -201,13 +201,13 @@ nav .nav-right{display:flex;align-items:center;gap:16px}
 .install-box button.copied{border-color:var(--green);color:var(--green)}
 
 /* STATS BAR */
-.stats{display:flex;flex-wrap:wrap;justify-content:center;gap:40px;padding:48px 24px;max-width:var(--max-w);margin:0 auto}
-.stat{text-align:center}
-.stat .num{font-size:36px;font-weight:800;letter-spacing:-.02em}
-.stat .num.green{color:var(--green)}
-.stat .num.blue{color:var(--accent2)}
-.stat .num.orange{color:var(--orange)}
-.stat .label{font-size:14px;color:var(--fg3);margin-top:4px}
+.stats{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;padding:24px 16px 0;max-width:var(--max-w);margin:0 auto}
+.stat{flex:1;background:var(--bg2);border:1px solid #222;border-radius:12px;padding:16px 12px;text-align:center}
+.stat .num{font-size:28px;font-weight:800;letter-spacing:-.02em}
+.stat .num.green{color:transparent;background:linear-gradient(135deg,var(--green),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat .num.blue{color:transparent;background:linear-gradient(135deg,var(--accent2),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat .num.orange{color:transparent;background:linear-gradient(135deg,#39d0d8,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat .label{font-size:12px;color:var(--fg3);margin-top:4px}
 
 /* SECTION */
 section{padding:64px 24px;max-width:var(--max-w);margin:0 auto}
@@ -275,12 +275,7 @@ section .subtitle{color:var(--fg2);font-size:17px;margin-bottom:40px;max-width:6
 @media(max-width:560px){.form-row{flex-direction:column}}
 
 @media(max-width:640px){
-  .stats{gap:12px;padding:24px 16px}
-  .stat{flex:1;background:var(--bg2);border:1px solid #222;border-radius:12px;padding:16px 12px}
-  .stat .num{font-size:28px}
-  .stat .num.green{color:transparent;background:linear-gradient(135deg,var(--green),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  .stat .num.green+.label,.stat:last-child .num+.label{margin-top:4px}
-  .stat:last-child .num{color:transparent;background:linear-gradient(135deg,#39d0d8,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .stats{padding:16px}
 }
 
 /* Hide Ko-fi floating widget on desktop — only show on mobile */
