@@ -725,6 +725,7 @@ function setFile(file) {
   dropZone.querySelector('.drop-hint').textContent  = fmtBytes(file.size);
   dropZone.classList.add('has-file');
   setMainBtn('compress');
+  if (typeof gtag === 'function') gtag('event', 'file_select', { file_size_mb: Math.round(file.size / 1048576) });
   resultEl.hidden  = true;
   upsellEl.hidden  = true;
 }
@@ -871,6 +872,7 @@ function showResult(compressed) {
       : currentFile.name;
 
     document.getElementById('open-btn').onclick = () => {
+      if (typeof gtag === 'function') gtag('event', 'result_open');
       window.open(lastBlobUrl, '_blank');
     };
 
@@ -879,12 +881,13 @@ function showResult(compressed) {
     const shareFile = new File([compressedBlob], outName, { type: 'application/pdf' });
     if (navigator.canShare && navigator.canShare({ files: [shareFile] })) {
       shareBtn.onclick = () => {
+        if (typeof gtag === 'function') gtag('event', 'result_share');
         navigator.share({ files: [shareFile], title: outName }).catch(() => {});
       };
     } else {
-      // Fallback: download file (Save As)
       shareBtn.querySelector('span').textContent = t('btnSave');
       shareBtn.onclick = () => {
+        if (typeof gtag === 'function') gtag('event', 'result_save');
         const a = document.createElement('a');
         a.href = lastBlobUrl; a.download = outName; a.click();
       };
@@ -943,13 +946,12 @@ window.addEventListener('beforeinstallprompt', e => {
 });
 
 installBtn.addEventListener('click', () => {
+  if (typeof gtag === 'function') gtag('event', 'install_click');
   if (deferredPrompt) {
-    // Android/Chrome: native install prompt
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then(() => { deferredPrompt = null; installBtn.hidden = true; });
   } else {
-    // iOS: manual instructions
-    alert(t('installIOS') || 'Tap the Share button (⎙) then "Add to Home Screen"');
+    alert(t('installIOS') || 'Tap the Share button (\u2399) then "Add to Home Screen"');
   }
 });
 

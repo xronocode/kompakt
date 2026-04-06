@@ -1141,6 +1141,17 @@ document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   setInterval(cycle, 2200);
 })();
 
+// ── GA4 CTA tracking ─────────────────────────────────────────────────────────
+document.querySelectorAll('.hero-ctas .btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (typeof gtag !== 'function') return;
+    const label = btn.classList.contains('btn-primary') ? 'download_desktop'
+      : btn.classList.contains('btn-compress') ? 'compress_phone'
+      : 'chrome_extension';
+    gtag('event', 'cta_click', { cta: label });
+  });
+});
+
 </script>
 <script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
 <script>
