@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://kompakt.xronocode.com/sitemap.xml
