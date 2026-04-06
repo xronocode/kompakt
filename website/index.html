@@ -283,6 +283,9 @@ section .subtitle{color:var(--fg2);font-size:17px;margin-bottom:40px;max-width:6
   .stat:last-child .num{color:transparent;background:linear-gradient(135deg,#39d0d8,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 }
 
+/* Hide Ko-fi floating widget on desktop — only show on mobile */
+.kofi-widget-overlay{display:none!important}
+
 /* Mobile optimizations */
 @media(max-width:640px){
   /* Smart CTAs: hide desktop-only elements */
@@ -297,8 +300,8 @@ section .subtitle{color:var(--fg2);font-size:17px;margin-bottom:40px;max-width:6
   .hero-ctas{flex-direction:column;align-items:stretch}
   .hero-ctas .btn{width:100%;text-align:center;justify-content:center}
 
-  /* Ko-fi floating widget: always hide on mobile — it overlaps sticky CTA */
-  .kofi-widget-overlay{display:none!important}
+  /* Show Ko-fi widget on mobile */
+  .kofi-widget-overlay{display:block!important}
 
   /* Less space before first section */
   .stats{padding:24px 16px 16px}
