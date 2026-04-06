@@ -191,31 +191,28 @@ body{
 @keyframes donateGlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 @keyframes donateShine{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
 
-/* INSTALL PROMPT */
-.install-bar{
-  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);
-  padding:12px 16px;display:flex;align-items:center;gap:12px;
+/* INSTALL BUTTON */
+.install-btn{
+  background:var(--bg2);border:1.5px solid var(--border2);border-radius:var(--radius);
+  padding:14px 16px;display:flex;align-items:center;gap:12px;
+  cursor:pointer;transition:border-color .15s,background .15s;
+  font-family:inherit;width:100%;text-align:left;color:var(--text);
 }
-.install-bar-text{flex:1;font-size:13px;color:var(--muted);line-height:1.5}
-.install-bar-text strong{color:var(--text)}
-.install-bar-btn{
-  background:var(--cyan);color:#000;border:none;border-radius:8px;
-  padding:8px 16px;font-family:inherit;font-size:12px;font-weight:700;
-  cursor:pointer;white-space:nowrap;min-height:36px;
-}
-.install-bar-btn:hover{filter:brightness(1.1)}
-.install-bar-close{
-  background:none;border:none;color:var(--muted);cursor:pointer;
-  font-size:18px;padding:4px;line-height:1;
-}
+.install-btn:hover{border-color:var(--cyan);background:var(--cyan-dim)}
+.install-btn-icon{font-size:24px;flex-shrink:0}
+.install-btn-body{flex:1;display:flex;flex-direction:column;gap:2px}
+.install-btn-title{font-size:14px;font-weight:700}
+.install-btn-sub{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.install-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
 
-/* OFFLINE BADGE */
-.offline-badge{
-  display:inline-flex;align-items:center;gap:4px;
-  font-size:11px;color:var(--green);font-weight:600;
-  background:rgba(63,185,80,.1);padding:2px 8px;border-radius:10px;
+/* LICENSE RENEWAL */
+.renew-bar{
+  background:rgba(210,153,34,.08);border:1px solid rgba(210,153,34,.3);
+  border-radius:var(--radius);padding:14px 16px;font-size:13px;
+  color:var(--muted);line-height:1.6;text-align:center;
 }
-.offline-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.renew-bar strong{color:var(--text)}
+.renew-bar a{color:var(--cyan);font-weight:600}
 
 /* FOOTER */
 .footer{border-top:1px solid var(--border);padding:20px;text-align:center;margin-top:auto;display:flex;flex-direction:column;align-items:center;gap:16px}
@@ -229,10 +226,7 @@ body{
 
 <nav class="nav">
   <div class="nav-inner">
-    <a href="/" class="logo">
-      pdf-kompakt
-      <span class="offline-badge" id="offline-badge" hidden><span class="offline-dot"></span>offline</span>
-    </a>
+    <a href="/" class="logo">pdf-kompakt</a>
     <select class="lang-select" id="langSelect" aria-label="Language">
       <option value="en">EN</option>
       <option value="de">DE</option>
@@ -284,6 +278,18 @@ body{
   <button class="main-btn" id="main-btn" data-state="pick" data-i18n="btnOpenPdf">
     Open PDF
   </button>
+
+  <!-- Install to Home Screen -->
+  <button class="install-btn" id="install-btn" hidden>
+    <span class="install-btn-icon">📲</span>
+    <div class="install-btn-body">
+      <span class="install-btn-title" data-i18n="installTitle">Add to Home Screen</span>
+      <span class="install-btn-sub"><span class="install-dot"></span> <span data-i18n="installSub">Works offline · No app store</span></span>
+    </div>
+  </button>
+
+  <!-- License renewal -->
+  <div class="renew-bar" id="renew-bar" hidden></div>
 
   <!-- Progress -->
   <div class="progress-wrap" id="progress" hidden>
@@ -351,16 +357,9 @@ body{
 
 
   <!-- Privacy -->
-  <!-- Install prompt -->
-  <div class="install-bar" id="install-bar" hidden>
-    <div class="install-bar-text" data-i18n-html="installText"><strong>Works offline!</strong> Add to Home Screen for instant access without internet.</div>
-    <button class="install-bar-btn" id="install-btn" data-i18n="installBtn">Install</button>
-    <button class="install-bar-close" id="install-close" aria-label="Close">×</button>
-  </div>
-
   <div class="privacy-note" data-i18n-html="privacyNote">
     <strong>100% private.</strong> Files are compressed in your browser. Nothing is uploaded — works offline.
-    installText:"<strong>Works offline!</strong> Add to Home Screen for instant access without internet.",installBtn:"Install",
+    installTitle:"Add to Home Screen",installSub:"Works offline · No app store",renewText:"<strong>Time to update!</strong> Visit <a href='/compress'>kompakt.xronocode.com</a> to get the latest version.",
   </div>
 
 </div>
@@ -417,7 +416,7 @@ const i18n = {
     errPasswordProtected:"Этот PDF защищён паролем. Сначала удалите пароль.",
     btnNewFile:"Сжать другой PDF",
     privacyNote:"<strong>100% приватно.</strong> Файлы сжимаются в браузере. Ничего не загружается — работает офлайн.",
-    installText:"<strong>Работает офлайн!</strong> Добавьте на главный экран для мгновенного доступа без интернета.",installBtn:"Установить",
+    installTitle:"Добавить на главный экран",installSub:"Работает офлайн · Без App Store",renewText:"<strong>Пора обновить!</strong> Зайдите на <a href='/compress'>kompakt.xronocode.com</a> для получения новой версии.",
     donateText:"\u041f\u043e\u0434\u0434\u0435\u0440\u0436\u0430\u0442\u044c \u043f\u0440\u043e\u0435\u043a\u0442",footerHome:"\u2190 \u041d\u0430 \u0433\u043b\u0430\u0432\u043d\u0443\u044e"
   },
   de: {
@@ -438,7 +437,7 @@ const i18n = {
     errPasswordProtected:"Dieses PDF ist passwortgeschützt. Bitte entfernen Sie zuerst das Passwort.",
     btnNewFile:"Weiteres PDF komprimieren",
     privacyNote:"<strong>100% privat.</strong> Dateien werden im Browser komprimiert. Nichts wird hochgeladen — funktioniert offline.",
-    installText:"<strong>Funktioniert offline!</strong> Zum Startbildschirm hinzufügen für sofortigen Zugriff ohne Internet.",installBtn:"Installieren",
+    installTitle:"Zum Startbildschirm hinzuf\u00fcgen",installSub:"Funktioniert offline \u00b7 Kein App Store",renewText:"<strong>Update verf\u00fcgbar!</strong> Besuchen Sie <a href='/compress'>kompakt.xronocode.com</a> f\u00fcr die neueste Version.",
     donateText:"Projekt unterst\u00fctzen",footerHome:"\u2190 Zur\u00fcck zu pdf-kompakt"
   },
   es: {
@@ -459,7 +458,7 @@ const i18n = {
     errPasswordProtected:"Este PDF está protegido con contraseña. Elimina la contraseña primero.",
     btnNewFile:"Comprimir otro PDF",
     privacyNote:"<strong>100% privado.</strong> Los archivos se comprimen en tu navegador. No se sube nada — funciona sin conexi\u00f3n.",
-    installText:"<strong>¡Funciona sin conexión!</strong> Añade a la pantalla de inicio para acceso instantáneo sin internet.",installBtn:"Instalar",
+    installTitle:"A\u00f1adir a pantalla de inicio",installSub:"Funciona sin conexi\u00f3n \u00b7 Sin App Store",renewText:"<strong>\u00a1Hora de actualizar!</strong> Visita <a href='/compress'>kompakt.xronocode.com</a> para la \u00faltima versi\u00f3n.",
     donateText:"Apoyar el proyecto",footerHome:"\u2190 Volver a pdf-kompakt"
   },
   fr: {
@@ -480,7 +479,7 @@ const i18n = {
     errPasswordProtected:"Ce PDF est protégé par un mot de passe. Supprimez-le d'abord.",
     btnNewFile:"Compresser un autre PDF",
     privacyNote:"<strong>100% priv\u00e9.</strong> Les fichiers sont compress\u00e9s dans votre navigateur. Rien n\u2019est envoy\u00e9 \u2014 fonctionne hors ligne.",
-    installText:"<strong>Fonctionne hors ligne !</strong> Ajoutez à l\u2019écran d\u2019accueil pour un accès instantané sans internet.",installBtn:"Installer",
+    installTitle:"Ajouter \u00e0 l\u2019\u00e9cran d\u2019accueil",installSub:"Fonctionne hors ligne \u00b7 Sans App Store",renewText:"<strong>Mise \u00e0 jour disponible !</strong> Visitez <a href='/compress'>kompakt.xronocode.com</a> pour la derni\u00e8re version.",
     donateText:"Soutenir le projet",footerHome:"\u2190 Retour \u00e0 pdf-kompakt"
   },
   ja: {
@@ -501,7 +500,7 @@ const i18n = {
     errPasswordProtected:"このPDFはパスワードで保護されています。先にパスワードを解除してください。",
     btnNewFile:"別のPDFを圧縮",
     privacyNote:"<strong>100%\u30d7\u30e9\u30a4\u30d9\u30fc\u30c8\u3002</strong>\u30d5\u30a1\u30a4\u30eb\u306f\u30d6\u30e9\u30a6\u30b6\u5185\u3067\u5727\u7e2e\u3055\u308c\u307e\u3059\u3002\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9\u306a\u3057 \u2014 \u30aa\u30d5\u30e9\u30a4\u30f3\u5bfe\u5fdc\u3002",
-    installText:"<strong>\u30aa\u30d5\u30e9\u30a4\u30f3\u5bfe\u5fdc\uff01</strong>\u30db\u30fc\u30e0\u753b\u9762\u306b\u8ffd\u52a0\u3059\u308b\u3068\u3001\u30cd\u30c3\u30c8\u306a\u3057\u3067\u3059\u3050\u306b\u4f7f\u3048\u307e\u3059\u3002",installBtn:"\u8ffd\u52a0",
+    installTitle:"\u30db\u30fc\u30e0\u753b\u9762\u306b\u8ffd\u52a0",installSub:"\u30aa\u30d5\u30e9\u30a4\u30f3\u5bfe\u5fdc \u00b7 App Store\u4e0d\u8981",renewText:"<strong>\u30a2\u30c3\u30d7\u30c7\u30fc\u30c8\u3042\u308a\uff01</strong><a href='/compress'>kompakt.xronocode.com</a>\u3067\u6700\u65b0\u7248\u3092\u53d6\u5f97\u3057\u3066\u304f\u3060\u3055\u3044\u3002",
     donateText:"\u30d7\u30ed\u30b8\u30a7\u30af\u30c8\u3092\u652f\u63f4",footerHome:"\u2190 pdf-kompakt\u306b\u623b\u308b"
   },
   pt: {
@@ -522,7 +521,7 @@ const i18n = {
     errPasswordProtected:"Este PDF está protegido por senha. Remova a senha primeiro.",
     btnNewFile:"Comprimir outro PDF",
     privacyNote:"<strong>100% privado.</strong> Arquivos s\u00e3o comprimidos no navegador. Nada \u00e9 enviado \u2014 funciona offline.",
-    installText:"<strong>Funciona offline!</strong> Adicione à tela inicial para acesso instantâneo sem internet.",installBtn:"Instalar",
+    installTitle:"Adicionar à tela inicial",installSub:"Funciona offline · Sem App Store",renewText:"<strong>Hora de atualizar!</strong> Visite <a href='/compress'>kompakt.xronocode.com</a> para a versão mais recente.",
     donateText:"Apoiar o projeto",footerHome:"\u2190 Voltar ao pdf-kompakt"
   },
   zh: {
@@ -543,7 +542,7 @@ const i18n = {
     errPasswordProtected:"此PDF文件受密码保护，请先移除密码。",
     btnNewFile:"压缩另一个PDF",
     privacyNote:"<strong>100%\u9690\u79c1\u5b89\u5168\u3002</strong>\u6587\u4ef6\u5728\u6d4f\u89c8\u5668\u4e2d\u538b\u7f29\uff0c\u4e0d\u4f1a\u4e0a\u4f20\u4efb\u4f55\u5185\u5bb9\u2014\u2014\u53ef\u79bb\u7ebf\u4f7f\u7528\u3002",
-    installText:"<strong>\u652f\u6301\u79bb\u7ebf\u4f7f\u7528\uff01</strong>\u6dfb\u52a0\u5230\u4e3b\u5c4f\u5e55\uff0c\u65e0\u9700\u7f51\u7edc\u5373\u53ef\u4f7f\u7528\u3002",installBtn:"\u5b89\u88c5",
+    installTitle:"\u6dfb\u52a0\u5230\u4e3b\u5c4f\u5e55",installSub:"\u652f\u6301\u79bb\u7ebf \u00b7 \u65e0\u9700\u5e94\u7528\u5546\u5e97",renewText:"<strong>\u8bf7\u66f4\u65b0\uff01</strong>\u8bbf\u95ee<a href='/compress'>kompakt.xronocode.com</a>\u83b7\u53d6\u6700\u65b0\u7248\u672c\u3002",
     donateText:"\u652f\u6301\u9879\u76ee",footerHome:"\u2190 \u8fd4\u56depdf-kompakt"
   }
 };
@@ -901,8 +900,7 @@ function showResult(compressed) {
 
   setMainBtn('done');
 
-  // Show install prompt after first compression
-  setTimeout(showInstallPrompt, 1500);
+
 
   // GA4 event tracking (anonymous, no file content)
   if (typeof gtag === 'function') {
@@ -914,66 +912,59 @@ function showResult(compressed) {
   }
 }
 
-// ── Service Worker & PWA ──────────────────────────────────────────────────────
+// ── Service Worker ─────────────────────────────────────────────────────────────
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/compress-sw.js').then(() => {
-    // Show offline badge when SW is active (cached for offline)
-    if (navigator.serviceWorker.controller) {
-      document.getElementById('offline-badge').hidden = false;
-    }
-  });
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    document.getElementById('offline-badge').hidden = false;
-  });
+  navigator.serviceWorker.register('/compress-sw.js');
 }
 
-// Show offline badge if actually offline
-window.addEventListener('offline', () => {
-  document.getElementById('offline-badge').hidden = false;
-});
+// ── Install button (PWA "Add to Home Screen") ─────────────────────────────────
 
-// ── Install prompt (PWA "Add to Home Screen") ─────────────────────────────────
-
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
 let deferredPrompt = null;
+const installBtn = document.getElementById('install-btn');
+
+// Show install button immediately (unless already installed or dismissed)
+if (!isStandalone) {
+  installBtn.hidden = false;
+}
 
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredPrompt = e;
-  // Don't show immediately — wait until after first compression
 });
 
-function showInstallPrompt() {
-  if (!deferredPrompt && !window.matchMedia('(display-mode: standalone)').matches) {
-    // iOS: no beforeinstallprompt, show manual instructions
-    const bar = document.getElementById('install-bar');
-    if (localStorage.getItem('kompakt-install-dismissed')) return;
-    bar.hidden = false;
-    document.getElementById('install-btn').onclick = () => {
-      alert(t('installIOS') || 'Tap the Share button (⎙) then "Add to Home Screen"');
-      bar.hidden = true;
-    };
-    document.getElementById('install-close').onclick = () => {
-      bar.hidden = true;
-      localStorage.setItem('kompakt-install-dismissed', '1');
-    };
-    return;
-  }
-  if (!deferredPrompt) return;
-
-  const bar = document.getElementById('install-bar');
-  if (localStorage.getItem('kompakt-install-dismissed')) return;
-  bar.hidden = false;
-
-  document.getElementById('install-btn').onclick = () => {
+installBtn.addEventListener('click', () => {
+  if (deferredPrompt) {
+    // Android/Chrome: native install prompt
     deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(() => { deferredPrompt = null; bar.hidden = true; });
-  };
-  document.getElementById('install-close').onclick = () => {
-    bar.hidden = true;
-    localStorage.setItem('kompakt-install-dismissed', '1');
-  };
+    deferredPrompt.userChoice.then(() => { deferredPrompt = null; installBtn.hidden = true; });
+  } else {
+    // iOS: manual instructions
+    alert(t('installIOS') || 'Tap the Share button (⎙) then "Add to Home Screen"');
+  }
+});
+
+// ── Offline license (30 days) ─────────────────────────────────────────────────
+
+const LICENSE_DAYS = 30;
+const LICENSE_KEY = 'kompakt-license-ts';
+
+// Refresh license on every online visit
+if (navigator.onLine) {
+  localStorage.setItem(LICENSE_KEY, String(Date.now()));
 }
+
+function checkLicense() {
+  const ts = parseInt(localStorage.getItem(LICENSE_KEY) || '0');
+  const daysElapsed = (Date.now() - ts) / (1000 * 60 * 60 * 24);
+  if (daysElapsed > LICENSE_DAYS) {
+    const bar = document.getElementById('renew-bar');
+    bar.innerHTML = t('renewText');
+    bar.hidden = false;
+  }
+}
+checkLicense();
 
 </script>
 </body>
