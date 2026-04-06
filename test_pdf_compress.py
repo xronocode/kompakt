@@ -558,15 +558,45 @@ if __name__ == "__main__":
 class TestTruncateMiddle(unittest.TestCase):
 
     def test_short_name_unchanged(self):
-        self.assertEqual(m.truncate_middle("report.pdf", 40), "report.pdf")        """Файл без расширения и без имени — теоретически невозможно, но stem or name надёжен."""
-        from pathlib import Path
-        # Path("") edge case
-        src = Path("a.pdf")
-        base = src.stem or src.name
-        self.assertTrue(len(base) > 0)
+        self.assertEqual(m.truncate_middle("report.pdf", 40), "report.pdf")
+
+    def test_exact_max_unchanged(self):
+        name = "a" * 40 + ".pdf"
+        self.assertEqual(m.truncate_middle(name, 44), name)
+
+    def test_long_name_truncated(self):
+        name = "very_long_document_name_that_exceeds_limit_report_2026_final.pdf"
+        result = m.truncate_middle(name, 40)
+        self.assertLessEqual(len(result), 40)
+        self.assertIn("…", result)
+
+    def test_extension_preserved(self):
+        name = "very_long_document_name_2026_final.pdf"
+        result = m.truncate_middle(name, 30)
+        self.assertTrue(result.endswith(".pdf"))
+
+    def test_unicode_name(self):
+        name = "отчёт_за_2026_год_финальная_версия_для_печати_утверждённая.pdf"
+        result = m.truncate_middle(name, 40)
+        self.assertLessEqual(len(result), 40)
+
+    def test_no_extension(self):
+        name = "a" * 50
+        result = m.truncate_middle(name, 20)
+        self.assertLessEqual(len(result), 20)
+        self.assertIn("…", result)
+
+    def test_begin_and_end_preserved(self):
+        name = "START_" + "x" * 60 + "_END.pdf"
+        result = m.truncate_middle(name, 30)
+        self.assertTrue(result.startswith("START"))
+        self.assertIn("END", result)
+
+    def test_very_short_max(self):
+        result = m.truncate_middle("report.pdf", 5)
+        self.assertLessEqual(len(result), 5)
 
     def test_shlex_posix_true_ascii_gs_cmd(self):
-        """shlex.split(posix=True) корректно разбирает ASCII GS-команды."""
         import shlex
         cmd = "sudo apt-get install -y ghostscript"
         result = shlex.split(cmd, posix=True)
@@ -578,90 +608,28 @@ class TestTruncateMiddle(unittest.TestCase):
         result = shlex.split(cmd, posix=True)
         self.assertEqual(result, ["brew", "install", "ghostscript"])
 
-    def test_find_pdfs_case_insensitive_all_variants(self):
-        """*.pdf, *.PDF, *.Pdf — все должны быть найдены."""
+    def test_find_pdfs_case_insensitive(self):
         import tempfile
         from pathlib import Path
-        mod = _load_v5()
         with tempfile.TemporaryDirectory() as d:
             (Path(d) / "lower.pdf").write_bytes(b"%PDF-1.4")
             (Path(d) / "UPPER.PDF").write_bytes(b"%PDF-1.4")
             (Path(d) / "Mixed.Pdf").write_bytes(b"%PDF-1.4")
             (Path(d) / "not_pdf.txt").write_text("skip")
-            found = [p.name for p in mod.find_pdfs(d)]
+            found = [p.name for p in m.find_pdfs(d)]
         self.assertIn("lower.pdf", found)
         self.assertIn("UPPER.PDF", found)
         self.assertIn("Mixed.Pdf", found)
         self.assertNotIn("not_pdf.txt", found)
 
     def test_find_pdfs_no_duplicates(self):
-        """Дедупликация: файл не должен появляться дважды."""
         import tempfile
         from pathlib import Path
-        mod = _load_v5()
         with tempfile.TemporaryDirectory() as d:
             (Path(d) / "doc.pdf").write_bytes(b"%PDF-1.4")
-            found = mod.find_pdfs(d)
+            found = m.find_pdfs(d)
         names = [p.name for p in found]
         self.assertEqual(len(names), len(set(names)))
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# 14. UI fixes tests (v6)
-# ─────────────────────────────────────────────────────────────────────────────
-
-def _load_v6():
-    import importlib.util
-    spec = importlib.util.spec_from_file_location("pdf_v6", "/tmp/pdf_v6.py")
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
-
-
-class TestTruncateMiddle(unittest.TestCase):
-
-    def setUp(self):
-        self.m = _load_v6()
-
-    def test_short_name_unchanged(self):
-        self.assertEqual(self.m.truncate_middle("report.pdf", 40), "report.pdf")
-
-    def test_exact_max_unchanged(self):
-        name = "a" * 40 + ".pdf"
-        self.assertEqual(self.m.truncate_middle(name, 44), name)
-
-    def test_long_name_truncated(self):
-        name = "very_long_document_name_that_exceeds_limit_report_2026_final.pdf"
-        result = self.m.truncate_middle(name, 40)
-        self.assertLessEqual(len(result), 40)
-        self.assertIn("…", result)
-
-    def test_extension_preserved(self):
-        name = "very_long_document_name_2026_final.pdf"
-        result = self.m.truncate_middle(name, 30)
-        self.assertTrue(result.endswith(".pdf"))
-
-    def test_unicode_name(self):
-        name = "отчёт_за_2026_год_финальная_версия_для_печати_утверждённая.pdf"
-        result = self.m.truncate_middle(name, 40)
-        self.assertLessEqual(len(result), 40)
-
-    def test_no_extension(self):
-        name = "a" * 50
-        result = self.m.truncate_middle(name, 20)
-        self.assertLessEqual(len(result), 20)
-        self.assertIn("…", result)
-
-    def test_begin_and_end_preserved(self):
-        name = "START_" + "x" * 60 + "_END.pdf"
-        result = self.m.truncate_middle(name, 30)
-        self.assertTrue(result.startswith("START"))
-        self.assertIn("END", result)
-
-    def test_very_short_max(self):
-        # Экстремально короткий лимит
-        result = self.m.truncate_middle("report.pdf", 5)
-        self.assertLessEqual(len(result), 5)
 
 
 class TestScrollingLogic(unittest.TestCase):
@@ -738,22 +706,29 @@ class TestReadKeyLogic(unittest.TestCase):
 # 15. Sort + Filter tests (v7)
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _load_v7():
-    import importlib.util
-    spec = importlib.util.spec_from_file_location("pdf_v7", "/tmp/pdf_v7.py")
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
-
-
 class TestFuzzyMatch(unittest.TestCase):
 
-    def setUp(self):
-        self.m = _load_v7()
+    def test_exact_match(self):
+        ok, score = m.fuzzy_match("report", "report.pdf")
+        self.assertTrue(ok)
+        self.assertGreater(score, 0)
+
+    def test_partial_match(self):
+        ok, score = m.fuzzy_match("rep", "report.pdf")
+        self.assertTrue(ok)
+
+    def test_no_match(self):
+        ok, _ = m.fuzzy_match("xyz", "report.pdf")
+        self.assertFalse(ok)
+
+    def test_case_insensitive(self):
+        ok1, s1 = m.fuzzy_match("REP", "report.pdf")
+        ok2, s2 = m.fuzzy_match("rep", "report.pdf")
+        self.assertEqual(ok1, ok2)
+        self.assertEqual(s1, s2)
 
     def _match(self, q, name):
-        ok, score = self.m.fuzzy_match(q, name)
-        return ok, score
+        return m.fuzzy_match(q, name)
 
     def test_empty_query_matches_all(self):
         ok, _ = self._match("", "anything.pdf")
@@ -813,62 +788,58 @@ class TestFuzzyMatch(unittest.TestCase):
 
 class TestIsPrintableKey(unittest.TestCase):
 
-    def setUp(self):
-        self.m = _load_v7()
 
     def test_ascii_letters(self):
         for ch in "abcdefgABCDEF":
-            self.assertTrue(self.m.is_printable_key(ch), f"failed: {ch!r}")
+            self.assertTrue(m.is_printable_key(ch), f"failed: {ch!r}")
 
     def test_digits(self):
         for ch in "0123456789":
-            self.assertTrue(self.m.is_printable_key(ch))
+            self.assertTrue(m.is_printable_key(ch))
 
     def test_space(self):
-        self.assertTrue(self.m.is_printable_key(" "))
+        self.assertTrue(m.is_printable_key(" "))
 
     def test_cyrillic(self):
-        self.assertTrue(self.m.is_printable_key("й"))
-        self.assertTrue(self.m.is_printable_key("ё"))
+        self.assertTrue(m.is_printable_key("й"))
+        self.assertTrue(m.is_printable_key("ё"))
 
     def test_escape_not_printable(self):
-        self.assertFalse(self.m.is_printable_key("\x1b"))
+        self.assertFalse(m.is_printable_key("\x1b"))
 
     def test_arrow_not_printable(self):
-        self.assertFalse(self.m.is_printable_key("\x1b[A"))
+        self.assertFalse(m.is_printable_key("\x1b[A"))
 
     def test_backspace_not_printable(self):
-        self.assertFalse(self.m.is_printable_key("\x7f"))
-        self.assertFalse(self.m.is_printable_key("\x08"))
+        self.assertFalse(m.is_printable_key("\x7f"))
+        self.assertFalse(m.is_printable_key("\x08"))
 
     def test_enter_not_printable(self):
-        self.assertFalse(self.m.is_printable_key("\r"))
-        self.assertFalse(self.m.is_printable_key("\n"))
+        self.assertFalse(m.is_printable_key("\r"))
+        self.assertFalse(m.is_printable_key("\n"))
 
     def test_ctrl_c_not_printable(self):
-        self.assertFalse(self.m.is_printable_key("\x03"))
+        self.assertFalse(m.is_printable_key("\x03"))
 
     def test_multi_char_not_printable(self):
-        self.assertFalse(self.m.is_printable_key("ab"))
+        self.assertFalse(m.is_printable_key("ab"))
 
 
 class TestSortModes(unittest.TestCase):
 
-    def setUp(self):
-        self.m = _load_v7()
 
     def test_sort_modes_defined(self):
-        modes = [m[0] for m in self.m.SORT_MODES]
+        modes = [m[0] for m in m.SORT_MODES]
         self.assertIn("name", modes)
         self.assertIn("date", modes)
         self.assertIn("size", modes)
 
     def test_sort_modes_have_labels(self):
-        for key, label in self.m.SORT_MODES:
+        for key, label in m.SORT_MODES:
             self.assertTrue(len(label) > 0)
 
     def test_sort_cycle_wraps(self):
-        n = len(self.m.SORT_MODES)
+        n = len(m.SORT_MODES)
         idx = 0
         for _ in range(n * 2):
             idx = (idx + 1) % n
@@ -878,14 +849,12 @@ class TestSortModes(unittest.TestCase):
 class TestArrowMenuFilterLogic(unittest.TestCase):
     """Тест логики фильтрации без TTY — через fuzzy_match напрямую."""
 
-    def setUp(self):
-        self.m = _load_v7()
 
     def _filter(self, query, items):
         """Применить фильтр к списку, вернуть отфильтрованный."""
         result = []
         for i, item in enumerate(items):
-            ok, score = self.m.fuzzy_match(query, item)
+            ok, score = m.fuzzy_match(query, item)
             if ok:
                 result.append((i, item, score))
         if query:
@@ -938,68 +907,57 @@ class TestArrowMenuFilterLogic(unittest.TestCase):
 # 16. Edge case tests (v8)
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _load_v8():
-    import importlib.util
-    spec = importlib.util.spec_from_file_location("pdf_v8", "/tmp/pdf_v8.py")
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
-
-
-class TestFuzzyMatchV8(unittest.TestCase):
-
-    def setUp(self):
-        self.m = _load_v8()
+class TestFuzzyMatchEdgeCases(unittest.TestCase):
 
     def test_spaces_only_query_matches_all(self):
-        ok, score = self.m.fuzzy_match("   ", "report.pdf")
+        ok, score = m.fuzzy_match("   ", "report.pdf")
         self.assertTrue(ok)
         self.assertEqual(score, 0)
 
     def test_query_longer_than_name(self):
-        ok, _ = self.m.fuzzy_match("verylongquery", "r.pdf")
+        ok, _ = m.fuzzy_match("verylongquery", "r.pdf")
         self.assertFalse(ok)
 
     def test_no_recursion_with_many_tokens(self):
-        """500 токенов не должны вызывать RecursionError."""
+        """500 tokens should not cause RecursionError."""
         q = " ".join(["a"] * 500)
         try:
-            ok, _ = self.m.fuzzy_match(q, "a" * 500 + ".pdf")
+            ok, _ = m.fuzzy_match(q, "a" * 500 + ".pdf")
             self.assertIsInstance(ok, bool)
         except RecursionError:
             self.fail("fuzzy_match raised RecursionError")
 
     def test_single_char_query(self):
-        ok, _ = self.m.fuzzy_match("r", "report.pdf")
+        ok, _ = m.fuzzy_match("r", "report.pdf")
         self.assertTrue(ok)
-        ok2, _ = self.m.fuzzy_match("z", "report.pdf")
+        ok2, _ = m.fuzzy_match("z", "report.pdf")
         self.assertFalse(ok2)
 
     def test_null_byte_in_name(self):
-        """Null byte в имени не должен вызывать исключение."""
+        """Null byte in name should not raise."""
         try:
-            ok, _ = self.m.fuzzy_match("rep", "rep\x00ort.pdf")
+            ok, _ = m.fuzzy_match("rep", "rep\x00ort.pdf")
             self.assertIsInstance(ok, bool)
         except Exception as e:
             self.fail(f"fuzzy_match raised {e}")
 
     def test_very_long_name(self):
         name = "a" * 10000 + ".pdf"
-        ok, _ = self.m.fuzzy_match("aaa", name)
+        ok, _ = m.fuzzy_match("aaa", name)
         self.assertTrue(ok)
 
     def test_score_consistency(self):
-        """Одинаковые запросы дают одинаковый score."""
-        _, s1 = self.m.fuzzy_match("rep", "report.pdf")
-        _, s2 = self.m.fuzzy_match("rep", "report.pdf")
+        """Same queries should give same score."""
+        _, s1 = m.fuzzy_match("rep", "report.pdf")
+        _, s2 = m.fuzzy_match("rep", "report.pdf")
         self.assertEqual(s1, s2)
 
     def test_fuzzy_single_helper_exists(self):
-        self.assertTrue(hasattr(self.m, "_fuzzy_single"))
+        self.assertTrue(hasattr(m, "_fuzzy_single"))
 
     def test_multi_token_empty_token_ignored(self):
-        """'rep  fin' (двойной пробел) не создаёт пустой токен."""
-        ok, _ = self.m.fuzzy_match("rep  fin", "financial_report.pdf")
+        """'rep  fin' (double space) should not create empty token."""
+        ok, _ = m.fuzzy_match("rep  fin", "financial_report.pdf")
         self.assertTrue(ok)
 
 
@@ -1029,7 +987,7 @@ class TestApplyFilterSortReturnsTuple(unittest.TestCase):
 
     def _make_apply(self, items, filter_str="", sort_idx=0):
         """Воспроизвести логику apply_filter_sort без TTY."""
-        m = _load_v8()
+        m = m
         original = list(enumerate(items))
         result = []
         for orig_i, item in original:
@@ -1121,31 +1079,29 @@ class TestStatCache(unittest.TestCase):
 
 class TestIsPrintableKeyEdgeCases(unittest.TestCase):
 
-    def setUp(self):
-        self.m = _load_v8()
 
     def test_null_char_not_printable(self):
-        self.assertFalse(self.m.is_printable_key("\x00"))
+        self.assertFalse(m.is_printable_key("\x00"))
 
     def test_del_not_printable(self):
-        self.assertFalse(self.m.is_printable_key("\x7f"))
+        self.assertFalse(m.is_printable_key("\x7f"))
 
     def test_all_ascii_printable_range(self):
         for cp in range(0x20, 0x7f):
             ch = chr(cp)
-            self.assertTrue(self.m.is_printable_key(ch), f"failed for {repr(ch)}")
+            self.assertTrue(m.is_printable_key(ch), f"failed for {repr(ch)}")
 
     def test_control_chars_not_printable(self):
         for cp in range(0x01, 0x20):
-            self.assertFalse(self.m.is_printable_key(chr(cp)))
+            self.assertFalse(m.is_printable_key(chr(cp)))
 
     def test_emoji_printable(self):
         # Emoji: Unicode > 0x7f, isprintable() = True
-        self.assertTrue(self.m.is_printable_key("😀"))
+        self.assertTrue(m.is_printable_key("😀"))
 
     def test_empty_string_not_printable(self):
-        self.assertFalse(self.m.is_printable_key(""))
+        self.assertFalse(m.is_printable_key(""))
 
     def test_two_chars_not_printable(self):
-        self.assertFalse(self.m.is_printable_key("ab"))
+        self.assertFalse(m.is_printable_key("ab"))
 
