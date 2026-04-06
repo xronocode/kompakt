@@ -523,6 +523,7 @@ function t(key, ...subs) {
 }
 
 const isMobile = window.matchMedia('(pointer: coarse)').matches;
+if (!isMobile) { window.location.href = '/'; }
 
 function applyI18n() {
   document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -703,7 +704,6 @@ async function compress() {
   progressWrap.hidden     = false;
   resultEl.hidden         = true;
   upsellEl.hidden         = true;
-  newFileBtn.hidden       = true;
   progressBar.style.width = '0%';
   progressText.textContent = t('preparing');
 
