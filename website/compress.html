@@ -103,22 +103,22 @@ body{
 .ratio.good{color:var(--green)}
 .ratio.bad{color:var(--yellow)}
 .result-actions{display:flex;border-top:1px solid var(--border)}
+.open-btn{
+  flex:1;background:var(--bg3);border:none;
+  color:var(--text);padding:14px;font-family:inherit;font-size:13px;font-weight:600;
+  cursor:pointer;transition:background .12s,color .12s;
+  min-height:48px;display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.open-btn:hover{background:var(--cyan-dim);color:var(--cyan)}
+.open-btn svg{width:16px;height:16px;fill:currentColor;flex-shrink:0}
 .save-btn{
-  flex:2;background:var(--bg3);border:none;
+  flex:2;background:var(--bg3);border:none;border-left:1px solid var(--border);
   color:var(--text);padding:14px;font-family:inherit;font-size:14px;font-weight:600;
   cursor:pointer;transition:background .12s,color .12s;
   min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px;
 }
 .save-btn:hover{background:var(--cyan-dim);color:var(--cyan)}
 .save-btn svg{width:18px;height:18px;fill:currentColor;flex-shrink:0}
-.open-btn{
-  flex:1;background:var(--bg3);border:none;border-left:1px solid var(--border);
-  color:var(--muted);padding:14px;font-family:inherit;font-size:13px;font-weight:600;
-  cursor:pointer;transition:background .12s,color .12s;
-  min-height:48px;display:flex;align-items:center;justify-content:center;gap:6px;
-}
-.open-btn:hover{background:var(--cyan-dim);color:var(--cyan)}
-.open-btn svg{width:16px;height:16px;fill:currentColor;flex-shrink:0}
 
 /* UPSELL */
 .upsell{
@@ -242,13 +242,13 @@ body{
       </div>
     </div>
     <div class="result-actions">
-      <button class="save-btn" id="save-btn">
-        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-        <span data-i18n="btnSave">Save</span>
-      </button>
       <button class="open-btn" id="open-btn">
         <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 2l5 5h-5V4zm-3 12v-2h4v2h-4zm6-4H8v-2h8v2z"/></svg>
         <span data-i18n="btnOpen">Open</span>
+      </button>
+      <button class="save-btn" id="save-btn">
+        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        <span data-i18n="btnSave">Save</span>
       </button>
     </div>
   </div>
