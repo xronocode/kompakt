@@ -1,0 +1,77 @@
+<RequirementsAnalysis VERSION="0.2.0">
+  <Project>
+    <name>kompakt</name>
+    <annotation>Free, private, offline PDF compression desktop CLI with dual-engine compression (Ghostscript + pypdf)</annotation>
+    <keywords>pdf-compression, cli, ghostscript, pypdf, python, desktop, terminal, offline, open-source</keywords>
+  </Project>
+
+  <Actors>
+    <actor-User>Developer, designer, or office worker who needs to compress PDFs via terminal</actor-User>
+    <actor-CI>GitHub Actions runner that builds binaries and publishes releases</actor-CI>
+  </Actors>
+
+  <UseCases>
+    <UC-001>
+      <Actor>User</Actor>
+      <Action>Run `pdf-kompakt` with no arguments</Action>
+      <Goal>Interactively select a PDF file and compression quality</Goal>
+      <Preconditions>At least one PDF exists in current directory</Preconditions>
+      <AcceptanceCriteria>User sees fuzzy search for file, quality selector, and before/after stats</AcceptanceCriteria>
+      <Priority>high</Priority>
+      <RelatedFlows>DF-COMPRESS</RelatedFlows>
+    </UC-001>
+
+    <UC-002>
+      <Actor>User</Actor>
+      <Action>Run `pdf-kompakt input.pdf -q medium`</Action>
+      <Goal>Non-interactive compression with specified quality level</Goal>
+      <Preconditions>input.pdf exists</Preconditions>
+      <AcceptanceCriteria>Compressed output PDF is produced with correct DPI</AcceptanceCriteria>
+      <Priority>high</Priority>
+      <RelatedFlows>DF-COMPRESS</RelatedFlows>
+    </UC-002>
+
+    <UC-003>
+      <Actor>User</Actor>
+      <Action>Run `pdf-kompakt --methods`</Action>
+      <Goal>Check available compression engines (Ghostscript, pypdf)</Goal>
+      <Preconditions>None</Preconditions>
+      <AcceptanceCriteria>Shows which engines are available and how to install missing ones</AcceptanceCriteria>
+      <Priority>medium</Priority>
+      <RelatedFlows>DF-DEPENDENCY-CHECK</RelatedFlows>
+    </UC-003>
+
+    <UC-004>
+      <Actor>CI</Actor>
+      <Action>Push a version tag</Action>
+      <Goal>Build and release binaries for all three platforms</Goal>
+      <Preconditions>Git tag matches v* pattern</Preconditions>
+      <AcceptanceCriteria>GitHub Release contains binaries for macOS, Linux, Windows</AcceptanceCriteria>
+      <Priority>medium</Priority>
+      <RelatedFlows>DF-BUILD-RELEASE</RelatedFlows>
+    </UC-004>
+  </UseCases>
+
+  <NonGoals>
+    <item-1>No cloud processing or server-side compression.</item-1>
+    <item-2>No GUI — terminal-only interaction model.</item-2>
+    <item-3>No PDF editing, merging, or splitting features.</item-3>
+  </NonGoals>
+
+  <Constraints>
+    <constraint-1>Must work on macOS, Linux, and Windows.</constraint-1>
+    <constraint-2>Must function with zero dependencies when Ghostscript and pypdf are absent (graceful degradation).</constraint-2>
+    <constraint-3>No network requests during compression — fully offline.</constraint-3>
+  </Constraints>
+
+  <Risks>
+    <risk-1>Ghostscript availability and path resolution varies across platforms.</risk-1>
+    <risk-2>PDF files with complex fonts or embedded objects may corrupt under aggressive compression.</risk-2>
+    <risk-3>PyInstaller binary size and startup time on Windows.</risk-3>
+  </Risks>
+
+  <OpenQuestions>
+    <question-1>Should batch processing be added as a separate CLI flag?</question-1>
+    <question-2>Should compression presets include custom DPI values?</question-2>
+  </OpenQuestions>
+</RequirementsAnalysis>

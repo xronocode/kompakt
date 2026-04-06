@@ -1,0 +1,122 @@
+<DevelopmentPlan VERSION="0.2.0">
+  <ArchitectureNotes>
+    <objective>Single-file Python CLI with interactive wizard, dual-engine compression, and cross-platform binary builds</objective>
+    <non-goal>No web interface, no cloud, no GUI in this repository</non-goal>
+    <risk-1>Ghostscript path resolution and error messages vary by platform — must be robust</risk-1>
+    <risk-2>Binary distribution must work without Python installed on target machine</risk-2>
+  </ArchitectureNotes>
+
+  <Modules>
+    <M-CORE NAME="pdf_compress" TYPE="ENTRY_POINT" LAYER="0" ORDER="1" STATUS="implemented">
+      <contract>
+        <purpose>Interactive terminal PDF compression wizard</purpose>
+        <inputs>
+          <param name="input_file" type="str|None" />
+          <param name="quality" type="str|None" />
+          <param name="output_file" type="str|None" />
+        </inputs>
+        <outputs>
+          <param name="compressed_pdf" type="str" />
+          <param name="stats" type="dict" />
+        </outputs>
+        <errors>
+          <error code="NO_PDF" />
+          <error code="NO_ENGINE" />
+          <error code="COMPRESSION_FAILED" />
+        </errors>
+      </contract>
+      <interface>
+        <fn-detect_dependencies PURPOSE="Scan for Ghostscript and pypdf availability" />
+        <fn-fuzzy_file_search PURPOSE="Search and sort PDFs in current directory" />
+        <fn-get_quality_level PURPOSE="Interactive quality selection with hints" />
+        <fn-compress_ghostscript PURPOSE="Ghostscript-based compression" />
+        <fn-compress_pypdf PURPOSE="pypdf fallback compression" />
+        <export-compress_main PURPOSE="CLI entry point (argparse + wizard)" />
+      </interface>
+      <depends>none</depends>
+      <target>
+        <source>pdf_compress.py</source>
+        <tests>test_pdf_compress.py</tests>
+      </target>
+      <observability>
+        <log-prefix>[pdf-kompakt]</log-prefix>
+        <critical-block>BLOCK_DETECT_ENGINE</critical-block>
+      </observability>
+      <verification-ref>V-M-CORE</verification-ref>
+      <notes>
+        <note-1>Single-file design by choice — easy to distribute as standalone script</note-1>
+      </notes>
+    </M-CORE>
+
+    <M-BUILD NAME="ci_build" TYPE="INTEGRATION" LAYER="1" ORDER="2" STATUS="implemented">
+      <contract>
+        <purpose>GitHub Actions CI/CD for binary builds and releases</purpose>
+        <inputs>
+          <param name="git_tag" type="str" />
+        </inputs>
+        <outputs>
+          <param name="release_artifacts" type="list[str]" />
+        </outputs>
+        <errors>
+          <error code="BUILD_FAILED" />
+        </errors>
+      </contract>
+      <interface>
+        <fn-build_binary PURPOSE="PyInstaller build per platform" />
+        <fn-create_release PURPOSE="GitHub Release creation with artifacts" />
+      </interface>
+      <depends>M-CORE</depends>
+      <target>
+        <source>.github/workflows/build.yml</source>
+      </target>
+      <observability>
+        <log-prefix>[CI]</log-prefix>
+      </observability>
+      <verification-ref>V-M-BUILD</verification-ref>
+    </M-BUILD>
+  </Modules>
+
+  <DataFlow>
+    <DF-COMPRESS NAME="Interactive Compression" TRIGGER="User runs pdf-kompakt">
+      <step-1>Detect available engines (Ghostscript, pypdf)</step-1>
+      <step-2>Fuzzy file search across PDFs in current directory</step-2>
+      <step-3>Interactive quality selection (low/medium/high)</step-3>
+      <step-4>Compress via preferred engine, fallback to secondary</step-4>
+      <step-5>Display before/after size and savings percentage</step-5>
+      <evidence>Terminal output shows engine used, compression ratio, output file path</evidence>
+    </DF-COMPRESS>
+
+    <DF-DEPENDENCY-CHECK NAME="Engine Detection" TRIGGER="User runs --methods or first compression">
+      <step-1>Check Ghostscript binary in PATH</step-1>
+      <step-2>Check pypdf import availability</step-2>
+      <step-3>Report status with install instructions for missing engines</step-3>
+      <evidence>Methods output lists each engine as available or missing</evidence>
+    </DF-DEPENDENCY-CHECK>
+
+    <DF-BUILD-RELEASE NAME="Binary Build & Release" TRIGGER="Git tag push (v*)">
+      <step-1>Checkout code on macOS/Linux/Windows runners</step-1>
+      <step-2>Install PyInstaller and pypdf</step-2>
+      <step-3>Build platform-specific binary</step-3>
+      <step-4>Upload artifact and create GitHub Release</step-4>
+      <evidence>GitHub Release page contains 3 binary artifacts</evidence>
+    </DF-BUILD-RELEASE>
+  </DataFlow>
+
+  <ImplementationOrder>
+    <Phase-1 name="Stabilize Core" status="done">
+      <goal>CLI wizard works end-to-end with both engines</goal>
+      <step-1 module="M-CORE" status="done" verification="V-M-CORE">Compression wizard with fuzzy search, quality selection, dual-engine</step-1>
+      <step-2 module="M-TESTS" status="done" verification="V-M-CORE">Tests for dependency detection and compression fallbacks</step-2>
+    </Phase-1>
+    <Phase-2 name="Binary Distribution" status="done">
+      <goal>Prebuilt binaries available for macOS, Linux, Windows</goal>
+      <step-1 module="M-BUILD" status="done" verification="V-M-BUILD">GitHub Actions builds and publishes release binaries</step-1>
+    </Phase-2>
+  </ImplementationOrder>
+
+  <ExecutionPolicy>
+    <default-profile>balanced</default-profile>
+    <controller-owns>docs/development-plan.xml, docs/knowledge-graph.xml, docs/verification-plan.xml</controller-owns>
+    <worker-owns>Only module source files and module-local tests inside the approved write scope.</worker-owns>
+  </ExecutionPolicy>
+</DevelopmentPlan>

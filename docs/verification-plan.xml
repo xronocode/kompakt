@@ -1,0 +1,107 @@
+<VerificationPlan VERSION="0.2.0">
+  <GlobalPolicy>
+    <log-format>[Step N of 3] — Action — details</log-format>
+    <deterministic-first>true</deterministic-first>
+    <module-level-focus>Fast deterministic checks: dependency detection, quality validation, error handling</module-level-focus>
+    <wave-level-focus>End-to-end compression with real PDF samples when Ghostscript is available</wave-level-focus>
+    <phase-level-focus>Binary artifact verification across all three platforms</phase-level-focus>
+    <redaction>Never log PDF content or file paths containing sensitive data.</redaction>
+  </GlobalPolicy>
+
+  <CriticalFlows>
+    <VF-001 NAME="InteractiveCompression" USE_CASES="UC-001" DATA_FLOW="DF-COMPRESS" PRIORITY="high">
+      <scenario>User runs pdf-kompakt with no args, selects file and quality, gets compressed PDF</scenario>
+      <expected-outcome>Compressed PDF exists, terminal shows before/after stats</expected-outcome>
+      <required-signals>
+        <log-marker>[Step 1] — Pick a file</log-marker>
+        <log-marker>[Step 2] — Choose compression level</log-marker>
+        <log-marker>Done (Ghostscript|pypdf)</log-marker>
+        <log-marker>Before / After / Saved stats</log-marker>
+      </required-signals>
+    </VF-001>
+
+    <VF-002 NAME="NonInteractiveCompression" USE_CASES="UC-002" DATA_FLOW="DF-COMPRESS" PRIORITY="high">
+      <scenario>User runs pdf-kompakt input.pdf -q medium</scenario>
+      <expected-outcome>Compressed PDF produced at correct DPI without interactive prompts</expected-outcome>
+      <required-signals>
+        <trace-sequence>argparse parse -> engine detect -> compress -> stats output</trace-sequence>
+      </required-signals>
+    </VF-002>
+
+    <VF-003 NAME="EngineFallback" USE_CASES="UC-001" DATA_FLOW="DF-COMPRESS" PRIORITY="medium">
+      <scenario>Ghostscript not available, compression falls back to pypdf</scenario>
+      <expected-outcome>Compression succeeds with lower ratio, terminal shows pypdf as engine</expected-outcome>
+      <required-signals>
+        <log-marker>Done (pypdf)</log-marker>
+      </required-signals>
+    </VF-003>
+  </CriticalFlows>
+
+  <ModuleVerification>
+    <V-M-CORE MODULE="M-CORE" PRIORITY="high">
+      <test-files>
+        <file>test_pdf_compress.py</file>
+      </test-files>
+      <module-checks>
+        <check-1>pytest test_pdf_compress.py</check-1>
+        <check-2>python -c "import pdf_compress; print('OK')"</check-2>
+      </module-checks>
+      <scenarios>
+        <scenario-1 kind="success">Compression produces a valid PDF file</scenario-1>
+        <scenario-2 kind="fallback">Missing Ghostscript falls back to pypdf gracefully</scenario-2>
+        <scenario-3 kind="error">No PDF in directory produces clear error message</scenario-3>
+        <scenario-4 kind="quality">Quality levels (low/medium/high) are validated</scenario-4>
+      </scenarios>
+      <wave-follow-up>Run compression against real-world PDF samples of varying sizes</wave-follow-up>
+      <phase-follow-up>Binary artifact test: download prebuilt binary, verify it compresses a test PDF</phase-follow-up>
+    </V-M-CORE>
+
+    <V-M-BUILD MODULE="M-BUILD" PRIORITY="medium">
+      <test-files>
+        <file>.github/workflows/build.yml</file>
+      </test-files>
+      <module-checks>
+        <check-1>Verify workflow triggers on v* tag push</check-1>
+        <check-2>Verify release contains 3 platform binaries</check-2>
+      </module-checks>
+      <scenarios>
+        <scenario-1 kind="success">Tag push triggers build and creates release with all 3 binaries</scenario-1>
+        <scenario-2 kind="failure">Build failure on one platform does not block other platforms</scenario-2>
+      </scenarios>
+      <wave-follow-up>Verify Homebrew tap produces working binary</wave-follow-up>
+      <phase-follow-up>Full release smoke test on each platform</phase-follow-up>
+    </V-M-BUILD>
+  </ModuleVerification>
+
+  <PhaseGates>
+    <Gate-Phase-1 PHASE="Stabilize Core">
+      <goal>CLI wizard works end-to-end with both engines</goal>
+      <commands>
+        <command-1>pytest test_pdf_compress.py</command-1>
+        <command-2>python pdf_compress.py --help</command-2>
+      </commands>
+      <required-evidence>
+        <evidence-1>Interactive wizard completes successfully</evidence-1>
+        <evidence-2>Non-interactive mode with -q flag works</evidence-2>
+        <evidence-3>Both engines produce valid output PDFs</evidence-3>
+      </required-evidence>
+    </Gate-Phase-1>
+
+    <Gate-Phase-2 PHASE="Binary Distribution">
+      <goal>Prebuilt binaries available and functional on all platforms</goal>
+      <commands>
+        <command-1>gh release list --repo xronocode/kompakt</command-1>
+      </commands>
+      <required-evidence>
+        <evidence-1>Latest release contains binaries for macOS, Linux, Windows</evidence-1>
+        <evidence-2>Each binary compresses a test PDF successfully</evidence-2>
+      </required-evidence>
+    </Gate-Phase-2>
+  </PhaseGates>
+
+  <FailurePackets>
+    <packet-template>
+      <expected-fields>scenario, expected-evidence, observed-evidence, first-divergent-block, next-action</expected-fields>
+    </packet-template>
+  </FailurePackets>
+</VerificationPlan>

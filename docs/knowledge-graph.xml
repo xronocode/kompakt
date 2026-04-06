@@ -1,0 +1,49 @@
+<KnowledgeGraph>
+  <Project NAME="kompakt" VERSION="0.2.0">
+    <keywords>pdf-compression, cli, ghostscript, pypdf, python, desktop, terminal, offline, open-source</keywords>
+    <annotation>Kompakt — free, private, offline PDF compression desktop CLI. Python-based terminal wizard with fuzzy file search, quality selection (low/medium/high), and dual-engine compression (Ghostscript primary, pypdf fallback). Ships as standalone binaries for macOS, Linux, Windows via PyInstaller.</annotation>
+
+    <!-- CLI Core Module -->
+    <M-CORE NAME="pdf_compress" TYPE="ENTRY_POINT" STATUS="implemented">
+      <purpose>Interactive terminal PDF compression wizard with fuzzy file search and dual-engine compression</purpose>
+      <path>pdf_compress.py</path>
+      <depends>none (pypdf and Ghostscript are optional runtime dependencies)</depends>
+      <verification-ref>V-M-CORE</verification-ref>
+      <annotations>
+        <fn-detect_dependencies PURPOSE="Scan system for Ghostscript and pypdf availability" />
+        <fn-get_quality_level PURPOSE="Interactive quality selection (low/medium/high) with live hints" />
+        <fn-fuzzy_file_search PURPOSE="Search PDFs in current directory with fuzzy matching, sort by name/date/size" />
+        <fn-compress_ghostscript PURPOSE="Compress PDF via Ghostscript with specified DPI level" />
+        <fn-compress_pypdf PURPOSE="Fallback compression via pypdf for lighter savings" />
+        <fn-run_compression PURPOSE="Orchestrate compression: detect engine, compress, report stats" />
+        <export-compress_main PURPOSE="CLI entry point with argparse and interactive wizard" />
+      </annotations>
+    </M-CORE>
+
+    <!-- Test Module -->
+    <M-TESTS NAME="test_pdf_compress" TYPE="UTILITY" STATUS="implemented">
+      <purpose>Unit and integration tests for compression modules</purpose>
+      <path>test_pdf_compress.py</path>
+      <depends>M-CORE</depends>
+      <verification-ref>V-M-CORE</verification-ref>
+      <annotations>
+        <fn-test_dependency_detection PURPOSE="Verify Ghostscript and pypdf detection logic" />
+        <fn-test_compression_fallbacks PURPOSE="Test dual-engine fallback behavior" />
+        <fn-test_quality_levels PURPOSE="Test quality level validation" />
+      </annotations>
+    </M-TESTS>
+
+    <!-- Build/CI Module -->
+    <M-BUILD NAME="ci_build" TYPE="INTEGRATION" STATUS="implemented">
+      <purpose>GitHub Actions workflow for building and releasing platform binaries</purpose>
+      <path>.github/workflows/build.yml</path>
+      <depends>M-CORE</depends>
+      <verification-ref>V-M-BUILD</verification-ref>
+      <annotations>
+        <fn-build_binary PURPOSE="Build standalone binary via PyInstaller for macOS/Linux/Windows" />
+        <fn-create_release PURPOSE="Create GitHub Release with uploaded artifacts" />
+      </annotations>
+    </M-BUILD>
+
+  </Project>
+</KnowledgeGraph>

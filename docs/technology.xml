@@ -1,0 +1,48 @@
+<TechnologyStack VERSION="0.2.0">
+  <Runtime>Python 3.8+</Runtime>
+  <Language>Python 3.8+</Language>
+  <Framework>None (stdlib + optional third-party libs)</Framework>
+
+  <Dependencies>
+    <dep name="pypdf" version="5.x" purpose="Fallback PDF compression when Ghostscript unavailable" />
+    <dep name="PyInstaller" version="6.x" purpose="Build standalone binaries for release" />
+    <dep name="Ghostscript" version="10.x" purpose="Primary compression engine (external binary)" />
+  </Dependencies>
+
+  <VersionConstraints>
+    <constraint lib="python" min="3.8.0" max="3.13.x" reason="f-strings, pathlib, and typing compatibility" />
+  </VersionConstraints>
+
+  <Tooling>
+    <tool name="test-runner" value="pytest" version="8.x" />
+    <tool name="build" value="pyinstaller" version="6.x" />
+    <tool name="ci" value="GitHub Actions" version="latest" />
+  </Tooling>
+
+  <Testing>
+    <module-level>
+      <command>pytest test_pdf_compress.py</command>
+      <focus>Fast deterministic unit checks: dependency detection, compression fallbacks, quality levels</focus>
+    </module-level>
+    <wave-level>
+      <command>pytest test_pdf_compress.py -v</command>
+      <focus>End-to-end compression with real PDF samples when Ghostscript available</focus>
+    </wave-level>
+    <phase-level>
+      <command>pytest</command>
+      <focus>Full regression plus binary artifact verification</focus>
+    </phase-level>
+    <mocking-policy>Prefer real Ghostscript when available; skip tests gracefully when absent.</mocking-policy>
+  </Testing>
+
+  <Observability>
+    <logger>print/stderr (CLI tool, no structured logging)</logger>
+    <log-format>[Step N of 3] — Action name — details</log-format>
+    <required-fields>none (interactive terminal output)</required-fields>
+    <redaction>Never log PDF content or file paths containing sensitive data.</redaction>
+  </Observability>
+
+  <DeliveryShape>
+    <shape>Standalone binary per platform, distributed via GitHub Releases. Also installable via Homebrew tap.</shape>
+  </DeliveryShape>
+</TechnologyStack>
