@@ -389,8 +389,8 @@ footer .links{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin
 <div class="hero">
   <h1 class="sr-only">pdf-kompakt — Free PDF Compression Tool</h1>
   <div class="hello-container" id="helloContainer"></div>
-  <div class="tagline" data-i18n="tagline">50-90% smaller. <span class="dim">100% private.</span></div>
-  <p data-i18n="heroSub">Free, open-source PDF compression. Desktop CLI gets 50-90% savings. Chrome extension for quick jobs. Files never leave your device.</p>
+  <div class="tagline" data-i18n="tagline" data-i18n-mobile="taglineMobile">50-90% smaller. <span class="dim">100% private.</span></div>
+  <p data-i18n="heroSub" data-i18n-mobile="heroSubMobile">Free, open-source PDF compression. Desktop CLI gets 50-90% savings. Chrome extension for quick jobs. Files never leave your device.</p>
   <div class="hero-ctas">
     <a href="https://github.com/xronocode/kompakt/releases/latest" class="btn btn-primary" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
@@ -414,7 +414,7 @@ footer .links{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin
 <div class="stats fade-in">
   <div class="stat">
     <div class="num green">50-90%</div>
-    <div class="label" data-i18n="statComp">compression with Ghostscript</div>
+    <div class="label" data-i18n="statComp" data-i18n-mobile="statCompMobile">compression with Ghostscript</div>
   </div>
   <div class="stat desktop-only">
     <div class="num blue">3</div>
@@ -443,7 +443,7 @@ footer .links{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin
     <div class="feature">
       <div class="icon">⚡</div>
       <h3 data-i18n="feat2h">Powerful Compression</h3>
-      <p data-i18n="feat2p">Ghostscript engine delivers 50-90% size reduction. pypdf fallback for lighter savings without dependencies.</p>
+      <p data-i18n="feat2p" data-i18n-mobile="feat2pMobile">Ghostscript engine delivers 50-90% size reduction. pypdf fallback for lighter savings without dependencies.</p>
     </div>
     <div class="feature">
       <div class="icon">🎯</div>
@@ -663,7 +663,11 @@ footer .links{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin
 const i18n = {
   en: {
     tagline:'50\u201390% smaller. <span class="dim">100% private.</span>',
+    taglineMobile:'Compress PDF. <span class="dim">100% private.</span>',
     heroSub:"Free, open-source PDF compression. Desktop CLI gets 50\u201390% savings. Chrome extension for quick jobs. Files never leave your device.",
+    heroSubMobile:"Compress PDFs right on your phone. Free, no uploads, works offline. Files never leave your device.",
+    statCompMobile:"file size reduction",
+    feat2pMobile:"Compress PDFs up to 90% smaller. Choose your quality level \u2014 files stay on your device, always.",
     ctaDownload:"Download Desktop",ctaChrome:"Chrome Extension",
     statComp:"compression with Ghostscript",statPlatforms:"platforms supported",statLangs:"languages",statPrivate:"private & offline",
     featTitle:"Why pdf-kompakt",featSub:"Everything you need to shrink PDFs, nothing you don\u2019t.",
@@ -706,7 +710,11 @@ const i18n = {
   },
   ru: {
     tagline:'50\u201390% \u043c\u0435\u043d\u044c\u0448\u0435. <span class="dim">100% \u043f\u0440\u0438\u0432\u0430\u0442\u043d\u043e.</span>',
+    taglineMobile:'\u0421\u0436\u0430\u0442\u044c PDF. <span class="dim">100% \u043f\u0440\u0438\u0432\u0430\u0442\u043d\u043e.</span>',
     heroSub:"\u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u043e\u0435 \u0441\u0436\u0430\u0442\u0438\u0435 PDF \u0441 \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u043c \u043a\u043e\u0434\u043e\u043c. \u0414\u0435\u0441\u043a\u0442\u043e\u043f\u043d\u043e\u0435 CLI \u0441\u0436\u0438\u043c\u0430\u0435\u0442 \u043d\u0430 50\u201390%. \u0420\u0430\u0441\u0448\u0438\u0440\u0435\u043d\u0438\u0435 Chrome \u0434\u043b\u044f \u0431\u044b\u0441\u0442\u0440\u044b\u0445 \u0437\u0430\u0434\u0430\u0447. \u0424\u0430\u0439\u043b\u044b \u043d\u0435 \u043f\u043e\u043a\u0438\u0434\u0430\u044e\u0442 \u0432\u0430\u0448\u0435 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e.",
+    heroSubMobile:"\u0421\u0436\u0438\u043c\u0430\u0439\u0442\u0435 PDF \u043f\u0440\u044f\u043c\u043e \u043d\u0430 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0435. \u0411\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u043e, \u0431\u0435\u0437 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0438 \u043d\u0430 \u0441\u0435\u0440\u0432\u0435\u0440, \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442 \u043e\u0444\u043b\u0430\u0439\u043d.",
+    statCompMobile:"\u0441\u043e\u043a\u0440\u0430\u0449\u0435\u043d\u0438\u0435 \u0440\u0430\u0437\u043c\u0435\u0440\u0430",
+    feat2pMobile:"\u0421\u0436\u0438\u043c\u0430\u0439\u0442\u0435 PDF \u0434\u043e 90%. \u0412\u044b\u0431\u0438\u0440\u0430\u0439\u0442\u0435 \u043a\u0430\u0447\u0435\u0441\u0442\u0432\u043e \u2014 \u0444\u0430\u0439\u043b\u044b \u043e\u0441\u0442\u0430\u044e\u0442\u0441\u044f \u043d\u0430 \u0432\u0430\u0448\u0435\u043c \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0435.",
     ctaDownload:"\u0421\u043a\u0430\u0447\u0430\u0442\u044c \u0434\u043b\u044f \u043a\u043e\u043c\u043f\u044c\u044e\u0442\u0435\u0440\u0430",ctaChrome:"\u0420\u0430\u0441\u0448\u0438\u0440\u0435\u043d\u0438\u0435 Chrome",
     statComp:"\u0441\u0436\u0430\u0442\u0438\u0435 \u0441 Ghostscript",statPlatforms:"\u043f\u043b\u0430\u0442\u0444\u043e\u0440\u043c\u044b",statLangs:"\u044f\u0437\u044b\u043a\u043e\u0432",statPrivate:"\u043f\u0440\u0438\u0432\u0430\u0442\u043d\u043e \u0438 \u043e\u0444\u043b\u0430\u0439\u043d",
     featTitle:"\u041f\u043e\u0447\u0435\u043c\u0443 pdf-kompakt",featSub:"\u0412\u0441\u0451 \u0434\u043b\u044f \u0441\u0436\u0430\u0442\u0438\u044f PDF, \u043d\u0438\u0447\u0435\u0433\u043e \u043b\u0438\u0448\u043d\u0435\u0433\u043e.",
@@ -1008,12 +1016,14 @@ const i18n = {
 };
 
 // i18n engine
+const isMobile = window.matchMedia('(pointer: coarse)').matches;
 function setLang(lang) {
   const t = i18n[lang] || i18n.en;
   document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
+    const mobileKey = el.getAttribute('data-i18n-mobile');
+    const key = (isMobile && mobileKey && t[mobileKey]) ? mobileKey : el.getAttribute('data-i18n');
     if (t[key]) {
-      if (key === 'tagline') el.innerHTML = t[key];
+      if (key === 'tagline' || key === 'taglineMobile') el.innerHTML = t[key];
       else el.textContent = t[key];
     }
   });
