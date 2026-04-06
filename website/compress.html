@@ -58,6 +58,8 @@ body{
 .drop-zone.has-file .drop-icon{opacity:1}
 .drop-label{font-size:16px;font-weight:600}
 .drop-hint{font-size:13px;color:var(--muted)}
+.drop-stats{font-size:12px;color:var(--green);font-weight:600;margin-top:2px;display:none}
+.drop-zone.has-result .drop-stats{display:block}
 
 /* QUALITY */
 .section-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:-8px}
@@ -74,6 +76,18 @@ body{
 .q-key{font-size:14px;font-weight:700}
 .q-desc{font-size:11px;color:var(--muted)}
 .quality-btn.active .q-desc{color:var(--cyan);opacity:.75}
+
+/* RENAME TOGGLE */
+.rename-toggle{
+  display:flex;align-items:center;gap:8px;cursor:pointer;
+  font-size:13px;color:var(--muted);user-select:none;-webkit-user-select:none;
+  margin:-4px 0;
+}
+.rename-toggle input[type=checkbox]{
+  width:16px;height:16px;accent-color:var(--cyan);cursor:pointer;flex-shrink:0;
+}
+.rename-label{transition:color .12s}
+.rename-toggle:hover .rename-label{color:var(--text)}
 
 /* COMPRESS BUTTON */
 .compress-btn{
@@ -103,22 +117,17 @@ body{
 .ratio.good{color:var(--green)}
 .ratio.bad{color:var(--yellow)}
 .result-actions{display:flex;border-top:1px solid var(--border)}
-.open-btn{
+.action-btn{
   flex:1;background:var(--bg3);border:none;
-  color:var(--text);padding:14px;font-family:inherit;font-size:13px;font-weight:600;
+  color:var(--muted);padding:12px 8px;font-family:inherit;font-size:12px;font-weight:600;
   cursor:pointer;transition:background .12s,color .12s;
   min-height:48px;display:flex;align-items:center;justify-content:center;gap:6px;
 }
-.open-btn:hover{background:var(--cyan-dim);color:var(--cyan)}
-.open-btn svg{width:16px;height:16px;fill:currentColor;flex-shrink:0}
-.save-btn{
-  flex:2;background:var(--bg3);border:none;border-left:1px solid var(--border);
-  color:var(--text);padding:14px;font-family:inherit;font-size:14px;font-weight:600;
-  cursor:pointer;transition:background .12s,color .12s;
-  min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.save-btn:hover{background:var(--cyan-dim);color:var(--cyan)}
-.save-btn svg{width:18px;height:18px;fill:currentColor;flex-shrink:0}
+.action-btn+.action-btn{border-left:1px solid var(--border)}
+.action-btn:hover{background:var(--cyan-dim);color:var(--cyan)}
+.action-btn svg{width:16px;height:16px;fill:currentColor;flex-shrink:0}
+.action-primary{flex:2;color:var(--text);font-size:14px}
+.action-primary svg{width:18px;height:18px}
 
 /* UPSELL */
 .upsell{
@@ -206,6 +215,7 @@ body{
     <div class="drop-icon">📄</div>
     <div class="drop-label" data-i18n="dropTitle" data-i18n-mobile="dropTitleMobile">Drop PDF here</div>
     <div class="drop-hint" data-i18n="dropHint" data-i18n-mobile="dropHintMobile">or tap to choose file · up to ~1 GB</div>
+    <div class="drop-stats" id="drop-stats"></div>
     <input type="file" id="file-input" accept=".pdf,application/pdf" hidden>
   </div>
 
@@ -225,6 +235,12 @@ body{
       <span class="q-desc" data-i18n="qualityHighDesc">300 dpi</span>
     </button>
   </div>
+
+  <!-- Rename toggle -->
+  <label class="rename-toggle">
+    <input type="checkbox" id="rename-check" checked>
+    <span class="rename-label" data-i18n="renameLabel">Rename file (_kompakt)</span>
+  </label>
 
   <!-- Compress button -->
   <button class="compress-btn" id="compress-btn" disabled data-i18n="btnCompress">
@@ -257,11 +273,15 @@ body{
       </div>
     </div>
     <div class="result-actions" id="result-actions">
-      <button class="open-btn" id="open-btn">
+      <button class="action-btn" id="open-btn">
         <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 2l5 5h-5V4zm-3 12v-2h4v2h-4zm6-4H8v-2h8v2z"/></svg>
         <span data-i18n="btnOpen">Open</span>
       </button>
-      <button class="save-btn" id="save-btn">
+      <button class="action-btn" id="share-btn" hidden>
+        <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+        <span data-i18n="btnShare">Share</span>
+      </button>
+      <button class="action-btn action-primary" id="save-btn">
         <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
         <span data-i18n="btnSave">Save</span>
       </button>
@@ -330,7 +350,7 @@ const i18n = {
     btnCompress:"Compress PDF",preparing:"Preparing…",
     progressPage:"Page $1 of $2…",
     statBefore:"before",statAfter:"after",statSaved:"saved",
-    btnSave:"Save",btnOpen:"Open",
+    btnSave:"Save",btnShare:"Share",btnOpen:"Open",renameLabel:"Rename file (_kompakt)",biggerShort:"already optimized",
     biggerWarn:"<strong>This PDF is already optimized.</strong> Text-heavy files don\u2019t benefit from browser compression. Use the <a href='https://github.com/xronocode/kompakt/releases/latest'>desktop app</a> (Ghostscript) for 50\u201390% compression.",
     upsellBody:"Browser saved <strong>$1</strong>%. Desktop app (Ghostscript) gets 50–90% on the same file.",
     upsellLink:"Download free desktop app →",
@@ -350,7 +370,7 @@ const i18n = {
     btnCompress:"Сжать PDF",preparing:"Подготовка…",
     progressPage:"Страница $1 из $2…",
     statBefore:"до",statAfter:"после",statSaved:"сжатие",
-    btnSave:"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c",btnOpen:"\u041e\u0442\u043a\u0440\u044b\u0442\u044c",
+    btnSave:"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c",btnShare:"\u041e\u0442\u043f\u0440\u0430\u0432\u0438\u0442\u044c",btnOpen:"\u041e\u0442\u043a\u0440\u044b\u0442\u044c",renameLabel:"\u041f\u0435\u0440\u0435\u0438\u043c\u0435\u043d\u043e\u0432\u0430\u0442\u044c \u0444\u0430\u0439\u043b (_kompakt)",biggerShort:"\u0443\u0436\u0435 \u043e\u043f\u0442\u0438\u043c\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u043d",
     biggerWarn:"<strong>\u042d\u0442\u043e\u0442 PDF \u0443\u0436\u0435 \u043e\u043f\u0442\u0438\u043c\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u043d.</strong> \u0422\u0435\u043a\u0441\u0442\u043e\u0432\u044b\u0435 \u0444\u0430\u0439\u043b\u044b \u043d\u0435 \u0441\u0436\u0438\u043c\u0430\u044e\u0442\u0441\u044f \u0432 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0435. \u0418\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0439\u0442\u0435 <a href='https://github.com/xronocode/kompakt/releases/latest'>\u0434\u0435\u0441\u043a\u0442\u043e\u043f\u043d\u043e\u0435 \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0435</a> (Ghostscript) \u0434\u043b\u044f \u0441\u0436\u0430\u0442\u0438\u044f 50\u201390%.",
     upsellBody:"Браузер сжал на <strong>$1</strong>%. Десктопное приложение (Ghostscript) даёт 50–90% на том же файле.",
     upsellLink:"Скачать десктопное приложение бесплатно →",
@@ -370,7 +390,7 @@ const i18n = {
     btnCompress:"PDF komprimieren",preparing:"Vorbereitung…",
     progressPage:"Seite $1 von $2…",
     statBefore:"vorher",statAfter:"nachher",statSaved:"gespart",
-    btnSave:"Speichern",btnOpen:"\u00d6ffnen",
+    btnSave:"Speichern",btnShare:"Teilen",btnOpen:"\u00d6ffnen",renameLabel:"Datei umbenennen (_kompakt)",biggerShort:"bereits optimiert",
     biggerWarn:"<strong>Diese PDF besteht haupts\u00e4chlich aus Text/Vektoren.</strong> Browser-Komprimierung wandelt Seiten in Bilder um, was die Gr\u00f6\u00dfe bei textlastigen Dateien erh\u00f6ht. Verwenden Sie die <a href='https://github.com/xronocode/kompakt/releases/latest'>Desktop-App</a> (Ghostscript) f\u00fcr 50\u201390% Komprimierung.",
     upsellBody:"Browser hat <strong>$1</strong>% gespart. Die Desktop-App (Ghostscript) erreicht 50–90% bei derselben Datei.",
     upsellLink:"Kostenlose Desktop-App herunterladen →",
@@ -390,7 +410,7 @@ const i18n = {
     btnCompress:"Comprimir PDF",preparing:"Preparando…",
     progressPage:"Página $1 de $2…",
     statBefore:"antes",statAfter:"después",statSaved:"ahorro",
-    btnSave:"Guardar",btnOpen:"Abrir",
+    btnSave:"Guardar",btnShare:"Compartir",btnOpen:"Abrir",renameLabel:"Renombrar archivo (_kompakt)",biggerShort:"ya optimizado",
     biggerWarn:"<strong>Este PDF ya est\u00e1 optimizado.</strong> Los archivos con mucho texto/vectores no se benefician de la compresi\u00f3n en el navegador. Usa la <a href='https://github.com/xronocode/kompakt/releases/latest'>app de escritorio</a> (Ghostscript) para 50\u201390% de compresi\u00f3n.",
     upsellBody:"El navegador ahorró <strong>$1</strong>%. La app de escritorio (Ghostscript) logra 50–90% en el mismo archivo.",
     upsellLink:"Descargar app de escritorio gratis →",
@@ -410,7 +430,7 @@ const i18n = {
     btnCompress:"Compresser le PDF",preparing:"Préparation…",
     progressPage:"Page $1 sur $2…",
     statBefore:"avant",statAfter:"après",statSaved:"économie",
-    btnSave:"Enregistrer",btnOpen:"Ouvrir",
+    btnSave:"Enregistrer",btnShare:"Partager",btnOpen:"Ouvrir",renameLabel:"Renommer le fichier (_kompakt)",biggerShort:"déjà optimisé",
     biggerWarn:"<strong>Ce PDF est d\u00e9j\u00e0 optimis\u00e9.</strong> Les fichiers principalement textuels/vectoriels ne b\u00e9n\u00e9ficient pas de la compression navigateur. Utilisez l'<a href='https://github.com/xronocode/kompakt/releases/latest'>app desktop</a> (Ghostscript) pour 50\u201390% de compression.",
     upsellBody:"Le navigateur a économisé <strong>$1</strong>%. L'app desktop (Ghostscript) atteint 50–90% sur le même fichier.",
     upsellLink:"Télécharger l'app desktop gratuite →",
@@ -430,7 +450,7 @@ const i18n = {
     btnCompress:"PDFを圧縮",preparing:"準備中…",
     progressPage:"$2ページ中 $1ページ目を処理中…",
     statBefore:"圧縮前",statAfter:"圧縮後",statSaved:"削減",
-    btnSave:"\u4fdd\u5b58",btnOpen:"\u958b\u304f",
+    btnSave:"\u4fdd\u5b58",btnShare:"\u5171\u6709",btnOpen:"\u958b\u304f",renameLabel:"\u30d5\u30a1\u30a4\u30eb\u540d\u3092\u5909\u66f4 (_kompakt)",biggerShort:"\u6700\u9069\u5316\u6e08\u307f",
     biggerWarn:"<strong>\u3053\u306ePDF\u306f\u3059\u3067\u306b\u6700\u9069\u5316\u3055\u308c\u3066\u3044\u307e\u3059\u3002</strong>\u30c6\u30ad\u30b9\u30c8/\u30d9\u30af\u30bf\u30fc\u4e3b\u4f53\u306e\u30d5\u30a1\u30a4\u30eb\u306f\u30d6\u30e9\u30a6\u30b6\u5727\u7e2e\u306b\u306f\u4e0d\u5411\u304d\u3067\u3059\u3002<a href='https://github.com/xronocode/kompakt/releases/latest'>\u30c7\u30b9\u30af\u30c8\u30c3\u30d7\u30a2\u30d7\u30ea</a>\uff08Ghostscript\uff09\u306750\u301c90%\u5727\u7e2e\u3067\u304d\u307e\u3059\u3002",
     upsellBody:"ブラウザで <strong>$1</strong>% 圧縮しました。デスクトップアプリ（Ghostscript）なら同じファイルを50〜90%圧縮できます。",
     upsellLink:"無料デスクトップアプリをダウンロード →",
@@ -450,7 +470,7 @@ const i18n = {
     btnCompress:"Comprimir PDF",preparing:"Preparando…",
     progressPage:"Página $1 de $2…",
     statBefore:"antes",statAfter:"depois",statSaved:"economia",
-    btnSave:"Salvar",btnOpen:"Abrir",
+    btnSave:"Salvar",btnShare:"Compartilhar",btnOpen:"Abrir",renameLabel:"Renomear arquivo (_kompakt)",biggerShort:"já otimizado",
     biggerWarn:"<strong>Este PDF j\u00e1 est\u00e1 otimizado.</strong> Arquivos com muito texto/vetores n\u00e3o se beneficiam da compress\u00e3o no navegador. Use o <a href='https://github.com/xronocode/kompakt/releases/latest'>app desktop</a> (Ghostscript) para 50\u201390% de compress\u00e3o.",
     upsellBody:"O navegador economizou <strong>$1</strong>%. O app desktop (Ghostscript) consegue 50–90% no mesmo arquivo.",
     upsellLink:"Baixar app desktop grátis →",
@@ -470,7 +490,7 @@ const i18n = {
     btnCompress:"压缩PDF",preparing:"准备中…",
     progressPage:"正在处理第 $1 页，共 $2 页…",
     statBefore:"压缩前",statAfter:"压缩后",statSaved:"节省",
-    btnSave:"\u4fdd\u5b58",btnOpen:"\u6253\u5f00",
+    btnSave:"\u4fdd\u5b58",btnShare:"\u5206\u4eab",btnOpen:"\u6253\u5f00",renameLabel:"\u91cd\u547d\u540d\u6587\u4ef6 (_kompakt)",biggerShort:"\u5df2\u4f18\u5316",
     biggerWarn:"<strong>\u6b64PDF\u5df2\u7ecf\u662f\u6700\u4f18\u7684\u3002</strong>\u6587\u672c/\u77e2\u91cf\u4e3a\u4e3b\u7684\u6587\u4ef6\u4e0d\u9002\u5408\u6d4f\u89c8\u5668\u538b\u7f29\u3002\u4f7f\u7528<a href='https://github.com/xronocode/kompakt/releases/latest'>\u684c\u9762\u7248</a>\uff08Ghostscript\uff09\u53ef\u538b\u7f2950\u201390%\u3002",
     upsellBody:"浏览器压缩节省了 <strong>$1</strong>%。桌面版（使用Ghostscript）可将同一文件压缩50–90%。",
     upsellLink:"免费下载桌面版 →",
@@ -570,6 +590,13 @@ document.getElementById('langSelect').value = lang;
 setLang(lang);
 document.getElementById('langSelect').addEventListener('change', e => setLang(e.target.value));
 
+// ── Rename toggle (persist in localStorage) ──────────────────────────────────
+const renameCheck = document.getElementById('rename-check');
+renameCheck.checked = localStorage.getItem('kompakt-rename') !== 'false';
+renameCheck.addEventListener('change', () => {
+  localStorage.setItem('kompakt-rename', renameCheck.checked);
+});
+
 // ── Drop zone ─────────────────────────────────────────────────────────────────
 
 dropZone.addEventListener('dragover', e => {
@@ -607,7 +634,7 @@ compressBtn.addEventListener('click', compress);
 newFileBtn.addEventListener('click', () => {
   currentFile = null;
   fileInput.value = '';
-  dropZone.classList.remove('has-file');
+  dropZone.classList.remove('has-file', 'has-result');
   applyI18n();
   compressBtn.disabled = true;
   resultEl.hidden = true;
@@ -616,6 +643,7 @@ newFileBtn.addEventListener('click', () => {
   document.getElementById('donate-block').hidden = true;
   document.getElementById('bigger-warn').hidden = true;
   document.getElementById('result-actions').hidden = false;
+  document.getElementById('share-btn').hidden = true;
   if (lastBlobUrl) { URL.revokeObjectURL(lastBlobUrl); lastBlobUrl = null; }
 });
 
@@ -758,11 +786,25 @@ function showResult(compressed) {
   document.getElementById('result-actions').hidden = gotBigger;
   document.getElementById('bigger-warn').hidden = !gotBigger;
 
+  // Update drop zone with compression result
+  const dropStats = document.getElementById('drop-stats');
+  if (gotBigger) {
+    dropStats.textContent = '0% — ' + t('biggerShort');
+    dropStats.style.color = 'var(--yellow)';
+  } else {
+    dropStats.textContent = '-' + ratio.toFixed(1) + '% · ' + fmtBytes(before) + ' → ' + fmtBytes(after);
+    dropStats.style.color = '';
+  }
+  dropZone.classList.add('has-result');
+
   if (!gotBigger) {
     if (lastBlobUrl) URL.revokeObjectURL(lastBlobUrl);
     const compressedBlob = new Blob([compressed], { type: 'application/pdf' });
     lastBlobUrl = URL.createObjectURL(compressedBlob);
-    const outName = currentFile.name.replace(/\.pdf$/i, '') + '_kompakt.pdf';
+    const rename = document.getElementById('rename-check').checked;
+    const outName = rename
+      ? currentFile.name.replace(/\.pdf$/i, '') + '_kompakt.pdf'
+      : currentFile.name;
 
     document.getElementById('save-btn').onclick = () => {
       const a = document.createElement('a');
@@ -771,6 +813,16 @@ function showResult(compressed) {
     document.getElementById('open-btn').onclick = () => {
       window.open(lastBlobUrl, '_blank');
     };
+
+    // Share button — show only if Web Share API supports file sharing
+    const shareBtn = document.getElementById('share-btn');
+    const shareFile = new File([compressedBlob], outName, { type: 'application/pdf' });
+    if (navigator.canShare && navigator.canShare({ files: [shareFile] })) {
+      shareBtn.hidden = false;
+      shareBtn.onclick = () => {
+        navigator.share({ files: [shareFile], title: outName }).catch(() => {});
+      };
+    }
   }
 
   resultEl.hidden = false;
