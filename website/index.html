@@ -286,12 +286,18 @@ section .subtitle{color:var(--fg2);font-size:17px;margin-bottom:40px;max-width:6
 /* Hide Ko-fi floating widget on desktop — only show on mobile */
 .kofi-widget-overlay{display:none!important}
 
+/* Hide mobile-only CTA on desktop */
+.hero-ctas .btn-compress{display:none}
+
 /* Mobile optimizations */
 @media(max-width:640px){
   /* Smart CTAs: hide desktop-only elements */
   .hero-ctas .btn-primary{display:none}
   .install-box{display:none}
   .nav-right .kofi-btn{display:none}
+
+  /* Show mobile-only CTA */
+  .hero-ctas .btn-compress{display:inline-flex}
 
   /* Hide desktop-only sections on mobile */
   .desktop-only{display:none!important}
