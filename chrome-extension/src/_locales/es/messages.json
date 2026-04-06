@@ -62,7 +62,7 @@
     "message": "ahorro"
   },
   "btnDownload": {
-    "message": "Descargar PDF comprimido"
+    "message": "Guardar PDF comprimido"
   },
   "upsellBody": {
     "message": "El navegador ahorró $RATIO$%. La app de escritorio (Ghostscript) logra 50–90% en el mismo archivo.",

@@ -62,7 +62,7 @@
     "message": "economia"
   },
   "btnDownload": {
-    "message": "Baixar PDF comprimido"
+    "message": "Salvar PDF comprimido"
   },
   "upsellBody": {
     "message": "O navegador economizou $RATIO$%. O app desktop (Ghostscript) consegue 50–90% no mesmo arquivo.",

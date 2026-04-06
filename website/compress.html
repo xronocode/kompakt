@@ -102,14 +102,22 @@ body{
 .stat-arrow{color:var(--muted);font-size:16px;padding:0 4px;margin-top:14px}
 .ratio.good{color:var(--green)}
 .ratio.bad{color:var(--yellow)}
-.download-btn{
-  display:block;width:100%;background:var(--bg3);border:none;
-  border-top:1px solid var(--border);color:var(--text);
-  padding:14px;font-family:inherit;font-size:15px;font-weight:600;
+.result-actions{display:flex;border-top:1px solid var(--border)}
+.save-btn{
+  flex:1;background:var(--bg3);border:none;
+  color:var(--text);padding:14px;font-family:inherit;font-size:15px;font-weight:600;
   cursor:pointer;transition:background .12s,color .12s;text-align:center;
   min-height:48px;
 }
-.download-btn:hover{background:var(--cyan-dim);color:var(--cyan)}
+.save-btn:hover{background:var(--cyan-dim);color:var(--cyan)}
+.share-btn{
+  background:var(--bg3);border:none;border-left:1px solid var(--border);
+  color:var(--muted);padding:14px 18px;cursor:pointer;
+  transition:background .12s,color .12s;display:flex;align-items:center;
+  min-height:48px;min-width:52px;justify-content:center;
+}
+.share-btn:hover{background:var(--cyan-dim);color:var(--cyan)}
+.share-btn svg{width:18px;height:18px;fill:currentColor}
 
 /* UPSELL */
 .upsell{
@@ -130,15 +138,15 @@ body{
 
 /* DONATE */
 .donate-btn{
-  display:inline-flex;align-items:center;gap:8px;padding:10px 24px;
-  border-radius:24px;font-size:14px;font-weight:700;color:#fff;text-decoration:none;
+  display:inline-flex;align-items:center;gap:6px;padding:7px 16px;
+  border-radius:20px;font-size:12px;font-weight:600;color:#fff;text-decoration:none;
   background:linear-gradient(135deg,#ff5e5b,#ff9966,#ffcc33,#ff5e5b);background-size:300% 300%;
   animation:donateGlow 3s ease infinite;transition:transform .15s,box-shadow .15s;
   position:relative;overflow:hidden;
 }
 .donate-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(255,94,91,.5);text-decoration:none}
 .donate-btn::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.25) 50%,transparent 100%);transform:translateX(-100%);animation:donateShine 3s ease-in-out infinite}
-.donate-btn img{width:22px;height:22px}
+.donate-btn img{width:18px;height:18px}
 @keyframes donateGlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 @keyframes donateShine{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
 
@@ -232,9 +240,20 @@ body{
         <span class="stat-value ratio" id="result-ratio">—</span>
       </div>
     </div>
-    <button class="download-btn" id="download-btn" data-i18n="btnDownload">
-      Download compressed PDF
-    </button>
+    <div class="result-actions">
+      <button class="save-btn" id="save-btn" data-i18n="btnSave">Save compressed PDF</button>
+      <button class="share-btn" id="share-btn" title="Share" hidden>
+        <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Donate (small, between result and upsell) -->
+  <div id="donate-block" hidden style="text-align:center">
+    <a class="donate-btn" href="https://ko-fi.com/xronocode" target="_blank" rel="noopener">
+      <img src="https://storage.ko-fi.com/cdn/cup-border.png" alt="" aria-hidden="true">
+      <span data-i18n="donateText">Support the project</span>
+    </a>
   </div>
 
   <!-- Upsell -->
@@ -261,10 +280,6 @@ body{
 </div>
 
 <div class="footer">
-  <a class="donate-btn" href="https://ko-fi.com/xronocode" target="_blank" rel="noopener">
-    <img src="https://storage.ko-fi.com/cdn/cup-border.png" alt="" aria-hidden="true">
-    <span data-i18n="donateText">Support the project</span>
-  </a>
   <a class="footer-link" href="/" data-i18n="footerHome">← Back to pdf-kompakt</a>
 </div>
 
@@ -289,7 +304,7 @@ const i18n = {
     btnCompress:"Compress PDF",preparing:"Preparing…",
     progressPage:"Page $1 of $2…",
     statBefore:"before",statAfter:"after",statSaved:"saved",
-    btnDownload:"Download compressed PDF",
+    btnSave:"Save compressed PDF",
     upsellBody:"Browser saved <strong>$1</strong>%. Desktop app (Ghostscript) gets 50–90% on the same file.",
     upsellLink:"Download free desktop app →",
     errFileTooLarge:"File is too large. Please use a PDF under 1 GB.",
@@ -308,7 +323,7 @@ const i18n = {
     btnCompress:"Сжать PDF",preparing:"Подготовка…",
     progressPage:"Страница $1 из $2…",
     statBefore:"до",statAfter:"после",statSaved:"сжатие",
-    btnDownload:"Скачать сжатый PDF",
+    btnSave:"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u0441\u0436\u0430\u0442\u044b\u0439 PDF",
     upsellBody:"Браузер сжал на <strong>$1</strong>%. Десктопное приложение (Ghostscript) даёт 50–90% на том же файле.",
     upsellLink:"Скачать десктопное приложение бесплатно →",
     errFileTooLarge:"Файл слишком большой. Используйте PDF меньше 1 ГБ.",
@@ -327,7 +342,7 @@ const i18n = {
     btnCompress:"PDF komprimieren",preparing:"Vorbereitung…",
     progressPage:"Seite $1 von $2…",
     statBefore:"vorher",statAfter:"nachher",statSaved:"gespart",
-    btnDownload:"Komprimiertes PDF herunterladen",
+    btnSave:"Komprimiertes PDF speichern",
     upsellBody:"Browser hat <strong>$1</strong>% gespart. Die Desktop-App (Ghostscript) erreicht 50–90% bei derselben Datei.",
     upsellLink:"Kostenlose Desktop-App herunterladen →",
     errFileTooLarge:"Datei ist zu groß. Bitte verwenden Sie eine PDF unter 1 GB.",
@@ -346,7 +361,7 @@ const i18n = {
     btnCompress:"Comprimir PDF",preparing:"Preparando…",
     progressPage:"Página $1 de $2…",
     statBefore:"antes",statAfter:"después",statSaved:"ahorro",
-    btnDownload:"Descargar PDF comprimido",
+    btnSave:"Guardar PDF comprimido",
     upsellBody:"El navegador ahorró <strong>$1</strong>%. La app de escritorio (Ghostscript) logra 50–90% en el mismo archivo.",
     upsellLink:"Descargar app de escritorio gratis →",
     errFileTooLarge:"El archivo es demasiado grande. Usa un PDF de menos de 1 GB.",
@@ -365,7 +380,7 @@ const i18n = {
     btnCompress:"Compresser le PDF",preparing:"Préparation…",
     progressPage:"Page $1 sur $2…",
     statBefore:"avant",statAfter:"après",statSaved:"économie",
-    btnDownload:"Télécharger le PDF compressé",
+    btnSave:"Enregistrer le PDF compress\u00e9",
     upsellBody:"Le navigateur a économisé <strong>$1</strong>%. L'app desktop (Ghostscript) atteint 50–90% sur le même fichier.",
     upsellLink:"Télécharger l'app desktop gratuite →",
     errFileTooLarge:"Fichier trop volumineux. Utilisez un PDF de moins de 1 Go.",
@@ -384,7 +399,7 @@ const i18n = {
     btnCompress:"PDFを圧縮",preparing:"準備中…",
     progressPage:"$2ページ中 $1ページ目を処理中…",
     statBefore:"圧縮前",statAfter:"圧縮後",statSaved:"削減",
-    btnDownload:"圧縮PDFをダウンロード",
+    btnSave:"\u5727\u7e2ePDF\u3092\u4fdd\u5b58",
     upsellBody:"ブラウザで <strong>$1</strong>% 圧縮しました。デスクトップアプリ（Ghostscript）なら同じファイルを50〜90%圧縮できます。",
     upsellLink:"無料デスクトップアプリをダウンロード →",
     errFileTooLarge:"ファイルが大きすぎます。1GB\u672a\u6e80のPDFを使用してください。",
@@ -403,7 +418,7 @@ const i18n = {
     btnCompress:"Comprimir PDF",preparing:"Preparando…",
     progressPage:"Página $1 de $2…",
     statBefore:"antes",statAfter:"depois",statSaved:"economia",
-    btnDownload:"Baixar PDF comprimido",
+    btnSave:"Salvar PDF comprimido",
     upsellBody:"O navegador economizou <strong>$1</strong>%. O app desktop (Ghostscript) consegue 50–90% no mesmo arquivo.",
     upsellLink:"Baixar app desktop grátis →",
     errFileTooLarge:"Arquivo muito grande. Use um PDF com menos de 1 GB.",
@@ -422,7 +437,7 @@ const i18n = {
     btnCompress:"压缩PDF",preparing:"准备中…",
     progressPage:"正在处理第 $1 页，共 $2 页…",
     statBefore:"压缩前",statAfter:"压缩后",statSaved:"节省",
-    btnDownload:"下载压缩后的PDF",
+    btnSave:"\u4fdd\u5b58\u538b\u7f29\u540e\u7684PDF",
     upsellBody:"浏览器压缩节省了 <strong>$1</strong>%。桌面版（使用Ghostscript）可将同一文件压缩50–90%。",
     upsellLink:"免费下载桌面版 →",
     errFileTooLarge:"文件过大，请使用1 GB\u4ee5\u5185的PDF文件。",
@@ -555,6 +570,8 @@ newFileBtn.addEventListener('click', () => {
   resultEl.hidden = true;
   upsellEl.hidden = true;
   newFileBtn.hidden = true;
+  document.getElementById('donate-block').hidden = true;
+  document.getElementById('share-btn').hidden = true;
   if (lastBlobUrl) { URL.revokeObjectURL(lastBlobUrl); lastBlobUrl = null; }
 });
 
@@ -692,15 +709,32 @@ function showResult(compressed) {
   ratioEl.className   = 'stat-value ratio ' + (ratio >= 0 ? 'good' : 'bad');
 
   if (lastBlobUrl) URL.revokeObjectURL(lastBlobUrl);
-  lastBlobUrl = URL.createObjectURL(new Blob([compressed], { type: 'application/pdf' }));
+  const compressedBlob = new Blob([compressed], { type: 'application/pdf' });
+  lastBlobUrl = URL.createObjectURL(compressedBlob);
   const outName = currentFile.name.replace(/\.pdf$/i, '') + '_kompakt.pdf';
 
-  document.getElementById('download-btn').onclick = () => {
+  // Save button
+  document.getElementById('save-btn').onclick = () => {
     const a = document.createElement('a');
     a.href = lastBlobUrl; a.download = outName; a.click();
   };
 
+  // Share button — show only if Web Share API is available (mobile)
+  const shareBtn = document.getElementById('share-btn');
+  if (navigator.canShare) {
+    const file = new File([compressedBlob], outName, { type: 'application/pdf' });
+    if (navigator.canShare({ files: [file] })) {
+      shareBtn.hidden = false;
+      shareBtn.onclick = () => {
+        navigator.share({ files: [file], title: outName }).catch(() => {});
+      };
+    }
+  }
+
   resultEl.hidden = false;
+
+  // Show donate
+  document.getElementById('donate-block').hidden = false;
 
   const ratioStr = Math.max(0, ratio).toFixed(0);
   document.getElementById('upsell-body').innerHTML = t('upsellBody', ratioStr);

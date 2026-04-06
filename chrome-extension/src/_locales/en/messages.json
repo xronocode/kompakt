@@ -62,7 +62,7 @@
     "message": "saved"
   },
   "btnDownload": {
-    "message": "Download compressed PDF"
+    "message": "Save compressed PDF"
   },
   "upsellBody": {
     "message": "Browser saved $RATIO$%. Desktop app (Ghostscript) gets 50–90% on the same file.",

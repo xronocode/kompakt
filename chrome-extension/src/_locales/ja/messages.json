@@ -62,7 +62,7 @@
     "message": "削減"
   },
   "btnDownload": {
-    "message": "圧縮PDFをダウンロード"
+    "message": "\u5727\u7e2ePDF\u3092\u4fdd\u5b58"
   },
   "upsellBody": {
     "message": "ブラウザで $RATIO$% 圧縮しました。デスクトップアプリ（Ghostscript）なら同じファイルを50〜90%圧縮できます。",

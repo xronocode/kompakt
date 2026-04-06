@@ -62,7 +62,7 @@
     "message": "gespart"
   },
   "btnDownload": {
-    "message": "Komprimiertes PDF herunterladen"
+    "message": "Komprimiertes PDF speichern"
   },
   "upsellBody": {
     "message": "Browser hat $RATIO$% gespart. Die Desktop-App (Ghostscript) erreicht 50–90% bei derselben Datei.",
