@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NKV69BNLEX"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-NKV69BNLEX');</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Compress PDF Online — pdf-kompakt</title>
@@ -9,6 +11,7 @@
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/favicon.png" sizes="48x48">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/compress-manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0d1117">
@@ -188,6 +191,32 @@ body{
 @keyframes donateGlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 @keyframes donateShine{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
 
+/* INSTALL PROMPT */
+.install-bar{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);
+  padding:12px 16px;display:flex;align-items:center;gap:12px;
+}
+.install-bar-text{flex:1;font-size:13px;color:var(--muted);line-height:1.5}
+.install-bar-text strong{color:var(--text)}
+.install-bar-btn{
+  background:var(--cyan);color:#000;border:none;border-radius:8px;
+  padding:8px 16px;font-family:inherit;font-size:12px;font-weight:700;
+  cursor:pointer;white-space:nowrap;min-height:36px;
+}
+.install-bar-btn:hover{filter:brightness(1.1)}
+.install-bar-close{
+  background:none;border:none;color:var(--muted);cursor:pointer;
+  font-size:18px;padding:4px;line-height:1;
+}
+
+/* OFFLINE BADGE */
+.offline-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:11px;color:var(--green);font-weight:600;
+  background:rgba(63,185,80,.1);padding:2px 8px;border-radius:10px;
+}
+.offline-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+
 /* FOOTER */
 .footer{border-top:1px solid var(--border);padding:20px;text-align:center;margin-top:auto;display:flex;flex-direction:column;align-items:center;gap:16px}
 .footer-link{color:var(--muted);font-size:13px;text-decoration:none;font-weight:600}
@@ -200,7 +229,10 @@ body{
 
 <nav class="nav">
   <div class="nav-inner">
-    <a href="/" class="logo">pdf-kompakt</a>
+    <a href="/" class="logo">
+      pdf-kompakt
+      <span class="offline-badge" id="offline-badge" hidden><span class="offline-dot"></span>offline</span>
+    </a>
     <select class="lang-select" id="langSelect" aria-label="Language">
       <option value="en">EN</option>
       <option value="de">DE</option>
@@ -319,8 +351,16 @@ body{
 
 
   <!-- Privacy -->
+  <!-- Install prompt -->
+  <div class="install-bar" id="install-bar" hidden>
+    <div class="install-bar-text" data-i18n-html="installText"><strong>Works offline!</strong> Add to Home Screen for instant access without internet.</div>
+    <button class="install-bar-btn" id="install-btn" data-i18n="installBtn">Install</button>
+    <button class="install-bar-close" id="install-close" aria-label="Close">×</button>
+  </div>
+
   <div class="privacy-note" data-i18n-html="privacyNote">
     <strong>100% private.</strong> Files are compressed in your browser. Nothing is uploaded — works offline.
+    installText:"<strong>Works offline!</strong> Add to Home Screen for instant access without internet.",installBtn:"Install",
   </div>
 
 </div>
@@ -377,6 +417,7 @@ const i18n = {
     errPasswordProtected:"Этот PDF защищён паролем. Сначала удалите пароль.",
     btnNewFile:"Сжать другой PDF",
     privacyNote:"<strong>100% приватно.</strong> Файлы сжимаются в браузере. Ничего не загружается — работает офлайн.",
+    installText:"<strong>Работает офлайн!</strong> Добавьте на главный экран для мгновенного доступа без интернета.",installBtn:"Установить",
     donateText:"\u041f\u043e\u0434\u0434\u0435\u0440\u0436\u0430\u0442\u044c \u043f\u0440\u043e\u0435\u043a\u0442",footerHome:"\u2190 \u041d\u0430 \u0433\u043b\u0430\u0432\u043d\u0443\u044e"
   },
   de: {
@@ -397,6 +438,7 @@ const i18n = {
     errPasswordProtected:"Dieses PDF ist passwortgeschützt. Bitte entfernen Sie zuerst das Passwort.",
     btnNewFile:"Weiteres PDF komprimieren",
     privacyNote:"<strong>100% privat.</strong> Dateien werden im Browser komprimiert. Nichts wird hochgeladen — funktioniert offline.",
+    installText:"<strong>Funktioniert offline!</strong> Zum Startbildschirm hinzufügen für sofortigen Zugriff ohne Internet.",installBtn:"Installieren",
     donateText:"Projekt unterst\u00fctzen",footerHome:"\u2190 Zur\u00fcck zu pdf-kompakt"
   },
   es: {
@@ -417,6 +459,7 @@ const i18n = {
     errPasswordProtected:"Este PDF está protegido con contraseña. Elimina la contraseña primero.",
     btnNewFile:"Comprimir otro PDF",
     privacyNote:"<strong>100% privado.</strong> Los archivos se comprimen en tu navegador. No se sube nada — funciona sin conexi\u00f3n.",
+    installText:"<strong>¡Funciona sin conexión!</strong> Añade a la pantalla de inicio para acceso instantáneo sin internet.",installBtn:"Instalar",
     donateText:"Apoyar el proyecto",footerHome:"\u2190 Volver a pdf-kompakt"
   },
   fr: {
@@ -437,6 +480,7 @@ const i18n = {
     errPasswordProtected:"Ce PDF est protégé par un mot de passe. Supprimez-le d'abord.",
     btnNewFile:"Compresser un autre PDF",
     privacyNote:"<strong>100% priv\u00e9.</strong> Les fichiers sont compress\u00e9s dans votre navigateur. Rien n\u2019est envoy\u00e9 \u2014 fonctionne hors ligne.",
+    installText:"<strong>Fonctionne hors ligne !</strong> Ajoutez à l\u2019écran d\u2019accueil pour un accès instantané sans internet.",installBtn:"Installer",
     donateText:"Soutenir le projet",footerHome:"\u2190 Retour \u00e0 pdf-kompakt"
   },
   ja: {
@@ -457,6 +501,7 @@ const i18n = {
     errPasswordProtected:"このPDFはパスワードで保護されています。先にパスワードを解除してください。",
     btnNewFile:"別のPDFを圧縮",
     privacyNote:"<strong>100%\u30d7\u30e9\u30a4\u30d9\u30fc\u30c8\u3002</strong>\u30d5\u30a1\u30a4\u30eb\u306f\u30d6\u30e9\u30a6\u30b6\u5185\u3067\u5727\u7e2e\u3055\u308c\u307e\u3059\u3002\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9\u306a\u3057 \u2014 \u30aa\u30d5\u30e9\u30a4\u30f3\u5bfe\u5fdc\u3002",
+    installText:"<strong>\u30aa\u30d5\u30e9\u30a4\u30f3\u5bfe\u5fdc\uff01</strong>\u30db\u30fc\u30e0\u753b\u9762\u306b\u8ffd\u52a0\u3059\u308b\u3068\u3001\u30cd\u30c3\u30c8\u306a\u3057\u3067\u3059\u3050\u306b\u4f7f\u3048\u307e\u3059\u3002",installBtn:"\u8ffd\u52a0",
     donateText:"\u30d7\u30ed\u30b8\u30a7\u30af\u30c8\u3092\u652f\u63f4",footerHome:"\u2190 pdf-kompakt\u306b\u623b\u308b"
   },
   pt: {
@@ -477,6 +522,7 @@ const i18n = {
     errPasswordProtected:"Este PDF está protegido por senha. Remova a senha primeiro.",
     btnNewFile:"Comprimir outro PDF",
     privacyNote:"<strong>100% privado.</strong> Arquivos s\u00e3o comprimidos no navegador. Nada \u00e9 enviado \u2014 funciona offline.",
+    installText:"<strong>Funciona offline!</strong> Adicione à tela inicial para acesso instantâneo sem internet.",installBtn:"Instalar",
     donateText:"Apoiar o projeto",footerHome:"\u2190 Voltar ao pdf-kompakt"
   },
   zh: {
@@ -497,6 +543,7 @@ const i18n = {
     errPasswordProtected:"此PDF文件受密码保护，请先移除密码。",
     btnNewFile:"压缩另一个PDF",
     privacyNote:"<strong>100%\u9690\u79c1\u5b89\u5168\u3002</strong>\u6587\u4ef6\u5728\u6d4f\u89c8\u5668\u4e2d\u538b\u7f29\uff0c\u4e0d\u4f1a\u4e0a\u4f20\u4efb\u4f55\u5185\u5bb9\u2014\u2014\u53ef\u79bb\u7ebf\u4f7f\u7528\u3002",
+    installText:"<strong>\u652f\u6301\u79bb\u7ebf\u4f7f\u7528\uff01</strong>\u6dfb\u52a0\u5230\u4e3b\u5c4f\u5e55\uff0c\u65e0\u9700\u7f51\u7edc\u5373\u53ef\u4f7f\u7528\u3002",installBtn:"\u5b89\u88c5",
     donateText:"\u652f\u6301\u9879\u76ee",footerHome:"\u2190 \u8fd4\u56depdf-kompakt"
   }
 };
@@ -853,7 +900,81 @@ function showResult(compressed) {
   upsellEl.hidden = false;
 
   setMainBtn('done');
+
+  // Show install prompt after first compression
+  setTimeout(showInstallPrompt, 1500);
+
+  // GA4 event tracking (anonymous, no file content)
+  if (typeof gtag === 'function') {
+    gtag('event', gotBigger ? 'compress_bigger' : 'compress_done', {
+      quality: selectedQuality,
+      ratio: Math.round(ratio),
+      file_size_mb: Math.round(before / 1048576),
+    });
+  }
 }
+
+// ── Service Worker & PWA ──────────────────────────────────────────────────────
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/compress-sw.js').then(() => {
+    // Show offline badge when SW is active (cached for offline)
+    if (navigator.serviceWorker.controller) {
+      document.getElementById('offline-badge').hidden = false;
+    }
+  });
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    document.getElementById('offline-badge').hidden = false;
+  });
+}
+
+// Show offline badge if actually offline
+window.addEventListener('offline', () => {
+  document.getElementById('offline-badge').hidden = false;
+});
+
+// ── Install prompt (PWA "Add to Home Screen") ─────────────────────────────────
+
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Don't show immediately — wait until after first compression
+});
+
+function showInstallPrompt() {
+  if (!deferredPrompt && !window.matchMedia('(display-mode: standalone)').matches) {
+    // iOS: no beforeinstallprompt, show manual instructions
+    const bar = document.getElementById('install-bar');
+    if (localStorage.getItem('kompakt-install-dismissed')) return;
+    bar.hidden = false;
+    document.getElementById('install-btn').onclick = () => {
+      alert(t('installIOS') || 'Tap the Share button (⎙) then "Add to Home Screen"');
+      bar.hidden = true;
+    };
+    document.getElementById('install-close').onclick = () => {
+      bar.hidden = true;
+      localStorage.setItem('kompakt-install-dismissed', '1');
+    };
+    return;
+  }
+  if (!deferredPrompt) return;
+
+  const bar = document.getElementById('install-bar');
+  if (localStorage.getItem('kompakt-install-dismissed')) return;
+  bar.hidden = false;
+
+  document.getElementById('install-btn').onclick = () => {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => { deferredPrompt = null; bar.hidden = true; });
+  };
+  document.getElementById('install-close').onclick = () => {
+    bar.hidden = true;
+    localStorage.setItem('kompakt-install-dismissed', '1');
+  };
+}
+
 </script>
 </body>
 </html>
