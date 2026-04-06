@@ -296,17 +296,20 @@ section .subtitle{color:var(--fg2);font-size:17px;margin-bottom:40px;max-width:6
   .hero-ctas{flex-direction:column;align-items:stretch}
   .hero-ctas .btn{width:100%;text-align:center;justify-content:center}
 
-  /* Ko-fi floating widget: hide on scroll, show at top */
-  body.scrolled .kofi-widget-overlay{opacity:0;pointer-events:none;transition:opacity .3s}
+  /* Ko-fi floating widget: always hide on mobile — it overlaps sticky CTA */
+  .kofi-widget-overlay{display:none!important}
+
+  /* Less space before first section */
+  .stats{padding:24px 16px 16px}
 
   /* Sticky CTA at bottom on scroll */
   .btn-compress-sticky{
-    display:none;position:fixed;bottom:0;left:0;right:0;z-index:99;
-    padding:14px 24px;border-radius:0;font-size:15px;font-weight:700;
+    display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;
+    padding:16px 24px;border-radius:0;font-size:16px;font-weight:700;
     background:linear-gradient(135deg,#39d0d8,#818cf8);color:#000;
     text-align:center;text-decoration:none;
-    box-shadow:0 -4px 20px rgba(0,0,0,.5);
-    padding-bottom:calc(14px + env(safe-area-inset-bottom,0px));
+    box-shadow:0 -4px 24px rgba(0,0,0,.6);
+    padding-bottom:calc(16px + env(safe-area-inset-bottom,0px));
   }
   body.scrolled .btn-compress-sticky{display:flex;align-items:center;justify-content:center;gap:8px}
   body.scrolled .hero-ctas .btn-compress{opacity:.3;pointer-events:none}
@@ -667,6 +670,11 @@ footer .links{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin
   </div>
 </section>
 </main>
+
+<!-- Sticky mobile CTA (hidden until scroll) -->
+<a href="/compress" class="btn-compress-sticky" id="stickyCtaBtn">
+  <span data-i18n="ctaWebApp">Compress on Phone</span>
+</a>
 
 <!-- FOOTER -->
 <footer>
@@ -1193,11 +1201,6 @@ kofiWidgetOverlay.draw('xronocode', {
   'floating-chat.donateButton.is-resolve': 'right'
 });
 </script>
-
-<!-- Sticky mobile CTA (hidden until scroll) -->
-<a href="/compress" class="btn-compress-sticky" id="stickyCtaBtn">
-  <span data-i18n="ctaWebApp">Compress on Phone</span>
-</a>
 
 <script>
 // Mobile scroll behavior: sticky CTA + hide Ko-fi widget
