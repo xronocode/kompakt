@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=".github/assets/promo-large.png" alt="pdf-kompakt — Compress PDFs in your browser or from the terminal" width="100%">
+  <img src=".github/assets/promo-large.png" alt="pdf-kompakt — Compress PDFs from the terminal" width="100%">
 </p>
 
 <p align="center">
@@ -14,61 +14,7 @@
 
 ---
 
-## Two ways to use it
-
-| | [Browser Extension](#-chrome-extension) | [Desktop CLI](#-desktop-app) |
-|---|---|---|
-| Install | Chrome Web Store or sideload | Binary / Homebrew / Python |
-| Compression | 5–40% (canvas re-render) | **50–90%** (Ghostscript) |
-| Privacy | 100% local — files never leave device | 100% local |
-| OS | Any (Chrome/Chromium) | macOS · Linux · Windows |
-
----
-
-## 🌐 Chrome Extension
-
-<img src=".github/assets/ext-drop.png" alt="pdf-kompakt Chrome extension — drop zone" width="100%">
-
-Compress PDFs directly in your browser — no upload, no account, works offline.
-
-<img src=".github/assets/ext-result.png" alt="pdf-kompakt Chrome extension — result with 87% savings" width="100%">
-
-### Install from Chrome Web Store
-
-*(submission in progress — use sideload in the meantime)*
-
-### Sideload (manual install)
-
-1. Download **[pdf-kompakt-chrome-extension.zip](https://github.com/xronocode/kompakt/releases/latest/download/pdf-kompakt-chrome-extension.zip)** from Releases
-2. Unzip it
-3. Open Chrome → `chrome://extensions` → enable **Developer mode**
-4. Click **Load unpacked** → select the unzipped folder
-
-### Features
-
-- Drag & drop or click to pick a PDF (up to 50 MB)
-- 3 quality levels: low (72 dpi) · medium (150 dpi) · high (300 dpi)
-- Shows before / after size and % saved
-- Prompts to try the desktop app for heavier compression
-
-### Languages
-
-The extension is fully localised in **8 languages** — Chrome picks the right one automatically based on your browser language:
-
-| Language | Locale |
-|----------|--------|
-| English | `en` |
-| German | `de` |
-| Spanish | `es` |
-| French | `fr` |
-| Japanese | `ja` |
-| Portuguese (Brazil) | `pt_BR` |
-| Russian | `ru` |
-| Chinese (Simplified) | `zh_CN` |
-
----
-
-## 💻 Desktop App
+## 💻 Desktop CLI
 
 <img src=".github/assets/cli-demo.png" alt="pdf-kompakt CLI — interactive terminal wizard" width="100%">
 
@@ -119,8 +65,6 @@ sudo apt install ghostscript
 sudo dnf install ghostscript
 ```
 
----
-
 ## Usage
 
 ```
@@ -139,8 +83,6 @@ pdf-kompakt --help
 | `low` | 72 | maximum | email, messaging, web |
 | `medium` ★ | 150 | balanced | most use cases |
 | `high` | 300 | minimal | print, archiving |
-
----
 
 ## How it works
 
@@ -167,8 +109,6 @@ Running `pdf-kompakt` opens a 3-step interactive wizard:
   Saved  : 87.5%  (9.8 MB freed)
 ```
 
----
-
 ## Dependencies
 
 | Tool | Role | Install |
@@ -178,12 +118,13 @@ Running `pdf-kompakt` opens a 3-step interactive wizard:
 
 Both are optional — the tool detects what's available and offers to install missing ones on first run.
 
----
+## Other products
+
+- **[Chrome Extension](https://chromewebstore.google.com/detail/mdefmongjnjbapfanbfalhlgghihmmbo)** — compress PDFs in the browser (5–40%, up to 50 MB)
+- **[Web Compress](https://kompakt.xronocode.com/compress)** — drag-and-drop compression on phone/desktop
+
+*The desktop CLI with Ghostscript achieves 50–90% savings — the best compression for heavy PDFs.*
 
 ## License
 
 MIT
-
----
-
-*Browser extension saves 5–40%. For 50–90% compression on the same file, use the desktop app with Ghostscript.*
