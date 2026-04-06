@@ -473,7 +473,7 @@ function t(key, ...subs) {
   return subs.reduce((s, v, i) => s.replace('$' + (i + 1), v), msg);
 }
 
-const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+const isMobile = window.matchMedia('(pointer: coarse)').matches;
 
 function applyI18n() {
   document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -576,9 +576,8 @@ compressBtn.addEventListener('click', compress);
 newFileBtn.addEventListener('click', () => {
   currentFile = null;
   fileInput.value = '';
-  dropZone.querySelector('.drop-label').textContent = t(isMobile ? 'dropTitleMobile' : 'dropTitle');
-  dropZone.querySelector('.drop-hint').textContent = t(isMobile ? 'dropHintMobile' : 'dropHint');
   dropZone.classList.remove('has-file');
+  applyI18n();
   compressBtn.disabled = true;
   resultEl.hidden = true;
   upsellEl.hidden = true;
