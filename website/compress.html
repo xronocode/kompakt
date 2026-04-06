@@ -181,7 +181,7 @@ body{
   <div class="drop-zone" id="drop-zone">
     <div class="drop-icon">📄</div>
     <div class="drop-label" data-i18n="dropTitle">Drop PDF here</div>
-    <div class="drop-hint" data-i18n="dropHint">or tap to choose file · up to ~50 MB</div>
+    <div class="drop-hint" data-i18n="dropHint">or tap to choose file · up to ~1 GB</div>
     <input type="file" id="file-input" accept=".pdf,application/pdf" hidden>
   </div>
 
@@ -281,7 +281,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs
 
 const i18n = {
   en: {
-    dropTitle:"Drop PDF here",dropHint:"or tap to choose file · up to ~50 MB",
+    dropTitle:"Drop PDF here",dropHint:"or tap to choose file · up to ~1 GB",
     labelCompression:"compression",
     qualityLow:"low",qualityLowDesc:"72 dpi · max",
     qualityMedium:"medium",qualityMediumDesc:"150 dpi · ★",
@@ -292,7 +292,7 @@ const i18n = {
     btnDownload:"Download compressed PDF",
     upsellBody:"Browser saved <strong>$1</strong>%. Desktop app (Ghostscript) gets 50–90% on the same file.",
     upsellLink:"Download free desktop app →",
-    errFileTooLarge:"File is too large. Please use a PDF under 50 MB.",
+    errFileTooLarge:"File is too large. Please use a PDF under 1 GB.",
     errNoPages:"This PDF has no pages.",
     errPasswordProtected:"This PDF is password-protected. Remove the password first.",
     btnNewFile:"Compress another PDF",
@@ -300,7 +300,7 @@ const i18n = {
     donateText:"Support the project",footerHome:"\u2190 Back to pdf-kompakt"
   },
   ru: {
-    dropTitle:"Перетащите PDF сюда",dropHint:"или нажмите для выбора файла · до ~50 МБ",
+    dropTitle:"Перетащите PDF сюда",dropHint:"или нажмите для выбора файла · до ~1 ГБ",
     labelCompression:"сжатие",
     qualityLow:"низкое",qualityLowDesc:"72 dpi · макс",
     qualityMedium:"среднее",qualityMediumDesc:"150 dpi · ★",
@@ -311,7 +311,7 @@ const i18n = {
     btnDownload:"Скачать сжатый PDF",
     upsellBody:"Браузер сжал на <strong>$1</strong>%. Десктопное приложение (Ghostscript) даёт 50–90% на том же файле.",
     upsellLink:"Скачать десктопное приложение бесплатно →",
-    errFileTooLarge:"Файл слишком большой. Используйте PDF меньше 50 МБ.",
+    errFileTooLarge:"Файл слишком большой. Используйте PDF меньше 1 ГБ.",
     errNoPages:"В этом PDF нет страниц.",
     errPasswordProtected:"Этот PDF защищён паролем. Сначала удалите пароль.",
     btnNewFile:"Сжать другой PDF",
@@ -319,7 +319,7 @@ const i18n = {
     donateText:"\u041f\u043e\u0434\u0434\u0435\u0440\u0436\u0430\u0442\u044c \u043f\u0440\u043e\u0435\u043a\u0442",footerHome:"\u2190 \u041d\u0430 \u0433\u043b\u0430\u0432\u043d\u0443\u044e"
   },
   de: {
-    dropTitle:"PDF hier ablegen",dropHint:"oder tippen zum Auswählen · bis zu ~50 MB",
+    dropTitle:"PDF hier ablegen",dropHint:"oder tippen zum Ausw\u00e4hlen · bis zu ~1 GB",
     labelCompression:"Komprimierung",
     qualityLow:"niedrig",qualityLowDesc:"72 dpi · max",
     qualityMedium:"mittel",qualityMediumDesc:"150 dpi · ★",
@@ -330,7 +330,7 @@ const i18n = {
     btnDownload:"Komprimiertes PDF herunterladen",
     upsellBody:"Browser hat <strong>$1</strong>% gespart. Die Desktop-App (Ghostscript) erreicht 50–90% bei derselben Datei.",
     upsellLink:"Kostenlose Desktop-App herunterladen →",
-    errFileTooLarge:"Datei ist zu groß. Bitte verwenden Sie eine PDF unter 50 MB.",
+    errFileTooLarge:"Datei ist zu groß. Bitte verwenden Sie eine PDF unter 1 GB.",
     errNoPages:"Dieses PDF enthält keine Seiten.",
     errPasswordProtected:"Dieses PDF ist passwortgeschützt. Bitte entfernen Sie zuerst das Passwort.",
     btnNewFile:"Weiteres PDF komprimieren",
@@ -338,7 +338,7 @@ const i18n = {
     donateText:"Projekt unterst\u00fctzen",footerHome:"\u2190 Zur\u00fcck zu pdf-kompakt"
   },
   es: {
-    dropTitle:"Suelta el PDF aquí",dropHint:"o toca para elegir archivo · hasta ~50 MB",
+    dropTitle:"Suelta el PDF aquí",dropHint:"o toca para elegir archivo · hasta ~1 GB",
     labelCompression:"compresión",
     qualityLow:"baja",qualityLowDesc:"72 dpi · máx",
     qualityMedium:"media",qualityMediumDesc:"150 dpi · ★",
@@ -349,7 +349,7 @@ const i18n = {
     btnDownload:"Descargar PDF comprimido",
     upsellBody:"El navegador ahorró <strong>$1</strong>%. La app de escritorio (Ghostscript) logra 50–90% en el mismo archivo.",
     upsellLink:"Descargar app de escritorio gratis →",
-    errFileTooLarge:"El archivo es demasiado grande. Usa un PDF de menos de 50 MB.",
+    errFileTooLarge:"El archivo es demasiado grande. Usa un PDF de menos de 1 GB.",
     errNoPages:"Este PDF no tiene páginas.",
     errPasswordProtected:"Este PDF está protegido con contraseña. Elimina la contraseña primero.",
     btnNewFile:"Comprimir otro PDF",
@@ -357,7 +357,7 @@ const i18n = {
     donateText:"Apoyar el proyecto",footerHome:"\u2190 Volver a pdf-kompakt"
   },
   fr: {
-    dropTitle:"Déposez un PDF ici",dropHint:"ou touchez pour choisir · jusqu'à ~50 Mo",
+    dropTitle:"Déposez un PDF ici",dropHint:"ou touchez pour choisir · jusqu'\u00e0 ~1 Go",
     labelCompression:"compression",
     qualityLow:"faible",qualityLowDesc:"72 dpi · max",
     qualityMedium:"moyen",qualityMediumDesc:"150 dpi · ★",
@@ -368,7 +368,7 @@ const i18n = {
     btnDownload:"Télécharger le PDF compressé",
     upsellBody:"Le navigateur a économisé <strong>$1</strong>%. L'app desktop (Ghostscript) atteint 50–90% sur le même fichier.",
     upsellLink:"Télécharger l'app desktop gratuite →",
-    errFileTooLarge:"Fichier trop volumineux. Utilisez un PDF de moins de 50 Mo.",
+    errFileTooLarge:"Fichier trop volumineux. Utilisez un PDF de moins de 1 Go.",
     errNoPages:"Ce PDF ne contient aucune page.",
     errPasswordProtected:"Ce PDF est protégé par un mot de passe. Supprimez-le d'abord.",
     btnNewFile:"Compresser un autre PDF",
@@ -376,7 +376,7 @@ const i18n = {
     donateText:"Soutenir le projet",footerHome:"\u2190 Retour \u00e0 pdf-kompakt"
   },
   ja: {
-    dropTitle:"PDFをここにドロップ",dropHint:"またはタップして選択 · 最大約50 MB",
+    dropTitle:"PDFをここにドロップ",dropHint:"\u307e\u305f\u306f\u30bf\u30c3\u30d7\u3057\u3066\u9078\u629e · \u6700\u5927\u7d041 GB",
     labelCompression:"圧縮品質",
     qualityLow:"低",qualityLowDesc:"72 dpi · 最大圧縮",
     qualityMedium:"中",qualityMediumDesc:"150 dpi · ★",
@@ -387,7 +387,7 @@ const i18n = {
     btnDownload:"圧縮PDFをダウンロード",
     upsellBody:"ブラウザで <strong>$1</strong>% 圧縮しました。デスクトップアプリ（Ghostscript）なら同じファイルを50〜90%圧縮できます。",
     upsellLink:"無料デスクトップアプリをダウンロード →",
-    errFileTooLarge:"ファイルが大きすぎます。50MB未満のPDFを使用してください。",
+    errFileTooLarge:"ファイルが大きすぎます。1GB\u672a\u6e80のPDFを使用してください。",
     errNoPages:"このPDFにはページがありません。",
     errPasswordProtected:"このPDFはパスワードで保護されています。先にパスワードを解除してください。",
     btnNewFile:"別のPDFを圧縮",
@@ -395,7 +395,7 @@ const i18n = {
     donateText:"\u30d7\u30ed\u30b8\u30a7\u30af\u30c8\u3092\u652f\u63f4",footerHome:"\u2190 pdf-kompakt\u306b\u623b\u308b"
   },
   pt: {
-    dropTitle:"Solte o PDF aqui",dropHint:"ou toque para selecionar · até ~50 MB",
+    dropTitle:"Solte o PDF aqui",dropHint:"ou toque para selecionar · at\u00e9 ~1 GB",
     labelCompression:"compressão",
     qualityLow:"baixa",qualityLowDesc:"72 dpi · máx",
     qualityMedium:"média",qualityMediumDesc:"150 dpi · ★",
@@ -406,7 +406,7 @@ const i18n = {
     btnDownload:"Baixar PDF comprimido",
     upsellBody:"O navegador economizou <strong>$1</strong>%. O app desktop (Ghostscript) consegue 50–90% no mesmo arquivo.",
     upsellLink:"Baixar app desktop grátis →",
-    errFileTooLarge:"Arquivo muito grande. Use um PDF com menos de 50 MB.",
+    errFileTooLarge:"Arquivo muito grande. Use um PDF com menos de 1 GB.",
     errNoPages:"Este PDF não tem páginas.",
     errPasswordProtected:"Este PDF está protegido por senha. Remova a senha primeiro.",
     btnNewFile:"Comprimir outro PDF",
@@ -414,7 +414,7 @@ const i18n = {
     donateText:"Apoiar o projeto",footerHome:"\u2190 Voltar ao pdf-kompakt"
   },
   zh: {
-    dropTitle:"将PDF拖放到此处",dropHint:"或点击选择文件 · 最大约50 MB",
+    dropTitle:"将PDF拖放到此处",dropHint:"\u6216\u70b9\u51fb\u9009\u62e9\u6587\u4ef6 · \u6700\u5927\u7ea61 GB",
     labelCompression:"压缩质量",
     qualityLow:"低",qualityLowDesc:"72 dpi · 最大压缩",
     qualityMedium:"中",qualityMediumDesc:"150 dpi · ★",
@@ -425,7 +425,7 @@ const i18n = {
     btnDownload:"下载压缩后的PDF",
     upsellBody:"浏览器压缩节省了 <strong>$1</strong>%。桌面版（使用Ghostscript）可将同一文件压缩50–90%。",
     upsellLink:"免费下载桌面版 →",
-    errFileTooLarge:"文件过大，请使用50 MB以内的PDF文件。",
+    errFileTooLarge:"文件过大，请使用1 GB\u4ee5\u5185的PDF文件。",
     errNoPages:"此PDF文件没有任何页面。",
     errPasswordProtected:"此PDF文件受密码保护，请先移除密码。",
     btnNewFile:"压缩另一个PDF",
@@ -481,7 +481,8 @@ const QUALITY = {
   high:   { dpi: 300, jpeg: 0.88 },
 };
 
-const MAX_FILE_BYTES = 52_428_800; // 50 MB
+const MAX_FILE_BYTES = 1_073_741_824; // 1 GB
+const BATCH_SIZE = 5; // pages per batch — limits peak RAM usage
 
 // ── State ─────────────────────────────────────────────────────────────────────
 
@@ -576,9 +577,10 @@ function setFile(file) {
 }
 
 function fmtBytes(n) {
-  if (n < 1024)    return n + ' B';
-  if (n < 1048576) return (n / 1024).toFixed(1) + ' KB';
-  return (n / 1048576).toFixed(1) + ' MB';
+  if (n < 1024)       return n + ' B';
+  if (n < 1048576)    return (n / 1024).toFixed(1) + ' KB';
+  if (n < 1073741824) return (n / 1048576).toFixed(1) + ' MB';
+  return (n / 1073741824).toFixed(2) + ' GB';
 }
 
 function setProgress(page, total) {
@@ -607,8 +609,8 @@ async function compress() {
   progressText.textContent = t('preparing');
 
   try {
-    const cfg    = QUALITY[selectedQuality];
-    const scale  = cfg.dpi / 96;
+    const cfg   = QUALITY[selectedQuality];
+    const scale = cfg.dpi / 96;
 
     const inputBuf = await currentFile.arrayBuffer();
     const pdfDoc   = await pdfjsLib.getDocument({ data: inputBuf }).promise;
@@ -620,24 +622,37 @@ async function compress() {
     const canvas = document.createElement('canvas');
     const ctx    = canvas.getContext('2d');
 
-    for (let i = 1; i <= numPages; i++) {
-      setProgress(i, numPages);
+    // ── Batch processing: process BATCH_SIZE pages, then yield to GC ──
+    for (let batch = 0; batch < numPages; batch += BATCH_SIZE) {
+      const batchEnd = Math.min(batch + BATCH_SIZE, numPages);
 
-      const page     = await pdfDoc.getPage(i);
-      const viewport = page.getViewport({ scale });
+      for (let i = batch + 1; i <= batchEnd; i++) {
+        setProgress(i, numPages);
 
-      canvas.width  = viewport.width;
-      canvas.height = viewport.height;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const page     = await pdfDoc.getPage(i);
+        const viewport = page.getViewport({ scale });
 
-      await page.render({ canvasContext: ctx, viewport }).promise;
+        canvas.width  = viewport.width;
+        canvas.height = viewport.height;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const blob      = await canvasToJpegBlob(canvas, cfg.jpeg);
-      const jpegBytes = new Uint8Array(await blob.arrayBuffer());
+        await page.render({ canvasContext: ctx, viewport }).promise;
 
-      const img     = await outDoc.embedJpg(jpegBytes);
-      const outPage = outDoc.addPage([viewport.width, viewport.height]);
-      outPage.drawImage(img, { x: 0, y: 0, width: viewport.width, height: viewport.height });
+        const blob      = await canvasToJpegBlob(canvas, cfg.jpeg);
+        const jpegBytes = new Uint8Array(await blob.arrayBuffer());
+
+        const img     = await outDoc.embedJpg(jpegBytes);
+        const outPage = outDoc.addPage([viewport.width, viewport.height]);
+        outPage.drawImage(img, { x: 0, y: 0, width: viewport.width, height: viewport.height });
+
+        // Release page resources immediately
+        page.cleanup();
+      }
+
+      // Between batches: clear canvas and yield to browser for GC
+      canvas.width = 1; canvas.height = 1;
+      ctx.clearRect(0, 0, 1, 1);
+      await new Promise(r => setTimeout(r, 0));
     }
 
     showResult(await outDoc.save());
