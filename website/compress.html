@@ -137,6 +137,17 @@ body{
 .privacy-note{text-align:center;font-size:12px;color:var(--muted);padding:8px 0;line-height:1.6}
 .privacy-note strong{color:var(--text);font-weight:600}
 
+/* BIGGER FILE WARNING */
+.bigger-warn{
+  border:1px solid rgba(239,68,68,.4);border-radius:var(--radius);
+  background:rgba(239,68,68,.06);padding:16px;
+  display:flex;align-items:flex-start;gap:12px;
+}
+.bigger-warn-icon{font-size:24px;flex-shrink:0;margin-top:2px}
+.bigger-warn-text{font-size:13px;color:var(--muted);line-height:1.7}
+.bigger-warn-text strong{color:var(--text)}
+.bigger-warn-text a{color:var(--cyan);font-weight:600}
+
 /* DONATE */
 .donate-btn{
   display:inline-flex;align-items:center;gap:6px;padding:7px 16px;
@@ -241,7 +252,7 @@ body{
         <span class="stat-value ratio" id="result-ratio">—</span>
       </div>
     </div>
-    <div class="result-actions">
+    <div class="result-actions" id="result-actions">
       <button class="open-btn" id="open-btn">
         <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 2l5 5h-5V4zm-3 12v-2h4v2h-4zm6-4H8v-2h8v2z"/></svg>
         <span data-i18n="btnOpen">Open</span>
@@ -250,6 +261,14 @@ body{
         <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
         <span data-i18n="btnSave">Save</span>
       </button>
+    </div>
+  </div>
+
+  <!-- Bigger file warning -->
+  <div class="bigger-warn" id="bigger-warn" hidden>
+    <div class="bigger-warn-icon">📄</div>
+    <div class="bigger-warn-text" data-i18n-html="biggerWarn">
+      <strong>This PDF is already optimized.</strong> Text-heavy files don't benefit from browser compression. Use the <a href="https://github.com/xronocode/kompakt/releases/latest">desktop app</a> (Ghostscript) for 50–90% compression.
     </div>
   </div>
 
@@ -308,6 +327,7 @@ const i18n = {
     progressPage:"Page $1 of $2…",
     statBefore:"before",statAfter:"after",statSaved:"saved",
     btnSave:"Save",btnOpen:"Open",
+    biggerWarn:"<strong>This PDF is already optimized.</strong> Text-heavy files don\u2019t benefit from browser compression. Use the <a href='https://github.com/xronocode/kompakt/releases/latest'>desktop app</a> (Ghostscript) for 50\u201390% compression.",
     upsellBody:"Browser saved <strong>$1</strong>%. Desktop app (Ghostscript) gets 50–90% on the same file.",
     upsellLink:"Download free desktop app →",
     errFileTooLarge:"File is too large. Please use a PDF under 1 GB.",
@@ -327,6 +347,7 @@ const i18n = {
     progressPage:"Страница $1 из $2…",
     statBefore:"до",statAfter:"после",statSaved:"сжатие",
     btnSave:"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c",btnOpen:"\u041e\u0442\u043a\u0440\u044b\u0442\u044c",
+    biggerWarn:"<strong>\u042d\u0442\u043e\u0442 PDF \u0443\u0436\u0435 \u043e\u043f\u0442\u0438\u043c\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u043d.</strong> \u0422\u0435\u043a\u0441\u0442\u043e\u0432\u044b\u0435 \u0444\u0430\u0439\u043b\u044b \u043d\u0435 \u0441\u0436\u0438\u043c\u0430\u044e\u0442\u0441\u044f \u0432 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0435. \u0418\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0439\u0442\u0435 <a href='https://github.com/xronocode/kompakt/releases/latest'>\u0434\u0435\u0441\u043a\u0442\u043e\u043f\u043d\u043e\u0435 \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0435</a> (Ghostscript) \u0434\u043b\u044f \u0441\u0436\u0430\u0442\u0438\u044f 50\u201390%.",
     upsellBody:"Браузер сжал на <strong>$1</strong>%. Десктопное приложение (Ghostscript) даёт 50–90% на том же файле.",
     upsellLink:"Скачать десктопное приложение бесплатно →",
     errFileTooLarge:"Файл слишком большой. Используйте PDF меньше 1 ГБ.",
@@ -346,6 +367,7 @@ const i18n = {
     progressPage:"Seite $1 von $2…",
     statBefore:"vorher",statAfter:"nachher",statSaved:"gespart",
     btnSave:"Speichern",btnOpen:"\u00d6ffnen",
+    biggerWarn:"<strong>Diese PDF besteht haupts\u00e4chlich aus Text/Vektoren.</strong> Browser-Komprimierung wandelt Seiten in Bilder um, was die Gr\u00f6\u00dfe bei textlastigen Dateien erh\u00f6ht. Verwenden Sie die <a href='https://github.com/xronocode/kompakt/releases/latest'>Desktop-App</a> (Ghostscript) f\u00fcr 50\u201390% Komprimierung.",
     upsellBody:"Browser hat <strong>$1</strong>% gespart. Die Desktop-App (Ghostscript) erreicht 50–90% bei derselben Datei.",
     upsellLink:"Kostenlose Desktop-App herunterladen →",
     errFileTooLarge:"Datei ist zu groß. Bitte verwenden Sie eine PDF unter 1 GB.",
@@ -365,6 +387,7 @@ const i18n = {
     progressPage:"Página $1 de $2…",
     statBefore:"antes",statAfter:"después",statSaved:"ahorro",
     btnSave:"Guardar",btnOpen:"Abrir",
+    biggerWarn:"<strong>Este PDF ya est\u00e1 optimizado.</strong> Los archivos con mucho texto/vectores no se benefician de la compresi\u00f3n en el navegador. Usa la <a href='https://github.com/xronocode/kompakt/releases/latest'>app de escritorio</a> (Ghostscript) para 50\u201390% de compresi\u00f3n.",
     upsellBody:"El navegador ahorró <strong>$1</strong>%. La app de escritorio (Ghostscript) logra 50–90% en el mismo archivo.",
     upsellLink:"Descargar app de escritorio gratis →",
     errFileTooLarge:"El archivo es demasiado grande. Usa un PDF de menos de 1 GB.",
@@ -384,6 +407,7 @@ const i18n = {
     progressPage:"Page $1 sur $2…",
     statBefore:"avant",statAfter:"après",statSaved:"économie",
     btnSave:"Enregistrer",btnOpen:"Ouvrir",
+    biggerWarn:"<strong>Ce PDF est d\u00e9j\u00e0 optimis\u00e9.</strong> Les fichiers principalement textuels/vectoriels ne b\u00e9n\u00e9ficient pas de la compression navigateur. Utilisez l'<a href='https://github.com/xronocode/kompakt/releases/latest'>app desktop</a> (Ghostscript) pour 50\u201390% de compression.",
     upsellBody:"Le navigateur a économisé <strong>$1</strong>%. L'app desktop (Ghostscript) atteint 50–90% sur le même fichier.",
     upsellLink:"Télécharger l'app desktop gratuite →",
     errFileTooLarge:"Fichier trop volumineux. Utilisez un PDF de moins de 1 Go.",
@@ -403,6 +427,7 @@ const i18n = {
     progressPage:"$2ページ中 $1ページ目を処理中…",
     statBefore:"圧縮前",statAfter:"圧縮後",statSaved:"削減",
     btnSave:"\u4fdd\u5b58",btnOpen:"\u958b\u304f",
+    biggerWarn:"<strong>\u3053\u306ePDF\u306f\u3059\u3067\u306b\u6700\u9069\u5316\u3055\u308c\u3066\u3044\u307e\u3059\u3002</strong>\u30c6\u30ad\u30b9\u30c8/\u30d9\u30af\u30bf\u30fc\u4e3b\u4f53\u306e\u30d5\u30a1\u30a4\u30eb\u306f\u30d6\u30e9\u30a6\u30b6\u5727\u7e2e\u306b\u306f\u4e0d\u5411\u304d\u3067\u3059\u3002<a href='https://github.com/xronocode/kompakt/releases/latest'>\u30c7\u30b9\u30af\u30c8\u30c3\u30d7\u30a2\u30d7\u30ea</a>\uff08Ghostscript\uff09\u306750\u301c90%\u5727\u7e2e\u3067\u304d\u307e\u3059\u3002",
     upsellBody:"ブラウザで <strong>$1</strong>% 圧縮しました。デスクトップアプリ（Ghostscript）なら同じファイルを50〜90%圧縮できます。",
     upsellLink:"無料デスクトップアプリをダウンロード →",
     errFileTooLarge:"ファイルが大きすぎます。1GB\u672a\u6e80のPDFを使用してください。",
@@ -422,6 +447,7 @@ const i18n = {
     progressPage:"Página $1 de $2…",
     statBefore:"antes",statAfter:"depois",statSaved:"economia",
     btnSave:"Salvar",btnOpen:"Abrir",
+    biggerWarn:"<strong>Este PDF j\u00e1 est\u00e1 otimizado.</strong> Arquivos com muito texto/vetores n\u00e3o se beneficiam da compress\u00e3o no navegador. Use o <a href='https://github.com/xronocode/kompakt/releases/latest'>app desktop</a> (Ghostscript) para 50\u201390% de compress\u00e3o.",
     upsellBody:"O navegador economizou <strong>$1</strong>%. O app desktop (Ghostscript) consegue 50–90% no mesmo arquivo.",
     upsellLink:"Baixar app desktop grátis →",
     errFileTooLarge:"Arquivo muito grande. Use um PDF com menos de 1 GB.",
@@ -441,6 +467,7 @@ const i18n = {
     progressPage:"正在处理第 $1 页，共 $2 页…",
     statBefore:"压缩前",statAfter:"压缩后",statSaved:"节省",
     btnSave:"\u4fdd\u5b58",btnOpen:"\u6253\u5f00",
+    biggerWarn:"<strong>\u6b64PDF\u5df2\u7ecf\u662f\u6700\u4f18\u7684\u3002</strong>\u6587\u672c/\u77e2\u91cf\u4e3a\u4e3b\u7684\u6587\u4ef6\u4e0d\u9002\u5408\u6d4f\u89c8\u5668\u538b\u7f29\u3002\u4f7f\u7528<a href='https://github.com/xronocode/kompakt/releases/latest'>\u684c\u9762\u7248</a>\uff08Ghostscript\uff09\u53ef\u538b\u7f2950\u201390%\u3002",
     upsellBody:"浏览器压缩节省了 <strong>$1</strong>%。桌面版（使用Ghostscript）可将同一文件压缩50–90%。",
     upsellLink:"免费下载桌面版 →",
     errFileTooLarge:"文件过大，请使用1 GB\u4ee5\u5185的PDF文件。",
@@ -583,6 +610,8 @@ newFileBtn.addEventListener('click', () => {
   upsellEl.hidden = true;
   newFileBtn.hidden = true;
   document.getElementById('donate-block').hidden = true;
+  document.getElementById('bigger-warn').hidden = true;
+  document.getElementById('result-actions').hidden = false;
   if (lastBlobUrl) { URL.revokeObjectURL(lastBlobUrl); lastBlobUrl = null; }
 });
 
@@ -712,29 +741,33 @@ function showResult(compressed) {
   const before = currentFile.size;
   const after  = compressed.byteLength;
   const ratio  = (1 - after / before) * 100;
+  const gotBigger = ratio <= 0;
 
   document.getElementById('result-before').textContent = fmtBytes(before);
-  document.getElementById('result-after').textContent  = fmtBytes(after);
+  document.getElementById('result-after').textContent  = gotBigger ? fmtBytes(before) : fmtBytes(after);
 
-  const ratioEl     = document.getElementById('result-ratio');
-  ratioEl.textContent = (ratio >= 0 ? '-' : '+') + Math.abs(ratio).toFixed(1) + '%';
-  ratioEl.className   = 'stat-value ratio ' + (ratio >= 0 ? 'good' : 'bad');
+  const ratioEl = document.getElementById('result-ratio');
+  ratioEl.textContent = gotBigger ? '0%' : '-' + ratio.toFixed(1) + '%';
+  ratioEl.className   = 'stat-value ratio ' + (gotBigger ? 'bad' : 'good');
 
-  if (lastBlobUrl) URL.revokeObjectURL(lastBlobUrl);
-  const compressedBlob = new Blob([compressed], { type: 'application/pdf' });
-  lastBlobUrl = URL.createObjectURL(compressedBlob);
-  const outName = currentFile.name.replace(/\.pdf$/i, '') + '_kompakt.pdf';
+  // Hide action buttons if file got bigger (nothing useful to save)
+  document.getElementById('result-actions').hidden = gotBigger;
+  document.getElementById('bigger-warn').hidden = !gotBigger;
 
-  // Save button (download to device)
-  document.getElementById('save-btn').onclick = () => {
-    const a = document.createElement('a');
-    a.href = lastBlobUrl; a.download = outName; a.click();
-  };
+  if (!gotBigger) {
+    if (lastBlobUrl) URL.revokeObjectURL(lastBlobUrl);
+    const compressedBlob = new Blob([compressed], { type: 'application/pdf' });
+    lastBlobUrl = URL.createObjectURL(compressedBlob);
+    const outName = currentFile.name.replace(/\.pdf$/i, '') + '_kompakt.pdf';
 
-  // Open button (view in new tab)
-  document.getElementById('open-btn').onclick = () => {
-    window.open(lastBlobUrl, '_blank');
-  };
+    document.getElementById('save-btn').onclick = () => {
+      const a = document.createElement('a');
+      a.href = lastBlobUrl; a.download = outName; a.click();
+    };
+    document.getElementById('open-btn').onclick = () => {
+      window.open(lastBlobUrl, '_blank');
+    };
+  }
 
   resultEl.hidden = false;
 
