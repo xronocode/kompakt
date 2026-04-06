@@ -245,6 +245,30 @@ section .subtitle{color:var(--fg2);font-size:17px;margin-bottom:40px;max-width:6
 .contact .subtitle{color:var(--fg2);margin-bottom:36px}
 .form-row{display:flex;gap:16px}
 @media(max-width:560px){.form-row{flex-direction:column}}
+
+/* Mobile optimizations */
+@media(max-width:640px){
+  /* Smart CTAs: hide desktop-only elements */
+  .hero-ctas .btn-primary{display:none}
+  .install-box{display:none}
+
+  /* CTA buttons stack vertically, full width */
+  .hero-ctas{flex-direction:column;align-items:stretch}
+  .hero-ctas .btn{width:100%;text-align:center;justify-content:center}
+
+  /* Touch-friendly targets (min 44px) */
+  .nav-right a,.nav-right button,.nav-right select{min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center}
+  .faq-list summary{padding:16px 20px;min-height:44px}
+  footer .links a{min-height:44px;display:inline-flex;align-items:center}
+
+  /* Better mobile spacing */
+  section{padding:48px 16px}
+  .hero{padding-top:80px}
+  .stats-bar{gap:16px}
+  .steps{margin-top:24px}
+  .steps::before{left:19px}
+}
+
 .form-group{display:flex;flex-direction:column;gap:6px;flex:1}
 .form-group label{font-size:13px;color:var(--fg2);font-weight:500}
 .form-group input,
